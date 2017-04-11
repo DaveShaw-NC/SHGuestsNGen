@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B3C1283C-3A99-4DD0-B127-122319DC3F3A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>NewNextGenGuestsProcess</RootNamespace>
+    <AssemblyName>SHGuestsNGen</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>7</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Group.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="About_this_App.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="About_this_App.designer.cs">
+      <DependentUpon>About_this_App.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Add_Current_Guest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Add_Current_Guest.Designer.cs">
+      <DependentUpon>Add_Current_Guest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="current_guest_display.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="current_guest_display.designer.cs">
+      <DependentUpon>current_guest_display.cs</DependentUpon>
+    </Compile>
+    <Compile Include="discharge_guest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="discharge_guest.designer.cs">
+      <DependentUpon>discharge_guest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Extensions.cs" />
+    <Compile Include="SHGuestsNGen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SHGuestsNGen.Designer.cs">
+      <DependentUpon>SHGuestsNGen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query_Results.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Query_Results.designer.cs">
+      <DependentUpon>Query_Results.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SHGuestAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SHGuestAdd.Designer.cs">
+      <DependentUpon>SHGuestAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SHGuestDisplay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SHGuestDisplay.designer.cs">
+      <DependentUpon>SHGuestDisplay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SQLPivotTableForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SQLPivotTableForm.designer.cs">
+      <DependentUpon>SQLPivotTableForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="About_this_App.resx">
+      <DependentUpon>About_this_App.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="current_guest_display.resx">
+      <DependentUpon>current_guest_display.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SHGuestsNGen.resx">
+      <DependentUpon>SHGuestsNGen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Query_Results.resx">
+      <DependentUpon>Query_Results.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SHGuestAdd.resx">
+      <DependentUpon>SHGuestAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SHGuestDisplay.resx">
+      <DependentUpon>SHGuestDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataGridPrinter\DataGridPrinter.vbproj">
+      <Project>{d1061ea2-a313-4439-b6d5-4052e358f2c9}</Project>
+      <Name>DataGridPrinter</Name>
+    </ProjectReference>
+    <ProjectReference Include="NextGenGuests.DAL\NextGenGuests.DAL\NextGenGuests.DAL.csproj">
+      <Project>{c112df02-db71-48ff-82fe-18259be3d69b}</Project>
+      <Name>NextGenGuests.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="ObjectListViewDemo\ListViewPrinter\ListViewPrinter2012.csproj">
+      <Project>{e73a10bd-2b5a-4bac-897f-3a58cfc07631}</Project>
+      <Name>ListViewPrinter2012</Name>
+    </ProjectReference>
+    <ProjectReference Include="ObjectListViewDemo\ObjectListView\ObjectListView2012.csproj">
+      <Project>{18feda0c-d147-4286-b39a-01204808106a}</Project>
+      <Name>ObjectListView2012</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Group.ico" />
+    <Content Include="Resources\Group.ico" />
+    <Content Include="Resources\samaritan_house_logo.jpg" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

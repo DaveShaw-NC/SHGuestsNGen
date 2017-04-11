@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="NewNextGenGuestsProcess.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="email_sender" Type="System.String" Scope="User">
+      <Value Profile="(Default)">davidrshaw1955@gmail.com</Value>
+    </Setting>
+    <Setting Name="email_pswd" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C4d90a1337E2@</Value>
+    </Setting>
+    <Setting Name="email_receiver" Type="System.String" Scope="User">
+      <Value Profile="(Default)">davidrshaw1955@gmail.com</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
