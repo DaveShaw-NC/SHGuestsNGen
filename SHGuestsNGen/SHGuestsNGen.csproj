@@ -157,7 +157,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataGridPrinter\DataGridPrinter.vbproj">
+    <ProjectReference Include="DataGridPrinter\DataGridPrinter.vbproj">
       <Project>{d1061ea2-a313-4439-b6d5-4052e358f2c9}</Project>
       <Name>DataGridPrinter</Name>
     </ProjectReference>

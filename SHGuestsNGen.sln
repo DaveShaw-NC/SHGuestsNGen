@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.0
+VisualStudioVersion = 15.0.26403.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SHGuestsNGen", "SHGuestsNGen\SHGuestsNGen.csproj", "{B3C1283C-3A99-4DD0-B127-122319DC3F3A}"
-EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DataGridPrinter", "DataGridPrinter\DataGridPrinter.vbproj", "{D1061EA2-A313-4439-B6D5-4052E358F2C9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NextGenGuests.DAL", "SHGuestsNGen\NextGenGuests.DAL\NextGenGuests.DAL\NextGenGuests.DAL.csproj", "{C112DF02-DB71-48FF-82FE-18259BE3D69B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectListView2012", "SHGuestsNGen\ObjectListViewDemo\ObjectListView\ObjectListView2012.csproj", "{18FEDA0C-D147-4286-B39A-01204808106A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListViewPrinter2012", "SHGuestsNGen\ObjectListViewDemo\ListViewPrinter\ListViewPrinter2012.csproj", "{E73A10BD-2B5A-4BAC-897F-3A58CFC07631}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DataGridPrinter", "SHGuestsNGen\DataGridPrinter\DataGridPrinter.vbproj", "{D1061EA2-A313-4439-B6D5-4052E358F2C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,6 @@ Global
 		{B3C1283C-3A99-4DD0-B127-122319DC3F3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3C1283C-3A99-4DD0-B127-122319DC3F3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3C1283C-3A99-4DD0-B127-122319DC3F3A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D1061EA2-A313-4439-B6D5-4052E358F2C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D1061EA2-A313-4439-B6D5-4052E358F2C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D1061EA2-A313-4439-B6D5-4052E358F2C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D1061EA2-A313-4439-B6D5-4052E358F2C9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C112DF02-DB71-48FF-82FE-18259BE3D69B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C112DF02-DB71-48FF-82FE-18259BE3D69B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C112DF02-DB71-48FF-82FE-18259BE3D69B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +35,10 @@ Global
 		{E73A10BD-2B5A-4BAC-897F-3A58CFC07631}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E73A10BD-2B5A-4BAC-897F-3A58CFC07631}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E73A10BD-2B5A-4BAC-897F-3A58CFC07631}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1061EA2-A313-4439-B6D5-4052E358F2C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1061EA2-A313-4439-B6D5-4052E358F2C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1061EA2-A313-4439-B6D5-4052E358F2C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1061EA2-A313-4439-B6D5-4052E358F2C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
