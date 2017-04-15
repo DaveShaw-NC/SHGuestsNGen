@@ -81,14 +81,7 @@ namespace NewNextGenGuestsProcess
                 update_record = db.Guests.Find ( guestkey2 );
                 vkey = new object [ ] { in_VisitID };
                 vd = db.Visits.Find ( vkey );
-                //foreach (Visit vvv in update_record.Visits1)
-                //{
-                //    if (vvv.VisitNumber == in_VisitID)
-                //    {
-                //        vd = db.Visits.Attach ( vvv );
-                //        break;
-                //    }
-                //}
+
                 update_record.Roster = "D";
                 vd.Roster = update_record.Roster;
                 vd.AdmitDate = new DateTime ( admit_date_picker.Value.Year, admit_date_picker.Value.Month, admit_date_picker.Value.Day, 0, 0, 0 );

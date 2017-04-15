@@ -150,7 +150,19 @@ namespace NewNextGenGuestsProcess
 
         void Discharge_guest_buttonClick ( object sender, EventArgs e )
         {
-            discharge_guest dgscrn = new discharge_guest(update_record.GuestID, vd.VisitID);
+            Guest dcharge_Guest = new Guest ( );
+            NextGenEntity db = new NextGenEntity ( );
+            dcharge_Guest = db.Guests.Find ( guestkey );
+            vd = new Visit ( );
+            foreach (Visit vvv in dcharge_Guest.Visits1)
+            {
+                if (vvv.VisitNumber == num_of_visits)
+                {
+                    vd = vvv;
+                    break;
+                }
+            }
+            discharge_guest dgscrn = new discharge_guest(dcharge_Guest.GuestID, vd.VisitID);
             Hide ( );
             dgscrn.ShowDialog();
             Close ( );
