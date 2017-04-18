@@ -58,5 +58,29 @@ namespace NewNextGenGuestsProcess.Properties {
                 this["email_receiver"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("greggchapman1@gmail.com")]
+        public string email_cc1 {
+            get {
+                return ((string)(this["email_cc1"]));
+            }
+            set {
+                this["email_cc1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("bgoforth@thesamaritanhouse.org")]
+        public string email_cc2 {
+            get {
+                return ((string)(this["email_cc2"]));
+            }
+            set {
+                this["email_cc2"] = value;
+            }
+        }
     }
 }

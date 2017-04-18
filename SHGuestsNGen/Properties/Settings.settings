@@ -11,5 +11,11 @@
     <Setting Name="email_receiver" Type="System.String" Scope="User">
       <Value Profile="(Default)">davidrshaw1955@gmail.com</Value>
     </Setting>
+    <Setting Name="email_cc1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">greggchapman1@gmail.com</Value>
+    </Setting>
+    <Setting Name="email_cc2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">bgoforth@thesamaritanhouse.org</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -121,8 +121,8 @@ namespace NewNextGenGuestsProcess
                 SmtpClient smtp = new SmtpClient ( "smtp.gmail.com", 587 );
                 m_Message.From = new MailAddress ( email_sender );
                 m_Message.To.Add ( new MailAddress ( mainToAddress ) );
-                //*message.CC.Add(new MailAddress("bgoforth@thesamaritanhouse.org"));
-                //*message.CC.Add(new MailAddress("gchapman@thesamaritanhouse.org"));
+                //m_Message.CC.Add ( new MailAddress ( Properties.Settings.Default.email_cc2 ) );
+                m_Message.CC.Add ( new MailAddress ( Properties.Settings.Default.email_cc1 ) );
                 m_Message.Subject = "Guest Discharged On: " + DateTime.Today.ToShortDateString ( );
                 m_Message.IsBodyHtml = false;
                 m_Message.Priority = MailPriority.High;
@@ -149,6 +149,9 @@ namespace NewNextGenGuestsProcess
         private void Build_Message_Body ( Guest rec_in, Visit vd_in )
         {
             message_body = new StringBuilder ( );
+            message_body.AppendLine ( $"Information for guest discahrged on {DateTime.Today.ToLongDateString ( )} {Environment.NewLine}" );
+            string t_strng = ( vd_in.CanReturn ) ? "can" : "cannot";
+            message_body.AppendLine ( $"This guest {t_strng} return to Samaritan House {Environment.NewLine}" );
             message_body.AppendLine ( $"Name:\t\t\t{rec_in.FirstName} {rec_in.LastName} " );
             message_body.AppendLine ( $"Admitted On:\t\t{vd_in.AdmitDate.ToShortDateString ( )} for {vd_in.AdmitReason}" );
             message_body.AppendLine ( $"Referring Information:\t{vd_in.Agency} by {vd_in.Worker}" );
