@@ -33,5 +33,10 @@ namespace NextGenGuests.DAL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Visit> Visits1 { get; set; }
+
+        public override string ToString ( )
+        {
+            return $"ID: {GuestID.ToString ( )} {LastName}, {FirstName} {SSN:000-00-0000} {BirthDate.ToShortDateString ( )} ";
+        }
     }
 }
