@@ -258,7 +258,7 @@ namespace NewNextGenGuestsProcess
                 if (sql_dtr.HasRows)
                 {
                     SQLPivotTableForm sptf = new SQLPivotTableForm ( sql_dt, sql_dtr );
-                    string query_title = $"Samaritan House Monthly Admissions as of: {DateTime.Today:D}";
+                    string query_title = $"Samaritan House Monthly Admissions Since 06/05/2011 as of: {DateTime.Today.ToString ( "MM/dd/yyyy" )}";
                     sptf.report_type = pivot_rpt_type.MonthlyReport;
                     sptf.Text = query_title;
                     sptf.referring_switch = true;
@@ -292,7 +292,7 @@ namespace NewNextGenGuestsProcess
                 if (sql_dtr.HasRows)
                 {
                     SQLPivotTableForm sptf = new SQLPivotTableForm ( sql_dt, sql_dtr );
-                    string query_title = $"Samaritan House Yearly Admissions as of: {DateTime.Today:D}";
+                    string query_title = $"Samaritan House Yearly Admissions Since 06/05/2011 as of: {DateTime.Today.ToString ( "MM/dd/yyyy" )}";
                     sptf.report_type = pivot_rpt_type.Normal;
                     sptf.Text = query_title;
                     sptf.referring_switch = true;
@@ -326,7 +326,7 @@ namespace NewNextGenGuestsProcess
                 if (sql_dtr.HasRows)
                 {
                     SQLPivotTableForm sptf = new SQLPivotTableForm ( sql_dt, sql_dtr );
-                    string query_title = $"Samaritan House Yearly Discharges as of: {DateTime.Today:D}";
+                    string query_title = $"Samaritan House Yearly Discharges SInce 06/05/2011 as of: {DateTime.Today.ToString ( "MM/dd/yyyy" )}";
                     sptf.report_type = pivot_rpt_type.MonthlyReport;
                     sptf.Text = query_title;
                     sptf.referring_switch = true;
@@ -360,7 +360,7 @@ namespace NewNextGenGuestsProcess
                 if (sql_dtr.HasRows)
                 {
                     SQLPivotTableForm sptf = new SQLPivotTableForm ( sql_dt, sql_dtr );
-                    string query_title = $"Samaritan House Yearly Discharges by Month as of: {DateTime.Today:D}";
+                    string query_title = $"Samaritan House Yearly Discharges by Month Since 06/05/2011 as of: {DateTime.Today.ToString ( "MM/dd/yyyy" )}";
                     sptf.report_type = pivot_rpt_type.Normal;
                     sptf.Text = query_title;
                     sptf.referring_switch = true;
@@ -394,7 +394,7 @@ namespace NewNextGenGuestsProcess
                 if (sql_dtr.HasRows)
                 {
                     SQLPivotTableForm sptf = new SQLPivotTableForm ( sql_dt, sql_dtr );
-                    string query_title = $"Samaritan House Yearly Admissions by Hospital as of: {DateTime.Today:D}";
+                    string query_title = $"Samaritan House Admissions by Hospital Since 06/05/2011 as of: {DateTime.Today.ToString ( "MM/dd/yyyy" )}";
                     sptf.report_type = pivot_rpt_type.Normal;
                     sptf.Text = query_title;
                     sptf.referring_switch = true;
@@ -428,7 +428,7 @@ namespace NewNextGenGuestsProcess
                 if (sql_dtr.HasRows)
                 {
                     SQLPivotTableForm sptf = new SQLPivotTableForm ( sql_dt, sql_dtr );
-                    string query_title = $"Samaritan House Yearly Admissions by Agency and Social Worker as of: {DateTime.Today:D}";
+                    string query_title = $"Samaritan House Yearly Admissions by Agency and Social Worker Since 06-05-2011 as of: {DateTime.Today:D}";
                     sptf.report_type = pivot_rpt_type.Worker;
                     sptf.Text = query_title;
                     sptf.referring_switch = false;
