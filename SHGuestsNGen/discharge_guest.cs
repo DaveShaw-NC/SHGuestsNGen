@@ -122,7 +122,7 @@ namespace NewNextGenGuestsProcess
                 m_Message.From = new MailAddress ( email_sender );
                 m_Message.To.Add ( new MailAddress ( mainToAddress ) );
                 //m_Message.CC.Add ( new MailAddress ( Properties.Settings.Default.email_cc2 ) );
-                m_Message.CC.Add ( new MailAddress ( Properties.Settings.Default.email_cc1 ) );
+                //m_Message.CC.Add ( new MailAddress ( Properties.Settings.Default.email_cc1 ) );
                 m_Message.Subject = "Guest Discharged On: " + DateTime.Today.ToShortDateString ( );
                 m_Message.IsBodyHtml = false;
                 m_Message.Priority = MailPriority.High;
