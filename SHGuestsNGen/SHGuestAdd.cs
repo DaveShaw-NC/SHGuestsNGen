@@ -5,7 +5,7 @@ using System.Data.Entity.Validation;
 using System.Text;
 using System.Windows.Forms;
 
-namespace NewNextGenGuestsProcess
+namespace SHGuestsNGen
 	{
 	/// <summary>
 	/// Description of SHGuestAdd.

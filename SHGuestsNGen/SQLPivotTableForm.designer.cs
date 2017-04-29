@@ -1,4 +1,4 @@
-﻿namespace NewNextGenGuestsProcess
+﻿namespace SHGuestsNGen
 {
     partial class SQLPivotTableForm
     {

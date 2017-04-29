@@ -6,7 +6,7 @@ using System.Drawing.Printing;
 using System.Windows.Forms;
 using DataGridPrinter.DataGridPrinter;
 
-namespace NewNextGenGuestsProcess
+namespace SHGuestsNGen
 {
     /// <summary>
     /// Description of Query_Results. 

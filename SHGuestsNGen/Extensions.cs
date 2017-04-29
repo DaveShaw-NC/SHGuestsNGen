@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace NewNextGenGuestsProcess
+namespace SHGuestsNGen
 {
     public static class Extensions
     {

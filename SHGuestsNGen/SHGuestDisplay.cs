@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using NextGenGuests.DAL;
 
-namespace NewNextGenGuestsProcess
+namespace SHGuestsNGen
 {
     /// <summary>
     /// Description of Form1.

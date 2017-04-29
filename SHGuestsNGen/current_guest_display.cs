@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using NextGenGuests.DAL;
 
-namespace NewNextGenGuestsProcess
+namespace SHGuestsNGen
 {
     /// <summary>
     /// Description of current_guest_display.

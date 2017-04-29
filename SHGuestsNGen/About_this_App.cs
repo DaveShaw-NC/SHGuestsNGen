@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace NewNextGenGuestsProcess
+namespace SHGuestsNGen
 {
 	/// <summary>
 	/// Description of About_this_app.

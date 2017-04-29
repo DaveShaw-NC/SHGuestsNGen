@@ -6,7 +6,7 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
-namespace NewNextGenGuestsProcess
+namespace SHGuestsNGen
 {
 	partial class Add_Current_Guest
 	{
