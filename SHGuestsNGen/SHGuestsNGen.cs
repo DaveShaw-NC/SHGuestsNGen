@@ -635,7 +635,7 @@ namespace SHGuestsNGen
                 DateTime to_Date = DateTime.Today;
                 var curr_roster = ( from nc in db.Guests.AsEnumerable ( )
                                     orderby nc.LastName, nc.FirstName
-                                    //where ( nc.Roster == "D" )
+                                    where ( nc.Roster == "D" )
                                     select nc ).ToList ( );
 
                 var new_list = new List<dynamic> ( );
@@ -643,24 +643,25 @@ namespace SHGuestsNGen
                 {
                     foreach (Visit vd in new_item.Visits1)
                     {
-                        if (vd.VisitNumber == new_item.Visits)
-                        {
+                        //if (vd.VisitNumber == new_item.Visits)
+                        //{
                             var tmp_list = new
                             {
                                 Name = string.Concat ( new_item.LastName, ", ", new_item.FirstName ),
-                                Roster = ( vd.Roster == "D" ) ? "Discharged" : "Current",
+                                //Roster = "Discharged",
                                 Visit = vd.VisitNumber,
-                                InDate = vd.AdmitDate,
-                                OutDate = vd.Discharged,
-                                Days = ( vd.Roster == "D" ) ? vd.VisitDays : myMethod ( DateTime.Today, vd.AdmitDate ),
+                                Admitted = vd.AdmitDate,
+                                Discharged = vd.Discharged,
+                                Days = vd.VisitDays,
                                 DischargeReason = vd.DischargeReason,
                                 Return = ( vd.CanReturn ) ? "Yes" : "No"
                             };
                             new_list.Add ( tmp_list );
-                        }
+                        //}
                     }
                 }
-                string query_title = $"Samaritan House Guest Last or Current Visits) As of: {DateTime.Today:D}"; ;
+                int guest_count = new_list.Count ( nl => nl.Visit == 1 );
+                string query_title = $"Samaritan House Discharged Guest Listing of {guest_count:N0} Guests As of: {DateTime.Today:D}"; ;
                 statistical_report = false;
                 ViewReport ( new_list, query_title, statistical_report );
             }

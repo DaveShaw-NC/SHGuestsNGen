@@ -1,10 +1,10 @@
-﻿using System;
+﻿using DataGridPrinter.DataGridPrinter;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Windows.Forms;
-using DataGridPrinter.DataGridPrinter;
 
 namespace SHGuestsNGen
 {
@@ -25,7 +25,7 @@ namespace SHGuestsNGen
         public DataView my_view;
         public DataTableReader dtr;
         public string p_query = null, tableName = "Tables";
-        public string [ ] cols_array;
+        public string[] cols_array;
         public int num_rows_returned = 0, num_cols_returned = 0;
 
         public Font hdr_font = new Font ( "Times New Roman", 16F, FontStyle.Bold, GraphicsUnit.Pixel ),
@@ -153,7 +153,7 @@ namespace SHGuestsNGen
                         col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomLeft;
                         col.MinimumWidth = 200;
                         col.Resizable = DataGridViewTriState.True;
-                        if (col.Name == "Return" || col.Name == "Gender" || col.Name.Contains ( "Retn" ) || col.Name.Contains("Dead") )
+                        if (col.Name == "Return" || col.Name == "Gender" || col.Name.Contains ( "Retn" ) || col.Name.Contains ( "Dead" ))
                         {
                             col.MinimumWidth = 60;
                             col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomLeft;
@@ -174,7 +174,7 @@ namespace SHGuestsNGen
                         break;
 
                     case "System.DateTime":
-                        col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomRight;
+                        col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
                         col.DefaultCellStyle.Format = "MM/dd/yyyy";
                         col.MinimumWidth = 30;
                         break;
@@ -184,7 +184,7 @@ namespace SHGuestsNGen
                     case "System.uint":
                     case "System.Int64":
                         col.DefaultCellStyle.Format = ( col.Name.Contains ( "SSN" ) ) ? "000-00-0000" : "N0";
-                        col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomRight;
+                        col.DefaultCellStyle.Alignment = ( col.Name.Contains ( "Visit" ) ) ? DataGridViewContentAlignment.BottomCenter : DataGridViewContentAlignment.BottomRight;
                         col.MinimumWidth = 30;
                         break;
 
@@ -226,10 +226,16 @@ namespace SHGuestsNGen
 
         #endregion Format DataGridView
 
+        #region Event Handlers
+
+        #region Quit the Display
+
         private void Quit_the_query_buttonClick ( object sender, EventArgs e )
         {
             Close ( );
         }
+
+        #endregion Quit the Display
 
         #region Printing Area
 
@@ -248,7 +254,6 @@ namespace SHGuestsNGen
             Font printFont = new Font ( "Microsoft Sans Serif", 10F );
             pd.DefaultPageSettings.Margins = new Margins ( 10, 10, 10, 10 );
             pd.OriginAtMargins = true;
-            //pd.PrintPage += new PrintPageEventHandler(printtheDocument_PrintPage);
             PrintPreviewDialog ppDialog = new PrintPreviewDialog ( );
             gp.PrintDocument.DefaultPageSettings.Landscape = true;
             ppDialog.Document = gp.PrintDocument;
@@ -257,59 +262,13 @@ namespace SHGuestsNGen
             DialogResult res = ppDialog.ShowDialog ( );
             if (res == DialogResult.OK)
             {
-                //*pd.PrinterSettings = ppDialog.
                 gp.Print ( );
             }
-            //GridPrintDocument doc = new GridPrintDocument(results_view1, results_view1.Font, true);
-            //doc.DocumentName = this.Text;
-            //doc.StepForFit = 0.02f;
-            //doc.DefaultPageSettings.Landscape = true;
-            //frmPreviewDialog frmDialog = new frmPreviewDialog();
-            //frmDialog.ShowUnit = PrinterUnit.TenthsOfAMillimeter;
-            //frmDialog.printDocument = doc;
-            //frmDialog.ShowDialog(this);
-            //frmDialog.Dispose();
-            //doc.Dispose();
             return;
-        }
-
-        private void printtheDocument_PrintPage ( object sender, PrintPageEventArgs e )
-        {
-            Font printFont = new Font ( "Arial", 12F );
-            StringFormat sf = new StringFormat ( );
-            sf.Alignment = StringAlignment.Center;
-            string rpt_title = this.Text;
-            e.PageSettings.Landscape = true;
-            RectangleF rect = new RectangleF ( 0, 0, 1000, 1000 );
-            CharacterRange [ ] chars = { new CharacterRange ( 0, rpt_title.Length ) };
-            Region [ ] regs = new Region [ 1 ];
-            sf.SetMeasurableCharacterRanges ( chars );
-            regs = e.Graphics.MeasureCharacterRanges ( rpt_title, printFont, rect, sf );
-            SizeF str_size = new SizeF ( rect.Right + 1.0F, rect.Height );
-            PointF str_loc = new PointF ( 0F, 0F );
-            RectangleF r2 = new RectangleF ( str_loc, str_size );
-            e.Graphics.DrawString ( rpt_title, printFont, Brushes.Red, r2, sf );
-            PrintToGraphics ( e.Graphics, e.MarginBounds, results_view1 );
-            return;
-        }
-
-        public void PrintToGraphics ( Graphics graphics, Rectangle bounds, DataGridView lv_in )
-        {
-            Bitmap bitmap = new Bitmap ( lv_in.Width, lv_in.Height );
-            lv_in.DrawToBitmap ( bitmap, new Rectangle ( 0, 0, bitmap.Width, bitmap.Height ) );
-            Rectangle target = new Rectangle ( 5, 50, bounds.Width, bounds.Height );
-            double xScale = ( double )bitmap.Width / bounds.Width;
-            double yScale = ( double )bitmap.Height / bounds.Height;
-
-            if (xScale < yScale)
-                target.Width = ( int )( xScale * target.Width / yScale );
-            else
-                target.Height = ( int )( yScale * target.Height / xScale );
-
-            graphics.PageUnit = GraphicsUnit.Display;
-            graphics.DrawImage ( bitmap, target );
         }
     }
 
     #endregion Printing Area
+
+    #endregion Event Handlers
 }

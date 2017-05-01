@@ -141,6 +141,7 @@
     </Compile>
     <Compile Include="ObjectListView.cs">
       <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="ObjectListView.DesignTime.cs" />
     <Compile Include="Rendering\Overlays.cs" />

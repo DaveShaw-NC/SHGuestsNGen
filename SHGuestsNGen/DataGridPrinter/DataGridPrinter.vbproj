@@ -102,6 +102,7 @@
     </Compile>
     <Compile Include="DataGridPrinter.vb">
       <SubType>Code</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
   <ItemGroup>
