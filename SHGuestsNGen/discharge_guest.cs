@@ -149,7 +149,7 @@ namespace SHGuestsNGen
         private void Build_Message_Body ( Guest rec_in, Visit vd_in )
         {
             message_body = new StringBuilder ( );
-            message_body.AppendLine ( $"Information for guest discahrged on {DateTime.Today.ToLongDateString ( )} {Environment.NewLine}" );
+            message_body.AppendLine ( $"Information for guest discharged on {DateTime.Today.ToLongDateString ( )} {Environment.NewLine}" );
             string t_strng = ( vd_in.CanReturn ) ? "can" : "cannot";
             message_body.AppendLine ( $"This guest {t_strng} return to Samaritan House {Environment.NewLine}" );
             message_body.AppendLine ( $"Name:\t\t\t{rec_in.FirstName} {rec_in.LastName} " );
