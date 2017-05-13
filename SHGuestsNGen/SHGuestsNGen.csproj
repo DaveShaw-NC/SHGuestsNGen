@@ -194,6 +194,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Group.ico" />
+    <Content Include="Licesnse.txt" />
     <Content Include="Resources\Group.ico" />
     <Content Include="Resources\samaritan_house_logo.jpg" />
   </ItemGroup>
