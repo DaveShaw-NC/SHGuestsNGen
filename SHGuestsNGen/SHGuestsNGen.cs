@@ -71,7 +71,7 @@ namespace SHGuestsNGen
             int singlevisits = db.Visits.Count ( v => v.VisitNumber == 1 );
             int multivisits = db.Visits.Count ( v => v.VisitNumber > 1 );
             int parkrdvisits = db.Visits.Count ( v => v.Discharged < new DateTime ( 2011, 06, 05 ) );
-            int no_returns = db.Visits.Count ( v => !v.CanReturn );
+            int no_returns = db.Visits.Count ( v => !v.CanReturn && ! v.Deceased && !v.DischargeReason.Contains("No Show"));
 
             label_CurrentCount.Text = $"{currentcount,10:N0} Current Guests";
             label_DischargedCount.Text = $"{dischcount,7:N0} Discharged Guests";

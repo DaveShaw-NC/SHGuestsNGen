@@ -212,7 +212,7 @@ namespace SHGuestsNGen
 
         private void Build_ListView_Columns ( )
         {
-            int col_width = ( report_type == SHGuestsNGen.pivot_rpt_type.MonthlyReport ) ? 80 : 150;
+            int col_width = ( report_type == SHGuestsNGen.pivot_rpt_type.MonthlyReport ) ? 80 : 200;
             pivot_tbl_listview.Columns.Add ( in_table.Columns [ 0 ].ColumnName, col_width, HorizontalAlignment.Left );
 
             col_width = ( referring_switch ) ? 40 : 140;
