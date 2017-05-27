@@ -602,7 +602,7 @@ namespace SHGuestsNGen
             {
                 var roster = ( from jd in db.Guests
                                join vd in db.Visits on jd.GuestID equals vd.GuestID
-                               where ( vd.Roster == "D" && !vd.CanReturn )
+                               where ( !vd.CanReturn ) && ( !vd.Deceased && !vd.DischargeReason.Contains ( "No Show" ) ) 
                                orderby jd.LastName, jd.FirstName, vd.Discharged
                                select new
                                {
