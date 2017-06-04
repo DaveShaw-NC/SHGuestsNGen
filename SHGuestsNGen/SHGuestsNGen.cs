@@ -73,7 +73,7 @@ namespace SHGuestsNGen
             int parkrdvisits = db.Visits.Count ( v => v.Discharged < new DateTime ( 2011, 06, 05 ) );
             int no_returns = db.Visits.Count ( v => !v.CanReturn && ! v.Deceased && !v.DischargeReason.Contains("No Show"));
 
-            label_CurrentCount.Text = $"{currentcount,10:N0} Current Guests";
+            label_CurrentCount.Text = ( currentcount > 9 ) ? $"{currentcount,9:N0} Current Guests" : $"{currentcount,10:N0} Current Guests";
             label_DischargedCount.Text = $"{dischcount,7:N0} Discharged Guests";
             label_MultiVisits.Text = $"{multivisits,8:N0} Guests Here More Than Once";
             label_SingleVisits.Text = $"{singlevisits,7:N0} Total Guests";
@@ -903,6 +903,35 @@ namespace SHGuestsNGen
                 ViewReport ( new_lst, query_title, statistical_report );
             }
             return;
+        }
+
+        private void Social_Worker_Guest_List_Click ( object sender, EventArgs e )
+        {
+            using (var db = new NextGenEntity ( ))
+            {
+                Func<DateTime, DateTime, int> myMethod = CalcDays;
+                DateTime to_Date = DateTime.Today;
+                var roster = ( from g in db.Guests.AsEnumerable ( )
+                               join v in db.Visits.AsEnumerable ( )
+                               on g.GuestID equals v.GuestID
+                               orderby v.Agency, v.Worker, g.LastName, g.FirstName, v.AdmitDate
+                               select new
+                               {
+                                   Agency = v.Agency,
+                                   Worker = v.Worker,
+                                   Name = string.Concat ( g.LastName, ", ", g.FirstName ),
+                                   InDate = v.AdmitDate,
+                                   OutDate = v.Discharged,
+                                   AdmitReason = v.AdmitReason,
+                               } ).ToList ( );
+
+                var new_list = new List<dynamic> ( roster );
+                string query_title = $"Samaritan House Social Worker Guest(s) List ({new_list.Count:N0} Records) As of: {DateTime.Today:D}"; ;
+                statistical_report = false;
+                ViewReport ( new_list, query_title, statistical_report );
+            }
+            return;
+
         }
 
         private void hospitalNoShowsToolStripMenuItem_Click ( object sender, EventArgs e )

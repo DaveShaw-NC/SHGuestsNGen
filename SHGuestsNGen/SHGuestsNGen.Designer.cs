@@ -48,6 +48,8 @@
             this.guestWithQuestionableInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.inelegibleForReturnToSamaritanHouseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hospitalNoShowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.guestWalkOffsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reportingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.monthlyAdmissionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.annualAdmissionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,8 +77,7 @@
             this.toolStripStatusLabel_statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.label_CurrentGuestSelection = new System.Windows.Forms.Label();
             this.label_DischargedGuestSelection = new System.Windows.Forms.Label();
-            this.hospitalNoShowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.guestWalkOffsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Social_Worker_Guest_List = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SHLogo)).BeginInit();
             this.menuStrip_MainMenu.SuspendLayout();
             this.statusStrip_mainStatusStrip.SuspendLayout();
@@ -247,6 +248,20 @@
             this.inelegibleForReturnToSamaritanHouseToolStripMenuItem.Text = "Ineligible for Return to Samaritan House";
             this.inelegibleForReturnToSamaritanHouseToolStripMenuItem.Click += new System.EventHandler(this.inelegibleForReturnToSamaritanHouseToolStripMenuItem_Click);
             // 
+            // hospitalNoShowsToolStripMenuItem
+            // 
+            this.hospitalNoShowsToolStripMenuItem.Name = "hospitalNoShowsToolStripMenuItem";
+            this.hospitalNoShowsToolStripMenuItem.Size = new System.Drawing.Size(351, 26);
+            this.hospitalNoShowsToolStripMenuItem.Text = "Hospital No Shows";
+            this.hospitalNoShowsToolStripMenuItem.Click += new System.EventHandler(this.hospitalNoShowsToolStripMenuItem_Click);
+            // 
+            // guestWalkOffsToolStripMenuItem
+            // 
+            this.guestWalkOffsToolStripMenuItem.Name = "guestWalkOffsToolStripMenuItem";
+            this.guestWalkOffsToolStripMenuItem.Size = new System.Drawing.Size(351, 26);
+            this.guestWalkOffsToolStripMenuItem.Text = "Guest Walk-Offs";
+            this.guestWalkOffsToolStripMenuItem.Click += new System.EventHandler(this.guestWalkOffsToolStripMenuItem_Click);
+            // 
             // reportingToolStripMenuItem
             // 
             this.reportingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -258,6 +273,7 @@
             this.toolStripSeparator3,
             this.agencyAnnualAdmissionsToolStripMenuItem,
             this.agencySocialWorkerAnnualAdmissionsToolStripMenuItem,
+            this.Social_Worker_Guest_List,
             this.socialWorkerCanReturnReportToolStripMenuItem,
             this.toolStripSeparator4,
             this.totalVisitStatisticsToolStripMenuItem,
@@ -468,21 +484,14 @@
             this.label_DischargedGuestSelection.TabIndex = 15;
             this.label_DischargedGuestSelection.Text = "Discharged Guest Selection";
             // 
-            // hospitalNoShowsToolStripMenuItem
+            // Social_Worker_Guest_List
             // 
-            this.hospitalNoShowsToolStripMenuItem.Name = "hospitalNoShowsToolStripMenuItem";
-            this.hospitalNoShowsToolStripMenuItem.Size = new System.Drawing.Size(351, 26);
-            this.hospitalNoShowsToolStripMenuItem.Text = "Hospital No Shows";
-            this.hospitalNoShowsToolStripMenuItem.Click += new System.EventHandler(this.hospitalNoShowsToolStripMenuItem_Click);
+            this.Social_Worker_Guest_List.Name = "Social_Worker_Guest_List";
+            this.Social_Worker_Guest_List.Size = new System.Drawing.Size(359, 26);
+            this.Social_Worker_Guest_List.Text = "Social Worker Guest Listing";
+            this.Social_Worker_Guest_List.Click += new System.EventHandler(this.Social_Worker_Guest_List_Click);
             // 
-            // guestWalkOffsToolStripMenuItem
-            // 
-            this.guestWalkOffsToolStripMenuItem.Name = "guestWalkOffsToolStripMenuItem";
-            this.guestWalkOffsToolStripMenuItem.Size = new System.Drawing.Size(351, 26);
-            this.guestWalkOffsToolStripMenuItem.Text = "Guest Walk-Offs";
-            this.guestWalkOffsToolStripMenuItem.Click += new System.EventHandler(this.guestWalkOffsToolStripMenuItem_Click);
-            // 
-            // NewNextGenGuestProcess
+            // SHGuestsNGen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -507,7 +516,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip_MainMenu;
-            this.Name = "NewNextGenGuestProcess";
+            this.Name = "SHGuestsNGen";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Next Generation Guest Processing";
             this.Load += new System.EventHandler(this.NewNextGenGuestProcess_Load);
@@ -571,6 +580,7 @@
         private System.Windows.Forms.Label label_DischargedGuestSelection;
         private System.Windows.Forms.ToolStripMenuItem hospitalNoShowsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem guestWalkOffsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Social_Worker_Guest_List;
     }
 }
 
