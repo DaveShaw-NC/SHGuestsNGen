@@ -15,7 +15,7 @@ namespace SHGuestsNGen
     {
         #region Variables and Constants
 
-        public enum pivot_rpt_type { Normal = 0, MonthlyReport = 2, Worker = 3 };
+        public enum pivot_rpt_type { Normal = 0, MonthlyReport = 2, Worker = 3, WorkerDetail = 4 };
 
         public pivot_rpt_type report_type;
         public bool rs = true, repopc = false, repopd = false, statistical_report = true, repopulate = false, readmit = false;
@@ -925,13 +925,33 @@ namespace SHGuestsNGen
                                    AdmitReason = v.AdmitReason,
                                } ).ToList ( );
 
-                var new_list = new List<dynamic> ( roster );
-                string query_title = $"Samaritan House Social Worker Guest(s) List ({new_list.Count:N0} Records) As of: {DateTime.Today:D}"; ;
-                statistical_report = false;
-                ViewReport ( new_list, query_title, statistical_report );
-            }
-            return;
+                DataTable sql_dt = new DataTable ( );
+                sql_dt.Columns.Add ( "Agency", typeof ( string ) );
+                sql_dt.Columns.Add ( "Worker", typeof ( string ) );
+                sql_dt.Columns.Add ( "Name", typeof ( string ) );
+                sql_dt.Columns.Add ( "InDate", typeof ( DateTime ) );
+                sql_dt.Columns.Add ( "OutDate", typeof ( DateTime ) );
+                sql_dt.Columns.Add ( "AdmitReason", typeof ( string ) );
+                foreach (var item in roster)
+                {
+                    sql_dt.Rows.Add ( item.Agency, item.Worker, item.Name, item.InDate, item.OutDate, item.AdmitReason );
+                }
 
+                DataTableReader sql_dtr = sql_dt.CreateDataReader ( );
+                if (sql_dtr.HasRows)
+                {
+                    SQLPivotTableForm sptf = new SQLPivotTableForm ( sql_dt, sql_dtr );
+                    string query_title = $"Samaritan House Social Worker Guest(s) List ({roster.Count:N0} Records) As of: {DateTime.Today:D}"; ;
+                    sptf.report_type = pivot_rpt_type.WorkerDetail;
+                    sptf.Text = query_title;
+                    sptf.referring_switch = false;
+                    Hide ( );
+                    sptf.ShowDialog ( );
+                    Show ( );
+                    sql_dtr.Close ( );
+                }
+                return;
+            }
         }
 
         private void hospitalNoShowsToolStripMenuItem_Click ( object sender, EventArgs e )

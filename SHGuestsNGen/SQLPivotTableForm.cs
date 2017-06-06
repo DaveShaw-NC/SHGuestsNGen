@@ -113,6 +113,11 @@ namespace SHGuestsNGen
                             list_items [ ndx ] = row_values [ ndx ].ToString ( );
                             break;
 
+                        case "System.DateTime":
+                            DateTime t_date = ( DateTime )row_values[ndx];
+                            list_items[ndx] = t_date.ToShortDateString ( );
+                            break;
+
                         case "System.Int32":
                             int t_int = ( int )row_values [ ndx ];
                             list_items [ ndx ] = t_int.ToString ( "##0" );
@@ -231,6 +236,12 @@ namespace SHGuestsNGen
                     pivot_tbl_listview.ForeColor = Color.DarkSlateBlue;
                     break;
 
+                case SHGuestsNGen.pivot_rpt_type.WorkerDetail:
+                    col_align = HorizontalAlignment.Left;
+                    pivot_tbl_listview.BackColor = Color.AntiqueWhite;
+                    pivot_tbl_listview.ForeColor = Color.DarkSlateBlue;
+                    break;
+
                 case SHGuestsNGen.pivot_rpt_type.Normal:
                 default:
                     col_align = HorizontalAlignment.Right;
@@ -243,11 +254,19 @@ namespace SHGuestsNGen
             agency_totals [ 1 ] = 0;
             for (int j = 2; j < in_table.Columns.Count; j++)
             {
-                pivot_tbl_listview.Columns.Add ( in_table.Columns [ j ].ColumnName, 45, HorizontalAlignment.Right );
+                if (report_type != SHGuestsNGen.pivot_rpt_type.WorkerDetail)
+                {
+                    pivot_tbl_listview.Columns.Add ( in_table.Columns[j].ColumnName, 45, HorizontalAlignment.Right );
+                }
+                else
+                {
+                    pivot_tbl_listview.Columns.Add ( in_table.Columns[j].ColumnName, 150, HorizontalAlignment.Left );
+                }
                 column_totals [ j ] = 0;
                 agency_totals [ j ] = 0;
             }
-            pivot_tbl_listview.Columns.Add ( "Totals", 50, HorizontalAlignment.Right );
+            if (report_type != SHGuestsNGen.pivot_rpt_type.WorkerDetail)
+                pivot_tbl_listview.Columns.Add ( "Totals", 50, HorizontalAlignment.Right );
             columns_in_listview = pivot_tbl_listview.Columns.Count;
             return;
         }
@@ -263,25 +282,31 @@ namespace SHGuestsNGen
             {
                 sv_agency = tmp_agency;
             }
-            if (!sv_agency.Equals ( tmp_agency ))
+            if (!sv_agency.Equals ( tmp_agency ) )
             {
-                agency_row_total = 0;
-                list_items [ 0 ] = $"Totals: {sv_agency}";
-                for (int j = 1; j < in_table.Columns.Count; j++)
+                if (report_type != SHGuestsNGen.pivot_rpt_type.WorkerDetail)
                 {
-                    list_items [ j ] = agency_totals [ j ].ToString ( "###" );
-                    agency_row_total += agency_totals [ j ];
-                    agency_totals [ j ] = 0;
+                    agency_row_total = 0;
+                    list_items[0] = $"Totals: {sv_agency}";
+                    for (int j = 1; j < in_table.Columns.Count; j++)
+                    {
+                        list_items[j] = agency_totals[j].ToString ( "###" );
+                        agency_row_total += agency_totals[j];
+                        agency_totals[j] = 0;
+                    }
                 }
                 //*
                 //* Only do total line if more than 1 referral
                 //*
                 if (detail_rows > 1)
                 {
-                    list_items [ in_table.Columns.Count ] = agency_row_total.ToString ( "#,##0" );
-                    //*list_items[1] = $"Total Referrers:  {detail_rows:N0}";
-                    lv_item = new ListViewItem ( list_items );
-                    pivot_tbl_listview.Items.Add ( lv_item );
+                    if (report_type != SHGuestsNGen.pivot_rpt_type.WorkerDetail)
+                    {
+                        list_items[in_table.Columns.Count] = agency_row_total.ToString ( "#,##0" );
+                        //*list_items[1] = $"Total Referrers:  {detail_rows:N0}";
+                        lv_item = new ListViewItem ( list_items );
+                        pivot_tbl_listview.Items.Add ( lv_item );
+                    }
                     for (int j = 0; j < in_table.Columns.Count + 1; j++)
                     {
                         list_items [ j ] = " ";
