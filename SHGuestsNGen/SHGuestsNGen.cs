@@ -29,6 +29,7 @@ namespace SHGuestsNGen
         public Query_Results rpt_dlg;
         public DialogResult res;
         public int num_rows = 0;
+        public string filePath;
 
         #endregion Variables and Constants
 
@@ -37,6 +38,10 @@ namespace SHGuestsNGen
         public SHGuestsNGen ( )
         {
             InitializeComponent ( );
+            filePath = Path.GetDirectoryName ( Application.ExecutablePath );
+            int ndx = filePath.LastIndexOf ( @"\bin" );
+            string tmp_Path = filePath.Substring ( 0, ndx );
+            filePath = tmp_Path + @"\T-SQL_Queries\";
         }
 
         #endregion Constructor
@@ -240,7 +245,7 @@ namespace SHGuestsNGen
 
         private void monthlyAdmissionsToolStripMenuItem_Click ( object sender, EventArgs e )
         {
-            FileInfo sql_file = new FileInfo ( "admits_by_month.sql" );
+            FileInfo sql_file = new FileInfo ( filePath + "admits_by_month.sql" );
             string str_sql = sql_file.OpenText ( ).ReadToEnd ( );
             using (var db = new NextGenEntity ( ))
             {
@@ -274,7 +279,7 @@ namespace SHGuestsNGen
 
         private void annualAdmissionsToolStripMenuItem_Click ( object sender, EventArgs e )
         {
-            FileInfo sql_file = new FileInfo ( "admit_by_months.sql" );
+            FileInfo sql_file = new FileInfo ( filePath + "admit_by_months.sql" );
             string str_sql = sql_file.OpenText ( ).ReadToEnd ( );
             using (var db = new NextGenEntity ( ))
             {
@@ -308,7 +313,7 @@ namespace SHGuestsNGen
 
         private void monthlyDischargesToolStripMenuItem_Click ( object sender, EventArgs e )
         {
-            FileInfo sql_file = new FileInfo ( "discharges_by_month.sql" );
+            FileInfo sql_file = new FileInfo ( filePath + "discharges_by_month.sql" );
             string str_sql = sql_file.OpenText ( ).ReadToEnd ( );
             using (var db = new NextGenEntity ( ))
             {
@@ -342,7 +347,7 @@ namespace SHGuestsNGen
 
         private void annualDischargesToolStripMenuItem_Click ( object sender, EventArgs e )
         {
-            FileInfo sql_file = new FileInfo ( "discharges_by_months.sql" );
+            FileInfo sql_file = new FileInfo ( filePath + "discharges_by_months.sql" );
             string str_sql = sql_file.OpenText ( ).ReadToEnd ( );
             using (var db = new NextGenEntity ( ))
             {
@@ -376,7 +381,7 @@ namespace SHGuestsNGen
 
         private void agencyAnnualAdmissionsToolStripMenuItem_Click ( object sender, EventArgs e )
         {
-            FileInfo sql_file = new FileInfo ( "agency_admissions_by_year.sql" );
+            FileInfo sql_file = new FileInfo ( filePath + "agency_admissions_by_year.sql" );
             string str_sql = sql_file.OpenText ( ).ReadToEnd ( );
             using (var db = new NextGenEntity ( ))
             {
@@ -410,7 +415,7 @@ namespace SHGuestsNGen
 
         private void agencySocialWorkerAnnualAdmissionsToolStripMenuItem_Click ( object sender, EventArgs e )
         {
-            FileInfo sql_file = new FileInfo ( "annual_worker_admissions.sql" );
+            FileInfo sql_file = new FileInfo ( filePath + "annual_worker_admissions.sql" );
             string str_sql = sql_file.OpenText ( ).ReadToEnd ( );
             using (var db = new NextGenEntity ( ))
             {
@@ -444,7 +449,7 @@ namespace SHGuestsNGen
 
         private void socialWorkerCanReturnReportToolStripMenuItem_Click ( object sender, EventArgs e )
         {
-            FileInfo sql_file = new FileInfo ( "sw_returns_report.sql" );
+            FileInfo sql_file = new FileInfo ( filePath + "sw_returns_report.sql" );
             string str_sql = sql_file.OpenText ( ).ReadToEnd ( );
             using (var db = new NextGenEntity ( ))
             {
