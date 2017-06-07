@@ -21,9 +21,9 @@ namespace SHGuestsNGen
         public ListView my_ListView = new ListView ( );
         public Size my_ListSize = new Size ( );
         public Point my_ListLocation = new Point ( );
-        public object [ ] row_values;
-        public string [ ] list_items;
-        public int [ ] agency_totals, column_totals, agency_row_totals;
+        public object[] row_values;
+        public string[] list_items;
+        public int[] agency_totals, column_totals, agency_row_totals;
         public string sv_agency = null;
         public SHGuestsNGen.pivot_rpt_type report_type;
 
@@ -64,11 +64,11 @@ namespace SHGuestsNGen
             //* We create a new DataTableReader here because we may have fiddled with the table columns. *
             //********************************************************************************************
             in_reader = in_table.CreateDataReader ( );
-            list_items = new string [ in_table.Columns.Count + 1 ];
-            column_totals = new int [ in_table.Columns.Count + 1 ];
-            agency_totals = new int [ in_table.Columns.Count + 1 ];
-            agency_row_totals = new int [ in_table.Columns.Count + 1 ];
-            row_values = new object [ in_table.Columns.Count ];
+            list_items = new string[in_table.Columns.Count + 1];
+            column_totals = new int[in_table.Columns.Count + 1];
+            agency_totals = new int[in_table.Columns.Count + 1];
+            agency_row_totals = new int[in_table.Columns.Count + 1];
+            row_values = new object[in_table.Columns.Count];
             this.Font = new Font ( "Lucida Sans Unicode", 8, FontStyle.Regular, GraphicsUnit.Point );
             this.Controls.Remove ( pivot_tbl_listview );
             Size this_size = new Size ( );
@@ -86,7 +86,14 @@ namespace SHGuestsNGen
             pivot_tbl_listview.GridLines = true;
             Build_ListView_Columns ( );
             Process_the_Records ( );
-            pivot_tbl_listview.AutoResizeColumns ( ColumnHeaderAutoResizeStyle.None );
+            if (report_type == SHGuestsNGen.pivot_rpt_type.WorkerDetail)
+            {
+                pivot_tbl_listview.AutoResizeColumns ( ColumnHeaderAutoResizeStyle.ColumnContent );
+            }
+            else
+            {
+                pivot_tbl_listview.AutoResizeColumns ( ColumnHeaderAutoResizeStyle.None );
+            }
             this.Controls.Add ( pivot_tbl_listview );
             return;
         }
@@ -106,11 +113,11 @@ namespace SHGuestsNGen
                 }
                 for (int ndx = 0; ndx < col_count; ndx++)
                 {
-                    string col_type = row_values [ ndx ].GetType ( ).ToString ( );
+                    string col_type = row_values[ndx].GetType ( ).ToString ( );
                     switch (col_type)
                     {
                         case "System.String":
-                            list_items [ ndx ] = row_values [ ndx ].ToString ( );
+                            list_items[ndx] = row_values[ndx].ToString ( );
                             break;
 
                         case "System.DateTime":
@@ -119,16 +126,16 @@ namespace SHGuestsNGen
                             break;
 
                         case "System.Int32":
-                            int t_int = ( int )row_values [ ndx ];
-                            list_items [ ndx ] = t_int.ToString ( "##0" );
+                            int t_int = ( int )row_values[ndx];
+                            list_items[ndx] = t_int.ToString ( "##0" );
                             total_guests += t_int;
-                            column_totals [ ndx ] += t_int;
-                            agency_totals [ ndx ] += t_int;
+                            column_totals[ndx] += t_int;
+                            agency_totals[ndx] += t_int;
                             break;
 
                         case "System.DBNull":
                             int nul_int = 0;
-                            list_items [ ndx ] = nul_int.ToString ( "---" );
+                            list_items[ndx] = nul_int.ToString ( "---" );
                             break;
 
                         default:
@@ -140,58 +147,58 @@ namespace SHGuestsNGen
                     agency_row_total = 0;
                     for (int j = 1; j < col_count; j++)
                     {
-                        string col_type = row_values [ j ].GetType ( ).ToString ( );
+                        string col_type = row_values[j].GetType ( ).ToString ( );
                         if (col_type.Equals ( "System.Int32" ))
                         {
-                            int a_int = ( int )row_values [ j ];
+                            int a_int = ( int )row_values[j];
                             agency_row_total += a_int;
                         }
                     }
-                    list_items [ in_table.Columns.Count ] = agency_row_total.ToString ( "#,##0" );
-                    agency_row_totals [ in_table.Columns.Count ] += agency_row_total;
+                    list_items[in_table.Columns.Count] = agency_row_total.ToString ( "#,##0" );
+                    agency_row_totals[in_table.Columns.Count] += agency_row_total;
                 }
                 else
                 {
-                    list_items [ in_table.Columns.Count ] = total_guests.ToString ( "#,##0" );
+                    list_items[in_table.Columns.Count] = total_guests.ToString ( "#,##0" );
                 }
                 lv_item = new ListViewItem ( list_items );
                 lv_item.UseItemStyleForSubItems = false;
                 for (int j = 0; j < lv_item.SubItems.Count; j++)
                 {
-                    if (lv_item.SubItems [ j ].Text.Equals ( "---" ))
+                    if (lv_item.SubItems[j].Text.Equals ( "---" ))
                     {
-                        lv_item.SubItems [ j ].ForeColor = Color.Red;
+                        lv_item.SubItems[j].ForeColor = Color.Red;
                     }
                 }
-                string col_typ = row_values [ 0 ].GetType ( ).ToString ( );
+                string col_typ = row_values[0].GetType ( ).ToString ( );
                 if (col_typ != "System.DBNull")
                 {
                     pivot_tbl_listview.Items.Add ( lv_item );
                 }
-                column_totals [ in_table.Columns.Count ] += total_guests;
+                column_totals[in_table.Columns.Count] += total_guests;
                 total_guests = 0;
                 detail_rows++;
             }
             if (!referring_switch)
             {
-                row_values [ 0 ] = 0xFFFFFF;                       //* We've hit end of the file, so trigger the totals to be output
+                row_values[0] = 0xFFFFFF;                       //* We've hit end of the file, so trigger the totals to be output
                 Check_for_Totals ( );
             }
             for (int j = 0; j < in_table.Columns.Count + 1; j++)
             {
-                list_items [ j ] = " ";
+                list_items[j] = " ";
             }
             lv_item = new ListViewItem ( list_items );
             pivot_tbl_listview.Items.Add ( lv_item );
-            list_items [ 0 ] = "Grand Totals";
+            list_items[0] = "Grand Totals";
             if (!referring_switch)
             {
-                list_items [ 1 ] = $"{total_detail_rows:N0} Agency Referrers";
+                list_items[1] = $"{total_detail_rows:N0} Agency Referrers";
                 for (int j = 2; j < columns_in_listview; j++)
                 {
-                    if (column_totals [ j ] > 0)
+                    if (column_totals[j] > 0)
                     {
-                        list_items [ j ] = column_totals [ j ].ToString ( "#,##0" );
+                        list_items[j] = column_totals[j].ToString ( "#,##0" );
                     }
                 }
             }
@@ -199,12 +206,12 @@ namespace SHGuestsNGen
             {
                 for (iLoop = 1; iLoop < in_table.Columns.Count; iLoop++)
                 {
-                    if (column_totals [ iLoop ] > 0)
+                    if (column_totals[iLoop] > 0)
                     {
-                        list_items [ iLoop ] = column_totals [ iLoop ].ToString ( "#,##0" );
+                        list_items[iLoop] = column_totals[iLoop].ToString ( "#,##0" );
                     }
                 }
-                list_items [ iLoop ] = agency_row_totals [ iLoop ].ToString ( "#,##0" );
+                list_items[iLoop] = agency_row_totals[iLoop].ToString ( "#,##0" );
             }
             lv_item = new ListViewItem ( list_items );
             pivot_tbl_listview.Items.Add ( lv_item );
@@ -218,7 +225,7 @@ namespace SHGuestsNGen
         private void Build_ListView_Columns ( )
         {
             int col_width = ( report_type == SHGuestsNGen.pivot_rpt_type.MonthlyReport ) ? 80 : 200;
-            pivot_tbl_listview.Columns.Add ( in_table.Columns [ 0 ].ColumnName, col_width, HorizontalAlignment.Left );
+            pivot_tbl_listview.Columns.Add ( in_table.Columns[0].ColumnName, col_width, HorizontalAlignment.Left );
 
             col_width = ( referring_switch ) ? 40 : 140;
             HorizontalAlignment col_align;
@@ -249,9 +256,9 @@ namespace SHGuestsNGen
                     pivot_tbl_listview.ForeColor = Color.Black;
                     break;
             }
-            pivot_tbl_listview.Columns.Add ( in_table.Columns [ 1 ].ColumnName, col_width, col_align );
-            column_totals [ 1 ] = 0;
-            agency_totals [ 1 ] = 0;
+            pivot_tbl_listview.Columns.Add ( in_table.Columns[1].ColumnName, col_width, col_align );
+            column_totals[1] = 0;
+            agency_totals[1] = 0;
             for (int j = 2; j < in_table.Columns.Count; j++)
             {
                 if (report_type != SHGuestsNGen.pivot_rpt_type.WorkerDetail)
@@ -262,8 +269,8 @@ namespace SHGuestsNGen
                 {
                     pivot_tbl_listview.Columns.Add ( in_table.Columns[j].ColumnName, 150, HorizontalAlignment.Left );
                 }
-                column_totals [ j ] = 0;
-                agency_totals [ j ] = 0;
+                column_totals[j] = 0;
+                agency_totals[j] = 0;
             }
             if (report_type != SHGuestsNGen.pivot_rpt_type.WorkerDetail)
                 pivot_tbl_listview.Columns.Add ( "Totals", 50, HorizontalAlignment.Right );
@@ -277,12 +284,12 @@ namespace SHGuestsNGen
 
         private void Check_for_Totals ( )
         {
-            string tmp_agency = ( string )row_values [ 0 ].ToString ( );
+            string tmp_agency = ( string )row_values[0].ToString ( );
             if (String.IsNullOrWhiteSpace ( sv_agency ))
             {
                 sv_agency = tmp_agency;
             }
-            if (!sv_agency.Equals ( tmp_agency ) )
+            if (!sv_agency.Equals ( tmp_agency ))
             {
                 if (report_type != SHGuestsNGen.pivot_rpt_type.WorkerDetail)
                 {
@@ -309,12 +316,12 @@ namespace SHGuestsNGen
                     }
                     for (int j = 0; j < in_table.Columns.Count + 1; j++)
                     {
-                        list_items [ j ] = " ";
+                        list_items[j] = " ";
                     }
                     lv_item = new ListViewItem ( list_items );
                     pivot_tbl_listview.Items.Add ( lv_item );
                 }
-                sv_agency = ( string )row_values [ 0 ].ToString ( );
+                sv_agency = ( string )row_values[0].ToString ( );
                 total_detail_rows += detail_rows;
                 agency_row_total = 0;
                 detail_rows = 0;
@@ -323,6 +330,8 @@ namespace SHGuestsNGen
         }
 
         #endregion Process Totals
+
+        #region Event Handlers
 
         private void exit_report_Button_Click ( object sender, EventArgs e )
         {
@@ -354,5 +363,7 @@ namespace SHGuestsNGen
             //}
             return;
         }
+
+        #endregion Event Handlers
     }
 }

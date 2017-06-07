@@ -18,11 +18,14 @@ namespace SHGuestsNGen
         public enum pivot_rpt_type { Normal = 0, MonthlyReport = 2, Worker = 3, WorkerDetail = 4 };
 
         public pivot_rpt_type report_type;
+        public static char[] _defaulttrim = new char[] { ' ', '\t', '\r', '\n' };
+
         public bool rs = true, repopc = false, repopd = false, statistical_report = true, repopulate = false, readmit = false;
         private NextGenGuestsDal dal = new NextGenGuestsDal ( );
         public List<Guest> theGuestList = new List<Guest> ( );
         public List<Visit> theVisitList = new List<Visit> ( );
         public List<string> current_combo, discharged_combo;
+        public static DateTime ParkRoadCutOffDate = new DateTime ( 2011, 06, 05 );
         public static Font lbl_Font = new Font ( "Tahoma", 10F, FontStyle.Regular, GraphicsUnit.Point );
         public static Font status_Font = new Font ( "Tahoma", 10F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point );
         public static Font combo_Font = new Font ( "Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point );
@@ -505,7 +508,8 @@ namespace SHGuestsNGen
             using (var db = new NextGenEntity ( ))
             {
                 var roster = ( from jd in db.Guests.AsEnumerable ( )
-                               join vd in db.Visits on jd.GuestID equals vd.GuestID
+                               join vd in db.Visits.AsEnumerable ( )
+                               on jd.GuestID equals vd.GuestID
                                orderby vd.AdmitDate, jd.LastName, jd.FirstName
                                where vd.Roster == "C"
                                select new
@@ -513,19 +517,16 @@ namespace SHGuestsNGen
                                    Admitted = vd.AdmitDate,
                                    Name = string.Concat ( jd.LastName, ", ", jd.FirstName ),
                                    Gender = ( jd.Gender == "M" ) ? "Male" : "Female",
-                                   Reason = vd.AdmitReason,
+                                   Reason = vd.AdmitReason.TrimEnd ( _defaulttrim ),
                                    AgencyWorker = string.Concat ( vd.Agency, " (", vd.Worker, ")" ),
                                    Days = myMethod ( DateTime.Today, vd.AdmitDate ),
                                    Visit = vd.VisitNumber
                                } ).ToList ( );
-                var new_list = new List<dynamic> ( );
                 foreach (var rr in roster)
                 {
-                    DataRow dr = dt.NewRow ( );
                     dt.Rows.Add ( rr.Admitted, rr.Name, rr.Gender, rr.Reason, rr.AgencyWorker, rr.Days, rr.Visit );
-                    new_list.Add ( rr );
                 }
-                string query_title = $"Samaritan House Current Guest List: {new_list.Count:N0} records as of: {DateTime.Today:D}";
+                string query_title = $"Samaritan House Current Guest List: {roster.Count:N0} records as of: {DateTime.Today:D}";
                 statistical_report = false;
                 ViewReport ( dt, query_title, statistical_report );
             }
@@ -539,7 +540,8 @@ namespace SHGuestsNGen
             using (var db = new NextGenEntity ( ))
             {
                 var roster = ( from jd in db.Guests.AsEnumerable ( )
-                               join vd in db.Visits on jd.GuestID equals vd.GuestID
+                               join vd in db.Visits.AsEnumerable ( )
+                               on jd.GuestID equals vd.GuestID
                                orderby vd.AdmitDate, jd.LastName, jd.FirstName
                                where vd.Roster == "C"
                                select new
@@ -551,14 +553,7 @@ namespace SHGuestsNGen
                                    Reason = vd.AdmitReason,
                                    Agency = vd.Agency
                                } ).ToList ( );
-                var new_list = new List<dynamic> ( );
-                foreach (var rr in roster)
-                {
-                    if (rr.Days > 44)
-                    {
-                        new_list.Add ( rr );
-                    }
-                }
+                var new_list = new List<dynamic> ( roster.Where ( x => x.Days > 44 ) );
                 string query_title = $"Samaritan House Guest with > 45 Days: {new_list.Count:N0} records as of: {DateTime.Today:D}";
                 statistical_report = false;
                 ViewReport ( new_list, query_title, statistical_report );
@@ -572,8 +567,9 @@ namespace SHGuestsNGen
             DateTime to_Date = new DateTime ( 1980, 01, 01 );
             using (var db = new NextGenEntity ( ))
             {
-                var roster = ( from jd in db.Guests
-                               join vd in db.Visits on jd.GuestID equals vd.GuestID
+                var roster = ( from jd in db.Guests.AsEnumerable ( )
+                               join vd in db.Visits.AsEnumerable ( )
+                               on jd.GuestID equals vd.GuestID
                                where ( ( vd.Worker.Contains ( "No file" ) || vd.Worker.Contains ( "Signature Ill" ) ) ||
                                       ( jd.SSN == 999999999 || jd.BirthDate == to_Date )
                                       && vd.Roster == "D" )
@@ -589,11 +585,7 @@ namespace SHGuestsNGen
                                    Agency_Worker = string.Concat ( vd.Agency, " (", vd.Worker, ")" )
                                } ).ToList ( );
 
-                var new_list = new List<dynamic> ( );
-                foreach (var item in roster)
-                {
-                    new_list.Add ( item );
-                }
+                var new_list = new List<dynamic> ( roster );
                 string query_title = $"Samaritan House Guests with Questionable Information: {new_list.Count:N0} records as of: {DateTime.Today:D}";
                 statistical_report = false;
                 ViewReport ( new_list, query_title, statistical_report );
@@ -605,9 +597,11 @@ namespace SHGuestsNGen
         {
             using (var db = new NextGenEntity ( ))
             {
-                var roster = ( from jd in db.Guests
-                               join vd in db.Visits on jd.GuestID equals vd.GuestID
-                               where ( !vd.CanReturn ) && ( !vd.Deceased && !vd.DischargeReason.Contains ( "No Show" ) ) 
+                var roster = ( from jd in db.Guests.AsEnumerable ( )
+                               join vd in db.Visits.AsEnumerable ( )
+                               on jd.GuestID equals vd.GuestID
+                               where ( !vd.CanReturn ) && ( !vd.Deceased && !vd.DischargeReason.Contains ( "No Show" ) )
+                                     && vd.Discharged >= ParkRoadCutOffDate
                                orderby jd.LastName, jd.FirstName, vd.Discharged
                                select new
                                {
@@ -620,11 +614,7 @@ namespace SHGuestsNGen
                                    Agency_Worker = string.Concat ( vd.Agency, " (", vd.Worker, ")" )
                                } ).ToList ( );
 
-                var new_list = new List<dynamic> ( );
-                foreach (var item in roster)
-                {
-                    new_list.Add ( item );
-                }
+                var new_list = new List<dynamic> ( roster );
                 string query_title = $"Samaritan House Guests Ineligible for Return: {new_list.Count:N0} records as of: {DateTime.Today:D}";
                 statistical_report = false;
                 ViewReport ( new_list, query_title, statistical_report );
@@ -639,34 +629,25 @@ namespace SHGuestsNGen
                 Func<DateTime, DateTime, int> myMethod = CalcDays;
                 DateTime to_Date = DateTime.Today;
                 var curr_roster = ( from nc in db.Guests.AsEnumerable ( )
+                                    join vd in db.Visits.AsEnumerable ( )
+                                    on nc.GuestID equals vd.GuestID
                                     orderby nc.LastName, nc.FirstName
-                                    where ( nc.Roster == "D" )
-                                    select nc ).ToList ( );
+                                    where ( nc.Roster == "D" ) && vd.Discharged >= ParkRoadCutOffDate
+                                    select new
+                                    {
+                                        Name = string.Concat ( nc.LastName, ", ", nc.FirstName ),
+                                        Visit = vd.VisitNumber,
+                                        Admitted = vd.AdmitDate,
+                                        Discharged = vd.Discharged,
+                                        Days = vd.VisitDays,
+                                        DischargeReason = vd.DischargeReason,
+                                        Return = ( vd.CanReturn ) ? "Yes" : "No"
+                                    }
+                                   ).ToList ( );
 
-                var new_list = new List<dynamic> ( );
-                foreach (var new_item in curr_roster)
-                {
-                    foreach (Visit vd in new_item.Visits1)
-                    {
-                        //if (vd.VisitNumber == new_item.Visits)
-                        //{
-                            var tmp_list = new
-                            {
-                                Name = string.Concat ( new_item.LastName, ", ", new_item.FirstName ),
-                                //Roster = "Discharged",
-                                Visit = vd.VisitNumber,
-                                Admitted = vd.AdmitDate,
-                                Discharged = vd.Discharged,
-                                Days = vd.VisitDays,
-                                DischargeReason = vd.DischargeReason,
-                                Return = ( vd.CanReturn ) ? "Yes" : "No"
-                            };
-                            new_list.Add ( tmp_list );
-                        //}
-                    }
-                }
+                var new_list = new List<dynamic> ( curr_roster );
                 int guest_count = new_list.Count ( nl => nl.Visit == 1 );
-                string query_title = $"Samaritan House Discharged Guest Listing of {guest_count:N0} Guests As of: {DateTime.Today:D}"; ;
+                string query_title = $"Fortune Street Discharged Guest Listing of {guest_count:N0} Guests As of: {DateTime.Today:D}"; ;
                 statistical_report = false;
                 ViewReport ( new_list, query_title, statistical_report );
             }
@@ -680,9 +661,10 @@ namespace SHGuestsNGen
                 Func<DateTime, DateTime, int> myMethod = CalcDays;
                 DateTime to_Date = DateTime.Today;
                 var roster = ( from jd in db.Guests.AsEnumerable ( )
-                               join vd in db.Visits on jd.GuestID equals vd.GuestID
+                               join vd in db.Visits.AsEnumerable ( )
+                               on jd.GuestID equals vd.GuestID
                                orderby vd.Room, vd.Bed
-                               where jd.Roster == "C" && vd.Roster == "C"
+                               where vd.Roster == "C"
                                select new
                                {
                                    Room = ( int )vd.Room,
@@ -695,11 +677,7 @@ namespace SHGuestsNGen
                                    Agency = vd.Agency
                                } ).ToList ( );
 
-                var new_list = new List<dynamic> ( );
-                foreach (var item in roster)
-                {
-                    new_list.Add ( item );
-                }
+                var new_list = new List<dynamic> ( roster );
                 string query_title = $"Samaritan House Current Guest Room Assignments As of: {DateTime.Today:D}"; ;
                 statistical_report = false;
                 ViewReport ( new_list, query_title, statistical_report );
@@ -726,11 +704,7 @@ namespace SHGuestsNGen
                                  AdmitReason = vd.AdmitReason,
                                  DischargeReason = vd.DischargeReason
                              };
-                var new_list = new List<dynamic> ( );
-                foreach (var item in roster)
-                {
-                    new_list.Add ( item );
-                }
+                var new_list = new List<dynamic> ( roster );
                 string query_title = $"Samaritan House  - {new_list.Count:N0} Former Guests Listed as Deceased As of: {DateTime.Today:D}"; ;
                 statistical_report = false;
                 ViewReport ( new_list, query_title, statistical_report );
@@ -912,6 +886,19 @@ namespace SHGuestsNGen
 
         private void Social_Worker_Guest_List_Click ( object sender, EventArgs e )
         {
+            string[] colHeadings = new string[]
+            {
+                "Agency", "Worker", "Name", "Admit", "Discharge", "Admit Reason"
+            };
+            Type[] colTypes = new Type[]
+            {
+                typeof(string), typeof(string), typeof(string), typeof(DateTime), typeof(DateTime), typeof(string)
+            };
+            DataTable dt = new DataTable ( "WorkerList" );
+            for (int i = 0; i < colHeadings.Count ( ); i++)
+            {
+                dt.Columns.Add ( colHeadings[i], colTypes[i] );
+            }
             using (var db = new NextGenEntity ( ))
             {
                 Func<DateTime, DateTime, int> myMethod = CalcDays;
@@ -919,41 +906,35 @@ namespace SHGuestsNGen
                 var roster = ( from g in db.Guests.AsEnumerable ( )
                                join v in db.Visits.AsEnumerable ( )
                                on g.GuestID equals v.GuestID
+                               where v.AdmitDate >= ParkRoadCutOffDate
                                orderby v.Agency, v.Worker, g.LastName, g.FirstName, v.AdmitDate
                                select new
                                {
-                                   Agency = v.Agency,
-                                   Worker = v.Worker,
+                                   Agency = v.Agency.TrimEnd ( _defaulttrim ),
+                                   Worker = v.Worker.TrimEnd ( _defaulttrim ),
                                    Name = string.Concat ( g.LastName, ", ", g.FirstName ),
                                    InDate = v.AdmitDate,
                                    OutDate = v.Discharged,
-                                   AdmitReason = v.AdmitReason,
+                                   AdmitReason = v.AdmitReason.TrimEnd ( _defaulttrim ),
                                } ).ToList ( );
 
-                DataTable sql_dt = new DataTable ( );
-                sql_dt.Columns.Add ( "Agency", typeof ( string ) );
-                sql_dt.Columns.Add ( "Worker", typeof ( string ) );
-                sql_dt.Columns.Add ( "Name", typeof ( string ) );
-                sql_dt.Columns.Add ( "InDate", typeof ( DateTime ) );
-                sql_dt.Columns.Add ( "OutDate", typeof ( DateTime ) );
-                sql_dt.Columns.Add ( "AdmitReason", typeof ( string ) );
                 foreach (var item in roster)
                 {
-                    sql_dt.Rows.Add ( item.Agency, item.Worker, item.Name, item.InDate, item.OutDate, item.AdmitReason );
+                    dt.Rows.Add ( item.Agency, item.Worker, item.Name, item.InDate, item.OutDate, item.AdmitReason );
                 }
 
-                DataTableReader sql_dtr = sql_dt.CreateDataReader ( );
-                if (sql_dtr.HasRows)
+                DataTableReader dtr = dt.CreateDataReader ( );
+                if (dtr.HasRows)
                 {
-                    SQLPivotTableForm sptf = new SQLPivotTableForm ( sql_dt, sql_dtr );
-                    string query_title = $"Samaritan House Social Worker Guest(s) List ({roster.Count:N0} Records) As of: {DateTime.Today:D}"; ;
+                    SQLPivotTableForm sptf = new SQLPivotTableForm ( dt, dtr );
+                    string query_title = $"Samaritan House SW Guest(s) List  Since {ParkRoadCutOffDate.ToShortDateString()} ({roster.Count:N0} Records) As of: {DateTime.Today:D}"; ;
                     sptf.report_type = pivot_rpt_type.WorkerDetail;
                     sptf.Text = query_title;
                     sptf.referring_switch = false;
                     Hide ( );
                     sptf.ShowDialog ( );
                     Show ( );
-                    sql_dtr.Close ( );
+                    dtr.Close ( );
                 }
                 return;
             }
@@ -968,22 +949,17 @@ namespace SHGuestsNGen
                 var roster = from jd in db.Guests
                              join vd in db.Visits on jd.GuestID equals vd.GuestID
                              orderby jd.LastName, jd.FirstName
-                             where vd.Roster == "D" && vd.DischargeReason.Contains("No Show")
+                             where vd.Roster == "D" && vd.DischargeReason.Contains("No Show") && vd.Discharged >= ParkRoadCutOffDate
                              select new
                              {
                                  Name = string.Concat ( jd.LastName, ", ", jd.FirstName ),
-                                 //Visit = vd.VisitNumber,
                                  InDate = vd.AdmitDate,
                                  OutDate = vd.Discharged,
                                  BedDays = vd.VisitDays,
                                  AdmitReason = vd.AdmitReason,
                                  DischargeReason = vd.DischargeReason
                              };
-                var new_list = new List<dynamic> ( );
-                foreach (var item in roster)
-                {
-                    new_list.Add ( item );
-                }
+                var new_list = new List<dynamic> ( roster );
                 string query_title = $"Samaritan House Hospital No Show List ({new_list.Count:N0} Records) As of: {DateTime.Today:D}"; ;
                 statistical_report = false;
                 ViewReport ( new_list, query_title, statistical_report );
@@ -1001,6 +977,7 @@ namespace SHGuestsNGen
                              join vd in db.Visits on jd.GuestID equals vd.GuestID
                              orderby jd.LastName, jd.FirstName
                              where vd.Roster == "D" && (vd.DischargeReason.Contains ( "Walk off" ) || vd.DischargeReason.Contains("Walked off"))
+                                   && vd.Discharged >= ParkRoadCutOffDate
                              select new
                              {
                                  Name = string.Concat ( jd.LastName, ", ", jd.FirstName ),
@@ -1011,11 +988,7 @@ namespace SHGuestsNGen
                                  AdmitReason = vd.AdmitReason,
                                  DischargeReason = vd.DischargeReason
                              };
-                var new_list = new List<dynamic> ( );
-                foreach (var item in roster)
-                {
-                    new_list.Add ( item );
-                }
+                var new_list = new List<dynamic> ( roster );
                 string query_title = $"Samaritan House Walk-Offs List ({new_list.Count:N0} Records) As of: {DateTime.Today:D}"; ;
                 statistical_report = false;
                 ViewReport ( new_list, query_title, statistical_report );
