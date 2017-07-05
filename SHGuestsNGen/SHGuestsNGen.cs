@@ -79,7 +79,7 @@ namespace SHGuestsNGen
             int singlevisits = db.Visits.Count ( v => v.VisitNumber == 1 );
             int multivisits = db.Visits.Count ( v => v.VisitNumber > 1 );
             int parkrdvisits = db.Visits.Count ( v => v.Discharged < new DateTime ( 2011, 06, 05 ) );
-            int no_returns = db.Visits.Count ( v => !v.CanReturn && ! v.Deceased && !v.DischargeReason.Contains("No Show"));
+            int no_returns = db.Visits.Count ( v => !v.CanReturn && !v.Deceased && !v.DischargeReason.Contains("No Show") && v.AdmitDate >= ParkRoadCutOffDate);
 
             label_CurrentCount.Text = ( currentcount > 9 ) ? $"{currentcount,9:N0} Current Guests" : $"{currentcount,10:N0} Current Guests";
             label_DischargedCount.Text = $"{dischcount,7:N0} Discharged Guests";
@@ -888,11 +888,11 @@ namespace SHGuestsNGen
         {
             string[] colHeadings = new string[]
             {
-                "Agency", "Worker", "Name", "Admit", "Discharge", "Admit Reason"
+                "Worker", "Agency", "Admit", "Discharge", "Name", "Admit Reason", "Days", "Ret"
             };
             Type[] colTypes = new Type[]
             {
-                typeof(string), typeof(string), typeof(string), typeof(DateTime), typeof(DateTime), typeof(string)
+                typeof(string), typeof(string), typeof(DateTime), typeof(DateTime), typeof(string), typeof(string), typeof(int), typeof(string)
             };
             DataTable dt = new DataTable ( "WorkerList" );
             for (int i = 0; i < colHeadings.Count ( ); i++)
@@ -907,20 +907,22 @@ namespace SHGuestsNGen
                                join v in db.Visits.AsEnumerable ( )
                                on g.GuestID equals v.GuestID
                                where v.AdmitDate >= ParkRoadCutOffDate
-                               orderby v.Agency, v.Worker, g.LastName, g.FirstName, v.AdmitDate
+                               orderby v.Worker, v.Agency, v.AdmitDate, g.LastName, g.FirstName
                                select new
                                {
-                                   Agency = v.Agency.TrimEnd ( _defaulttrim ),
                                    Worker = v.Worker.TrimEnd ( _defaulttrim ),
+                                   Agency = v.Agency.TrimEnd ( _defaulttrim ),
                                    Name = string.Concat ( g.LastName, ", ", g.FirstName ),
                                    InDate = v.AdmitDate,
                                    OutDate = v.Discharged,
                                    AdmitReason = v.AdmitReason.TrimEnd ( _defaulttrim ),
+                                   BedDays = ( v.Roster.Equals ( "D" ) ) ? v.VisitDays : ( to_Date.AddDays ( 1 ) - v.AdmitDate ).Days,
+                                   Return = ( v.CanReturn ) ? "Yes " : "No  "
                                } ).ToList ( );
 
                 foreach (var item in roster)
                 {
-                    dt.Rows.Add ( item.Agency, item.Worker, item.Name, item.InDate, item.OutDate, item.AdmitReason );
+                    dt.Rows.Add ( item.Worker, item.Agency, item.InDate, item.OutDate, item.Name, item.AdmitReason, item.BedDays, item.Return );
                 }
 
                 DataTableReader dtr = dt.CreateDataReader ( );

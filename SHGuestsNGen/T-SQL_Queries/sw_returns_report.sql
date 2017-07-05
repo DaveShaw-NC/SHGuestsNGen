@@ -17,6 +17,6 @@ select
 ) as d
 PIVOT
 (
-	sum([Guests]) for [Return] in ([No], [Yes])
+	sum([Guests]) for [Return] in ([Yes], [No])
 ) as pvt order by [Agency], [Referrer];
 

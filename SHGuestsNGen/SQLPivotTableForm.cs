@@ -191,7 +191,7 @@ namespace SHGuestsNGen
             lv_item = new ListViewItem ( list_items );
             pivot_tbl_listview.Items.Add ( lv_item );
             list_items[0] = "Grand Totals";
-            if (!referring_switch)
+            if (!referring_switch && report_type != SHGuestsNGen.pivot_rpt_type.WorkerDetail)
             {
                 list_items[1] = $"{total_detail_rows:N0} Agency Referrers";
                 for (int j = 2; j < columns_in_listview; j++)
@@ -267,7 +267,14 @@ namespace SHGuestsNGen
                 }
                 else
                 {
-                    pivot_tbl_listview.Columns.Add ( in_table.Columns[j].ColumnName, 150, HorizontalAlignment.Left );
+                    if (in_table.Columns[j].ColumnName.Equals ( "Days" ))
+                    {
+                        pivot_tbl_listview.Columns.Add ( in_table.Columns[j].ColumnName, 45, HorizontalAlignment.Right );
+                    }
+                    else
+                    {
+                        pivot_tbl_listview.Columns.Add ( in_table.Columns[j].ColumnName, 150, HorizontalAlignment.Left );
+                    }
                 }
                 column_totals[j] = 0;
                 agency_totals[j] = 0;
@@ -320,6 +327,18 @@ namespace SHGuestsNGen
                     }
                     lv_item = new ListViewItem ( list_items );
                     pivot_tbl_listview.Items.Add ( lv_item );
+                }
+                else
+                {
+                    if (report_type == SHGuestsNGen.pivot_rpt_type.WorkerDetail)
+                    {
+                        for (int j = 0; j < in_table.Columns.Count + 1; j++)
+                        {
+                            list_items[j] = " ";
+                        }
+                        lv_item = new ListViewItem ( list_items );
+                        pivot_tbl_listview.Items.Add ( lv_item );
+                    }
                 }
                 sv_agency = ( string )row_values[0].ToString ( );
                 total_detail_rows += detail_rows;
