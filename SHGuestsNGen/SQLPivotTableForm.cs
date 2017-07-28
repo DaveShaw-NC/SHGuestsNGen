@@ -122,7 +122,7 @@ namespace SHGuestsNGen
 
                         case "System.DateTime":
                             DateTime t_date = ( DateTime )row_values[ndx];
-                            list_items[ndx] = t_date.ToShortDateString ( );
+                            list_items[ndx] = t_date.ToString ( "MM/dd/yyyy" );
                             break;
 
                         case "System.Int32":
