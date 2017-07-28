@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.3
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SHGuestsNGen", "SHGuestsNGen\SHGuestsNGen.csproj", "{B3C1283C-3A99-4DD0-B127-122319DC3F3A}"
 EndProject
@@ -12,6 +12,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListViewPrinter2012", "SHGuestsNGen\ObjectListViewDemo\ListViewPrinter\ListViewPrinter2012.csproj", "{E73A10BD-2B5A-4BAC-897F-3A58CFC07631}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DataGridPrinter", "SHGuestsNGen\DataGridPrinter\DataGridPrinter.vbproj", "{D1061EA2-A313-4439-B6D5-4052E358F2C9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D2562443-5729-488C-8155-F006C3916FF9}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
