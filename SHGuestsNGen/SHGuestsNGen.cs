@@ -72,7 +72,7 @@ namespace SHGuestsNGen
             toolStripStatusLabel_statusLabel.Font = status_Font;
             toolStripStatusLabel_statusLabel.ForeColor = Color.DarkBlue;
 
-            var db = new NextGenEntity ( );
+            var db = new SamHouseGuestsEntities ( );
             int currentcount = db.Guests.Count ( g => g.Roster == "C" );
             int dischcount = db.Guests.Count ( g => g.Roster == "D" );
             int totalvisits = db.Visits.Count ( );
@@ -250,7 +250,7 @@ namespace SHGuestsNGen
         {
             FileInfo sql_file = new FileInfo ( filePath + "admits_by_month.sql" );
             string str_sql = sql_file.OpenText ( ).ReadToEnd ( );
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 SqlConnection en_conn = new SqlConnection ( db.Database.Connection.ConnectionString );
                 if (en_conn.State != ConnectionState.Open)
@@ -284,7 +284,7 @@ namespace SHGuestsNGen
         {
             FileInfo sql_file = new FileInfo ( filePath + "admit_by_months.sql" );
             string str_sql = sql_file.OpenText ( ).ReadToEnd ( );
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 SqlConnection en_conn = new SqlConnection ( db.Database.Connection.ConnectionString );
                 if (en_conn.State != ConnectionState.Open)
@@ -318,7 +318,7 @@ namespace SHGuestsNGen
         {
             FileInfo sql_file = new FileInfo ( filePath + "discharges_by_month.sql" );
             string str_sql = sql_file.OpenText ( ).ReadToEnd ( );
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 SqlConnection en_conn = new SqlConnection ( db.Database.Connection.ConnectionString );
                 if (en_conn.State != ConnectionState.Open)
@@ -352,7 +352,7 @@ namespace SHGuestsNGen
         {
             FileInfo sql_file = new FileInfo ( filePath + "discharges_by_months.sql" );
             string str_sql = sql_file.OpenText ( ).ReadToEnd ( );
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 SqlConnection en_conn = new SqlConnection ( db.Database.Connection.ConnectionString );
                 if (en_conn.State != ConnectionState.Open)
@@ -386,7 +386,7 @@ namespace SHGuestsNGen
         {
             FileInfo sql_file = new FileInfo ( filePath + "agency_admissions_by_year.sql" );
             string str_sql = sql_file.OpenText ( ).ReadToEnd ( );
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 SqlConnection en_conn = new SqlConnection ( db.Database.Connection.ConnectionString );
                 if (en_conn.State != ConnectionState.Open)
@@ -420,7 +420,7 @@ namespace SHGuestsNGen
         {
             FileInfo sql_file = new FileInfo ( filePath + "annual_worker_admissions.sql" );
             string str_sql = sql_file.OpenText ( ).ReadToEnd ( );
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 SqlConnection en_conn = new SqlConnection ( db.Database.Connection.ConnectionString );
                 if (en_conn.State != ConnectionState.Open)
@@ -454,7 +454,7 @@ namespace SHGuestsNGen
         {
             FileInfo sql_file = new FileInfo ( filePath + "sw_returns_report.sql" );
             string str_sql = sql_file.OpenText ( ).ReadToEnd ( );
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 SqlConnection en_conn = new SqlConnection ( db.Database.Connection.ConnectionString );
                 if (en_conn.State != ConnectionState.Open)
@@ -505,7 +505,7 @@ namespace SHGuestsNGen
             {
                 dt.Columns.Add ( colHeadings [ i ], colTypes [ i ] );
             }
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 var roster = ( from jd in db.Guests.AsEnumerable ( )
                                join vd in db.Visits.AsEnumerable ( )
@@ -537,7 +537,7 @@ namespace SHGuestsNGen
             Func<DateTime, DateTime, int> myMethod = CalcDays;
             DateTime to_Date = DateTime.Today;
 
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 var roster = ( from jd in db.Guests.AsEnumerable ( )
                                join vd in db.Visits.AsEnumerable ( )
@@ -565,7 +565,7 @@ namespace SHGuestsNGen
         {
             Func<DateTime, DateTime, int> myMethod = CalcDays;
             DateTime to_Date = new DateTime ( 1980, 01, 01 );
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 var roster = ( from jd in db.Guests.AsEnumerable ( )
                                join vd in db.Visits.AsEnumerable ( )
@@ -595,7 +595,7 @@ namespace SHGuestsNGen
 
         private void inelegibleForReturnToSamaritanHouseToolStripMenuItem_Click ( object sender, EventArgs e )
         {
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 var roster = ( from jd in db.Guests.AsEnumerable ( )
                                join vd in db.Visits.AsEnumerable ( )
@@ -624,7 +624,7 @@ namespace SHGuestsNGen
 
         private void completeGuestListToolStripMenuItem_Click ( object sender, EventArgs e )
         {
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 Func<DateTime, DateTime, int> myMethod = CalcDays;
                 DateTime to_Date = DateTime.Today;
@@ -656,7 +656,7 @@ namespace SHGuestsNGen
 
         private void roomAssignmentsToolStripMenuItem_Click ( object sender, EventArgs e )
         {
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 Func<DateTime, DateTime, int> myMethod = CalcDays;
                 DateTime to_Date = DateTime.Today;
@@ -687,7 +687,7 @@ namespace SHGuestsNGen
 
         private void deceasedGuestsToolStripMenuItem_Click ( object sender, EventArgs e )
         {
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 Func<DateTime, DateTime, int> myMethod = CalcDays;
                 DateTime to_Date = DateTime.Today;
@@ -716,7 +716,7 @@ namespace SHGuestsNGen
         {
             Func<DateTime, DateTime, int> myMethod = CalcDays;
             DateTime to_Date = DateTime.Today;
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 var query4group = ( from v in db.Visits.AsEnumerable ( )
                                     orderby v.Roster, v.VisitNumber
@@ -800,7 +800,7 @@ namespace SHGuestsNGen
         {
             Func<DateTime, DateTime, int> myMethod = CalcDays;
             DateTime to_Date = DateTime.Today;
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 var query4group = ( from g in db.Guests.AsEnumerable ( )
                                     join v in db.Visits.AsEnumerable ( )
@@ -899,7 +899,7 @@ namespace SHGuestsNGen
             {
                 dt.Columns.Add ( colHeadings[i], colTypes[i] );
             }
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 Func<DateTime, DateTime, int> myMethod = CalcDays;
                 DateTime to_Date = DateTime.Today;
@@ -944,7 +944,7 @@ namespace SHGuestsNGen
 
         private void hospitalNoShowsToolStripMenuItem_Click ( object sender, EventArgs e )
         {
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 Func<DateTime, DateTime, int> myMethod = CalcDays;
                 DateTime to_Date = DateTime.Today;
@@ -971,7 +971,7 @@ namespace SHGuestsNGen
 
         private void guestWalkOffsToolStripMenuItem_Click ( object sender, EventArgs e )
         {
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 Func<DateTime, DateTime, int> myMethod = CalcDays;
                 DateTime to_Date = DateTime.Today;

@@ -1,4 +1,4 @@
-use [SamHouseGuests]
+use [SamHouseGuests2]
 CREATE TABLE #bd_month 
 	(year_admit int, 
 	month_num int,

@@ -42,7 +42,7 @@ namespace SHGuestsNGen
         private void Discharge_guestLoad ( object sender, EventArgs e )
         {
             StringBuilder sb = new StringBuilder ( );
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 guestkey = new object [ ]
                 {
@@ -75,7 +75,7 @@ namespace SHGuestsNGen
 
         private void Discharge_buttonClick ( object sender, EventArgs e )
         {
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 object [ ] guestkey2 = new object [ ] { in_GuestID };
                 update_record = db.Guests.Find ( guestkey2 );

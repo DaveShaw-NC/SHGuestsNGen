@@ -9,7 +9,7 @@ namespace NextGenGuests.DAL
     {
         #region Variables and Constants
 
-        private NextGenEntity nge_Context;
+        private SamHouseGuestsEntities nge_Context;
         private List<Guest> allGuests = new List<Guest> ( );
         private List<Visit> v_List = new List<Visit> ( );
         private DbContext dbCtx;
@@ -23,8 +23,8 @@ namespace NextGenGuests.DAL
 
         public NextGenGuestsDal ( )
         {
-            nge_Context = new NextGenEntity ( );
-            dbCtx = new NextGenEntity ( );
+            nge_Context = new SamHouseGuestsEntities ( );
+            dbCtx = new SamHouseGuestsEntities ( );
             thisDb = dbCtx.Database;
             connectionString = thisDb.Connection.ConnectionString;
             connection = new SqlConnection ( connectionString );

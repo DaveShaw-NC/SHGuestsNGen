@@ -13,10 +13,10 @@ namespace NextGenGuests.DAL
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class NextGenEntity : DbContext
+    public partial class SamHouseGuestsEntities : DbContext
     {
-        public NextGenEntity()
-            : base("name=NextGenEntity")
+        public SamHouseGuestsEntities()
+            : base("name=SamHouseGuestsEntities")
         {
         }
     

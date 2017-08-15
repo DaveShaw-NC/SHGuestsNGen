@@ -1,4 +1,4 @@
-﻿use [SamHouseGuests]
+﻿use [SamHouseGuests2]
 
 SELECT * FROM
 (

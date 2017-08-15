@@ -1,4 +1,4 @@
-use [SamHouseGuests]
+use [SamHouseGuests2]
 
 create table #visit_tab
 	( roster char(10) not null,

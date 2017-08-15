@@ -59,7 +59,7 @@ namespace SHGuestsNGen
             {
                 dob_picker.Value = new DateTime ( rnd.Next ( 1945, DateTime.Today.Year - 18 ), rnd.Next ( 01, 12 ), rnd.Next ( 01, 27 ) );
             }
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 if (re_admit)
                 {
@@ -87,7 +87,7 @@ namespace SHGuestsNGen
         private void Add_guest_buttonClick ( object sender, EventArgs e )
         {
             StringBuilder sb = new StringBuilder ( );
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 object [ ] guestkey = new object [ ]
                 {
@@ -255,8 +255,8 @@ namespace SHGuestsNGen
                 vdata.Deceased = false;
                 vdata.EditDate = DateTime.Now;
                 vdata.Roster = updated.Roster;
-                string tmps = BuildVisitKey ( updated, num_of_visits );
-                vdata.VisitKey = tmps;
+                //string tmps = BuildVisitKey ( updated, num_of_visits );
+                //vdata.VisitKey = tmps;
                 db.Entry ( updated ).State = System.Data.Entity.EntityState.Added;
                 //
                 //Guest Record may have been updated, Visit Record is always NEW!!!

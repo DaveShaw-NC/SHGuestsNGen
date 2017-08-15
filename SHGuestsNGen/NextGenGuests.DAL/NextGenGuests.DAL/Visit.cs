@@ -15,7 +15,6 @@ namespace NextGenGuests.DAL
     public partial class Visit
     {
         public int VisitID { get; set; }
-        public string VisitKey { get; set; }
         public int VisitNumber { get; set; }
         public System.DateTime AdmitDate { get; set; }
         public System.DateTime Discharged { get; set; }
@@ -31,7 +30,6 @@ namespace NextGenGuests.DAL
         public bool Deceased { get; set; }
         public System.DateTime EditDate { get; set; }
         public int GuestID { get; set; }
-        public byte[] v_Timestamp { get; set; }
     
         public virtual Guest Guest { get; set; }
     }

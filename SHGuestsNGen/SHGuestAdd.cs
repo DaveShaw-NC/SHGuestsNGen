@@ -108,10 +108,10 @@ namespace SHGuestsNGen
             }
             discharged_guest.LastVisitDate = vd.AdmitDate;
             vd.EditDate = DateTime.Now.ToUniversalTime ( );
-            vd.VisitKey = BuildVisitKey ( discharged_guest, discharged_guest.Visits );
+            //vd.VisitKey = BuildVisitKey ( discharged_guest, discharged_guest.Visits );
 			try
 			{
-                using (var db = new NextGenEntity ( ))
+                using (var db = new SamHouseGuestsEntities ( ))
                 {
                     db.Entry ( discharged_guest ).State = EntityState.Added;
                     db.SaveChanges ( );

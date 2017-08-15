@@ -29,14 +29,8 @@ namespace NextGenGuests.DAL
         public string Gender { get; set; }
         public int Visits { get; set; }
         public System.DateTime LastVisitDate { get; set; }
-        public byte[] g_Timestamp { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Visit> Visits1 { get; set; }
-
-        public override string ToString ( )
-        {
-            return $"ID: {GuestID.ToString ( )} {LastName}, {FirstName} {SSN:000-00-0000} {BirthDate.ToShortDateString ( )} ";
-        }
     }
 }

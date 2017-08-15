@@ -47,7 +47,7 @@ namespace SHGuestsNGen
             {
                 GiD
             };
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 update_record = new Guest ( );
                 update_record = db.Guests.Find ( guestkey );                       // Find a specific record using Primary Key Values 
@@ -151,7 +151,7 @@ namespace SHGuestsNGen
         void Discharge_guest_buttonClick ( object sender, EventArgs e )
         {
             Guest dcharge_Guest = new Guest ( );
-            NextGenEntity db = new NextGenEntity ( );
+            SamHouseGuestsEntities db = new SamHouseGuestsEntities ( );
             dcharge_Guest = db.Guests.Find ( guestkey );
             vd = new Visit ( );
             foreach (Visit vvv in dcharge_Guest.Visits1)
@@ -172,7 +172,7 @@ namespace SHGuestsNGen
         {
             StringBuilder sb = new StringBuilder ( );
             Visit vd = new Visit ( );
-            NextGenEntity db = new NextGenEntity ( );
+            SamHouseGuestsEntities db = new SamHouseGuestsEntities ( );
             update_record = new Guest ( );
             update_record = db.Guests.Find ( guestkey );                  // Find a specific record using Primary Key Values 
             foreach (Visit vvv in update_record.Visits1)

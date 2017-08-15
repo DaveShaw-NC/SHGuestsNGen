@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="GuestsNextGen.NextGenerationModelModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="SamHouseGuestsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -27,7 +27,6 @@
           <Property Name="SSN" Type="bigint" Nullable="false" />
           <Property Name="Gender" Type="nchar" MaxLength="1" Nullable="false" />
           <Property Name="Visits" Type="int" Nullable="false" />
-          <Property Name="g_Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="LastVisitDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Visits">
@@ -49,8 +48,6 @@
           <Property Name="CanReturn" Type="bit" Nullable="false" />
           <Property Name="Deceased" Type="bit" Nullable="false" />
           <Property Name="EditDate" Type="datetime" Nullable="false" />
-          <Property Name="VisitKey" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="v_Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="GuestID" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_dbo_Visits_dbo_Guests_GuestID">
@@ -67,7 +64,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="GuestsNextGenNextGenerationModelModelStoreContainer">
+        <EntityContainer Name="SamHouseGuestsModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Guests" EntityType="Self.Guests" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Visits" EntityType="Self.Visits" Schema="dbo" store:Type="Tables" />
@@ -76,10 +73,11 @@
             <End Role="Visits" EntitySet="Visits" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="GuestsNextGen.NextGenerationModelModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="SamHouseGuestsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="C__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -104,14 +102,12 @@
           <Property Name="Visits" Type="Int32" Nullable="false" />
           <Property Name="LastVisitDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Visits1" Relationship="Self.FK_dbo_Visits_dbo_Guests_GuestID" FromRole="Guests" ToRole="Visits" />
-          <Property Name="g_Timestamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="Visit">
           <Key>
             <PropertyRef Name="VisitID" />
           </Key>
           <Property Name="VisitID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="VisitKey" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="VisitNumber" Type="Int32" Nullable="false" />
           <Property Name="AdmitDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Discharged" Type="DateTime" Nullable="false" Precision="3" />
@@ -128,7 +124,6 @@
           <Property Name="EditDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="GuestID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Guest" Relationship="Self.FK_dbo_Visits_dbo_Guests_GuestID" FromRole="Visits" ToRole="Guests" />
-          <Property Name="v_Timestamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <Association Name="FK_dbo_Visits_dbo_Guests_GuestID">
           <End Role="Guests" Type="Self.Guest" Multiplicity="1">
@@ -144,7 +139,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="NextGenEntity" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="SamHouseGuestsEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
           <EntitySet Name="Guests" EntityType="Self.Guest" />
           <EntitySet Name="Visits" EntityType="Self.Visit" />
@@ -158,9 +153,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="GuestsNextGenNextGenerationModelModelStoreContainer" CdmEntityContainer="NextGenEntity">
+        <EntityContainerMapping StorageEntityContainer="SamHouseGuestsModelStoreContainer" CdmEntityContainer="SamHouseGuestsEntities">
           <EntitySetMapping Name="C__MigrationHistory">
-            <EntityTypeMapping TypeName="GuestsNextGen.NextGenerationModelModel.C__MigrationHistory">
+            <EntityTypeMapping TypeName="SamHouseGuestsModel.C__MigrationHistory">
               <MappingFragment StoreEntitySet="__MigrationHistory">
                 <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
                 <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
@@ -170,9 +165,8 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Guests">
-            <EntityTypeMapping TypeName="GuestsNextGen.NextGenerationModelModel.Guest">
+            <EntityTypeMapping TypeName="SamHouseGuestsModel.Guest">
               <MappingFragment StoreEntitySet="Guests">
-                <ScalarProperty Name="g_Timestamp" ColumnName="g_Timestamp" />
                 <ScalarProperty Name="GuestID" ColumnName="GuestID" />
                 <ScalarProperty Name="Roster" ColumnName="Roster" />
                 <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
@@ -186,11 +180,9 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Visits">
-            <EntityTypeMapping TypeName="GuestsNextGen.NextGenerationModelModel.Visit">
+            <EntityTypeMapping TypeName="SamHouseGuestsModel.Visit">
               <MappingFragment StoreEntitySet="Visits">
-                <ScalarProperty Name="v_Timestamp" ColumnName="v_Timestamp" />
                 <ScalarProperty Name="VisitID" ColumnName="VisitID" />
-                <ScalarProperty Name="VisitKey" ColumnName="VisitKey" />
                 <ScalarProperty Name="VisitNumber" ColumnName="VisitNumber" />
                 <ScalarProperty Name="AdmitDate" ColumnName="AdmitDate" />
                 <ScalarProperty Name="Discharged" ColumnName="Discharged" />

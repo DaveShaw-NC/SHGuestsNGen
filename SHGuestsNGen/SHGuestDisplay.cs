@@ -59,7 +59,7 @@ namespace SHGuestsNGen
             {
                 guestID
             };
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 the_guest = new Guest ( );
                 the_guest = db.Guests.Find ( guestkey );
@@ -159,7 +159,7 @@ namespace SHGuestsNGen
         private void Update_guest_buttonClick ( object sender, EventArgs e )
         {
             Visit vd = new Visit ( );
-            using (var db = new NextGenEntity ( ))
+            using (var db = new SamHouseGuestsEntities ( ))
             {
                 update_record = new Guest ( );
                 update_record = the_guest;
