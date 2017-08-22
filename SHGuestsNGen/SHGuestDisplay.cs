@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Text;
@@ -16,12 +17,15 @@ namespace SHGuestsNGen
     public partial class SHGuestDisplay : Form
     {
         public object [ ] guestkey;
+        public MemoryStream ms;
+        public byte[] error_Image;
         public bool record_found = true;
         public string rosteri;
         public string lname, fname, key_lname, db_lname, db_fname,
                       denial_reason, admit_reason, connStr, str_ssn,
                       l_name, f_name, gender, birthday, lst_date, refer_sw, refer_hosp;
         public DateTime dob, last_visit_date, key_dob, key_visit_date, admit_date, lst_vis_plus1;
+
         public bool can_return, deceased = false;
         public int num_of_visits = 0, guestID, ssn_in, room = 0, bed = 0, update_visits = 0;
         public Font denial_font = new Font ( "Arial", 14F, FontStyle.Italic | FontStyle.Bold, GraphicsUnit.Pixel );
@@ -43,9 +47,11 @@ namespace SHGuestsNGen
             InitializeComponent ( );
             Text = $"Record as of {header_Text}";
 
-            //
-            // TODO: Add constructor code after the InitializeComponent() call.
-            //
+            string filePath = Path.GetDirectoryName(Application.ExecutablePath);
+            int ndx = filePath.LastIndexOf(@"\bin");
+            string tmp_Path = filePath.Substring(0, ndx);
+            filePath = tmp_Path + @"\Resources\img-not-found.png";
+            error_Image = ReadFile(filePath);
         }
 
         private void Exit_the_screenClick ( object sender, EventArgs e )
@@ -153,7 +159,25 @@ namespace SHGuestsNGen
             room_num_box.Text = ( vd.Room != null ) ? vd.Room.ToString ( ) : "0";
             bed_num_box.Text = ( vd.Bed != null ) ? vd.Bed.ToString ( ) : "0";
             modified_box.Text = $"{vd.EditDate.ToString ( "dd MMM yyyy @ HH:mm:sss" )}";
-            //}
+
+            if (foundrec.Photos.Count != 0)
+            {
+                List<Photo> pic = new List<Photo>();
+                pic = foundrec.Photos.ToList();
+                ms = new MemoryStream(pic[0].Photo1);
+                Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(ThumbnailCallback);
+                Image guest_Image = Image.FromStream(ms);
+                Image myThumbnail = guest_Image.GetThumbnailImage(150, 150, myCallback, IntPtr.Zero);
+                pictureBox_GuestPicture.Image = myThumbnail;
+            }
+            else
+            {
+                ms = new MemoryStream(error_Image);
+                Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(ThumbnailCallback);
+                Image guest_Image = Image.FromStream(ms);
+                Image myThumbnail = guest_Image.GetThumbnailImage(150, 150, myCallback, IntPtr.Zero);
+                pictureBox_GuestPicture.Image = myThumbnail;
+            }
             return;
         }
         private void Update_guest_buttonClick ( object sender, EventArgs e )
@@ -261,6 +285,11 @@ namespace SHGuestsNGen
             return;
         }
 
+        public bool ThumbnailCallback()
+        {
+            return false;
+        }
+
         private void Readmit_guest_buttonClick ( object sender, EventArgs e )
         {
             if (deceased_checkbox.Checked)
@@ -322,6 +351,30 @@ namespace SHGuestsNGen
         }
 
         #region Common Routines
+        //Open file in to a filestream and read data in a byte array.
+        byte[] ReadFile(string sPath)
+        {
+            //Initialize byte array with a null value initially.
+            byte[] data = null;
+
+            //Use FileInfo object to get file size.
+            FileInfo fInfo = new FileInfo(sPath);
+            long numBytes = fInfo.Length;
+
+            //Open FileStream to read file
+            FileStream fStream = new FileStream(sPath, FileMode.Open, FileAccess.Read);
+
+            //Use BinaryReader to read file stream into byte array.
+            BinaryReader br = new BinaryReader(fStream);
+
+            //When you use BinaryReader, you need to supply number of bytes 
+            //to read from file.
+            //In this case we want to read entire file. 
+            //So supplying total number of bytes.
+            data = br.ReadBytes((int)numBytes);
+
+            return data;
+        }
         private void edit_ssn_textbox ( object sender, EventArgs e )
         {
             if (ssn_id_no_box.Text.Length < 1)

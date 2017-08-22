@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SamHouseGuestsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SamHouseGuestsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -29,6 +29,14 @@
           <Property Name="Visits" Type="int" Nullable="false" />
           <Property Name="LastVisitDate" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="Photos">
+          <Key>
+            <PropertyRef Name="Photo_ID" />
+          </Key>
+          <Property Name="Photo_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Photo" Type="varbinary(max)" />
+          <Property Name="Guest_ID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Visits">
           <Key>
             <PropertyRef Name="VisitID" />
@@ -50,6 +58,20 @@
           <Property Name="EditDate" Type="datetime" Nullable="false" />
           <Property Name="GuestID" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_dbo_Photos_dbo_Guests_Guest_ID">
+          <End Role="Guests" Type="Self.Guests" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Photos" Type="Self.Photos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guests">
+              <PropertyRef Name="GuestID" />
+            </Principal>
+            <Dependent Role="Photos">
+              <PropertyRef Name="Guest_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_Visits_dbo_Guests_GuestID">
           <End Role="Guests" Type="Self.Guests" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -67,14 +89,18 @@
         <EntityContainer Name="SamHouseGuestsModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Guests" EntityType="Self.Guests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Photos" EntityType="Self.Photos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Visits" EntityType="Self.Visits" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_Photos_dbo_Guests_Guest_ID" Association="Self.FK_dbo_Photos_dbo_Guests_Guest_ID">
+            <End Role="Guests" EntitySet="Guests" />
+            <End Role="Photos" EntitySet="Photos" />
+          </AssociationSet>
           <AssociationSet Name="FK_dbo_Visits_dbo_Guests_GuestID" Association="Self.FK_dbo_Visits_dbo_Guests_GuestID">
             <End Role="Guests" EntitySet="Guests" />
             <End Role="Visits" EntitySet="Visits" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SamHouseGuestsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -102,6 +128,7 @@
           <Property Name="Visits" Type="Int32" Nullable="false" />
           <Property Name="LastVisitDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Visits1" Relationship="Self.FK_dbo_Visits_dbo_Guests_GuestID" FromRole="Guests" ToRole="Visits" />
+          <NavigationProperty Name="Photos" Relationship="SamHouseGuestsModel.FK_dbo_Photos_dbo_Guests_Guest_ID" FromRole="Guest" ToRole="Photo" />
         </EntityType>
         <EntityType Name="Visit">
           <Key>
@@ -147,7 +174,35 @@
             <End Role="Guests" EntitySet="Guests" />
             <End Role="Visits" EntitySet="Visits" />
           </AssociationSet>
+          <EntitySet Name="Photos" EntityType="SamHouseGuestsModel.Photo" />
+          <AssociationSet Name="FK_dbo_Photos_dbo_Guests_Guest_ID" Association="SamHouseGuestsModel.FK_dbo_Photos_dbo_Guests_Guest_ID">
+            <End Role="Guest" EntitySet="Guests" />
+            <End Role="Photo" EntitySet="Photos" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Photo">
+          <Key>
+            <PropertyRef Name="Photo_ID" />
+          </Key>
+          <Property Name="Photo_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Photo1" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Guest_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Guest" Relationship="SamHouseGuestsModel.FK_dbo_Photos_dbo_Guests_Guest_ID" FromRole="Photo" ToRole="Guest" />
+        </EntityType>
+        <Association Name="FK_dbo_Photos_dbo_Guests_Guest_ID">
+          <End Type="SamHouseGuestsModel.Guest" Role="Guest" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="SamHouseGuestsModel.Photo" Role="Photo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guest">
+              <PropertyRef Name="GuestID" />
+            </Principal>
+            <Dependent Role="Photo">
+              <PropertyRef Name="Guest_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -198,6 +253,15 @@
                 <ScalarProperty Name="Deceased" ColumnName="Deceased" />
                 <ScalarProperty Name="EditDate" ColumnName="EditDate" />
                 <ScalarProperty Name="GuestID" ColumnName="GuestID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Photos">
+            <EntityTypeMapping TypeName="SamHouseGuestsModel.Photo">
+              <MappingFragment StoreEntitySet="Photos">
+                <ScalarProperty Name="Guest_ID" ColumnName="Guest_ID" />
+                <ScalarProperty Name="Photo1" ColumnName="Photo" />
+                <ScalarProperty Name="Photo_ID" ColumnName="Photo_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

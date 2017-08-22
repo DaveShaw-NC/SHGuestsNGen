@@ -18,6 +18,7 @@ namespace NextGenGuests.DAL
         public Guest()
         {
             this.Visits1 = new HashSet<Visit>();
+            this.Photos = new HashSet<Photo>();
         }
     
         public int GuestID { get; set; }
@@ -32,5 +33,14 @@ namespace NextGenGuests.DAL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Visit> Visits1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Photo> Photos { get; set; }
+
+
+        public override string ToString()
+        {
+            return $"{GuestID.ToString()} {string.Concat(LastName, ", ", FirstName)} {SSN.ToString("999-99-9999")} {DateTime.Today.ToShortDateString()}";
+        }
     }
+    
 }

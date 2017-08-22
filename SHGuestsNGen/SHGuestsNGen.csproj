@@ -196,6 +196,7 @@
     <Content Include="Group.ico" />
     <Content Include="Licesnse.txt" />
     <Content Include="Resources\Group.ico" />
+    <Content Include="Resources\img-not-found.png" />
     <Content Include="Resources\samaritan_house_logo.jpg" />
     <Content Include="T-SQL_Queries\admits_by_month.sql" />
     <Content Include="T-SQL_Queries\admit_by_months.sql" />

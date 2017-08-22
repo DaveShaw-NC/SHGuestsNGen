@@ -57,6 +57,9 @@
       <DependentUpon>SHGuestModel.tt</DependentUpon>
     </Compile>
     <Compile Include="NextGenGuestsDal.cs" />
+    <Compile Include="Photo.cs">
+      <DependentUpon>SHGuestModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SHGuestModel.Context.cs">
       <AutoGen>True</AutoGen>

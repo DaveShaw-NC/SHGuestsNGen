@@ -81,73 +81,76 @@ namespace SHGuestsNGen
             this.textBox_VisitID = new System.Windows.Forms.TextBox();
             this.label_GiD = new System.Windows.Forms.Label();
             this.label_ViD = new System.Windows.Forms.Label();
+            this.pictureBox_GuestPicture = new System.Windows.Forms.PictureBox();
+            this.label_pic = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_GuestPicture)).BeginInit();
             this.SuspendLayout();
             // 
             // last_name
             // 
-            this.last_name.Location = new System.Drawing.Point(17, 79);
+            this.last_name.Location = new System.Drawing.Point(218, 72);
             this.last_name.Margin = new System.Windows.Forms.Padding(4);
             this.last_name.Name = "last_name";
-            this.last_name.Size = new System.Drawing.Size(180, 26);
+            this.last_name.Size = new System.Drawing.Size(180, 24);
             this.last_name.TabIndex = 3;
             // 
             // first_name
             // 
-            this.first_name.Location = new System.Drawing.Point(21, 139);
+            this.first_name.Location = new System.Drawing.Point(218, 126);
             this.first_name.Margin = new System.Windows.Forms.Padding(4);
             this.first_name.Name = "first_name";
-            this.first_name.Size = new System.Drawing.Size(180, 26);
+            this.first_name.Size = new System.Drawing.Size(180, 24);
             this.first_name.TabIndex = 4;
             // 
             // num_visits_textbox
             // 
-            this.num_visits_textbox.Location = new System.Drawing.Point(280, 328);
+            this.num_visits_textbox.Location = new System.Drawing.Point(471, 285);
             this.num_visits_textbox.Margin = new System.Windows.Forms.Padding(4);
             this.num_visits_textbox.Name = "num_visits_textbox";
-            this.num_visits_textbox.Size = new System.Drawing.Size(25, 26);
+            this.num_visits_textbox.Size = new System.Drawing.Size(25, 24);
             this.num_visits_textbox.TabIndex = 13;
             // 
             // last_name_label
             // 
-            this.last_name_label.Location = new System.Drawing.Point(17, 54);
+            this.last_name_label.Location = new System.Drawing.Point(218, 46);
             this.last_name_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.last_name_label.Name = "last_name_label";
-            this.last_name_label.Size = new System.Drawing.Size(177, 20);
+            this.last_name_label.Size = new System.Drawing.Size(177, 22);
             this.last_name_label.TabIndex = 21;
             this.last_name_label.Text = "Last Name";
             // 
             // first_name_label
             // 
-            this.first_name_label.Location = new System.Drawing.Point(17, 115);
+            this.first_name_label.Location = new System.Drawing.Point(218, 100);
             this.first_name_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.first_name_label.Name = "first_name_label";
-            this.first_name_label.Size = new System.Drawing.Size(181, 20);
+            this.first_name_label.Size = new System.Drawing.Size(181, 22);
             this.first_name_label.TabIndex = 22;
             this.first_name_label.Text = "First Name";
             // 
             // dob_label
             // 
-            this.dob_label.Location = new System.Drawing.Point(26, 193);
+            this.dob_label.Location = new System.Drawing.Point(218, 156);
             this.dob_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.dob_label.Name = "dob_label";
-            this.dob_label.Size = new System.Drawing.Size(133, 23);
+            this.dob_label.Size = new System.Drawing.Size(133, 26);
             this.dob_label.TabIndex = 18;
             this.dob_label.Text = "Date of Birth";
             // 
             // num_visits_label
             // 
-            this.num_visits_label.Location = new System.Drawing.Point(313, 328);
+            this.num_visits_label.Location = new System.Drawing.Point(471, 285);
             this.num_visits_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.num_visits_label.Name = "num_visits_label";
-            this.num_visits_label.Size = new System.Drawing.Size(68, 28);
+            this.num_visits_label.Size = new System.Drawing.Size(68, 25);
             this.num_visits_label.TabIndex = 30;
             this.num_visits_label.Text = "Visits";
             // 
             // exit_the_screen
             // 
-            this.exit_the_screen.Location = new System.Drawing.Point(603, 426);
+            this.exit_the_screen.Location = new System.Drawing.Point(850, 406);
             this.exit_the_screen.Name = "exit_the_screen";
-            this.exit_the_screen.Size = new System.Drawing.Size(116, 41);
+            this.exit_the_screen.Size = new System.Drawing.Size(116, 37);
             this.exit_the_screen.TabIndex = 17;
             this.exit_the_screen.Text = "Exit";
             this.exit_the_screen.UseVisualStyleBackColor = true;
@@ -155,34 +158,34 @@ namespace SHGuestsNGen
             // 
             // return_denial_reason
             // 
-            this.return_denial_reason.Location = new System.Drawing.Point(589, 139);
+            this.return_denial_reason.Location = new System.Drawing.Point(769, 126);
             this.return_denial_reason.Multiline = true;
             this.return_denial_reason.Name = "return_denial_reason";
             this.return_denial_reason.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.return_denial_reason.Size = new System.Drawing.Size(279, 38);
+            this.return_denial_reason.Size = new System.Drawing.Size(279, 24);
             this.return_denial_reason.TabIndex = 10;
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(585, 115);
+            this.label1.Location = new System.Drawing.Point(769, 96);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(274, 23);
+            this.label1.Size = new System.Drawing.Size(274, 18);
             this.label1.TabIndex = 29;
             this.label1.Text = "Discharge Reason";
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(589, 53);
+            this.label2.Location = new System.Drawing.Point(769, 34);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(150, 23);
+            this.label2.Size = new System.Drawing.Size(150, 25);
             this.label2.TabIndex = 20;
             this.label2.Text = "Discharge Date";
             // 
             // delete_guest_button
             // 
-            this.delete_guest_button.Location = new System.Drawing.Point(428, 426);
+            this.delete_guest_button.Location = new System.Drawing.Point(692, 406);
             this.delete_guest_button.Name = "delete_guest_button";
-            this.delete_guest_button.Size = new System.Drawing.Size(142, 41);
+            this.delete_guest_button.Size = new System.Drawing.Size(142, 37);
             this.delete_guest_button.TabIndex = 16;
             this.delete_guest_button.Text = "Delete this guest";
             this.delete_guest_button.UseVisualStyleBackColor = true;
@@ -190,7 +193,7 @@ namespace SHGuestsNGen
             // 
             // can_return_checkbox
             // 
-            this.can_return_checkbox.Location = new System.Drawing.Point(589, 280);
+            this.can_return_checkbox.Location = new System.Drawing.Point(769, 240);
             this.can_return_checkbox.Name = "can_return_checkbox";
             this.can_return_checkbox.Size = new System.Drawing.Size(186, 24);
             this.can_return_checkbox.TabIndex = 11;
@@ -201,25 +204,25 @@ namespace SHGuestsNGen
             // 
             this.dob_dt_picker.CustomFormat = "MM-dd-yyyy";
             this.dob_dt_picker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dob_dt_picker.Location = new System.Drawing.Point(26, 218);
+            this.dob_dt_picker.Location = new System.Drawing.Point(218, 185);
             this.dob_dt_picker.Name = "dob_dt_picker";
-            this.dob_dt_picker.Size = new System.Drawing.Size(175, 26);
+            this.dob_dt_picker.Size = new System.Drawing.Size(175, 24);
             this.dob_dt_picker.TabIndex = 0;
             // 
             // last_time_discharged
             // 
             this.last_time_discharged.CustomFormat = "MM-dd-yyyy";
             this.last_time_discharged.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.last_time_discharged.Location = new System.Drawing.Point(589, 79);
+            this.last_time_discharged.Location = new System.Drawing.Point(769, 61);
             this.last_time_discharged.Name = "last_time_discharged";
-            this.last_time_discharged.Size = new System.Drawing.Size(170, 26);
+            this.last_time_discharged.Size = new System.Drawing.Size(170, 24);
             this.last_time_discharged.TabIndex = 2;
             // 
             // update_guest_button
             // 
-            this.update_guest_button.Location = new System.Drawing.Point(259, 426);
+            this.update_guest_button.Location = new System.Drawing.Point(540, 406);
             this.update_guest_button.Name = "update_guest_button";
-            this.update_guest_button.Size = new System.Drawing.Size(136, 41);
+            this.update_guest_button.Size = new System.Drawing.Size(136, 37);
             this.update_guest_button.TabIndex = 15;
             this.update_guest_button.Text = "Update this Guest";
             this.update_guest_button.UseVisualStyleBackColor = true;
@@ -227,42 +230,42 @@ namespace SHGuestsNGen
             // 
             // deceased_checkbox
             // 
-            this.deceased_checkbox.Location = new System.Drawing.Point(589, 306);
+            this.deceased_checkbox.Location = new System.Drawing.Point(769, 261);
             this.deceased_checkbox.Name = "deceased_checkbox";
-            this.deceased_checkbox.Size = new System.Drawing.Size(157, 24);
+            this.deceased_checkbox.Size = new System.Drawing.Size(157, 33);
             this.deceased_checkbox.TabIndex = 12;
             this.deceased_checkbox.Text = "Deceased";
             this.deceased_checkbox.UseVisualStyleBackColor = true;
             // 
             // ssn_id_no_box
             // 
-            this.ssn_id_no_box.Location = new System.Drawing.Point(26, 279);
+            this.ssn_id_no_box.Location = new System.Drawing.Point(218, 254);
             this.ssn_id_no_box.Name = "ssn_id_no_box";
-            this.ssn_id_no_box.Size = new System.Drawing.Size(133, 26);
+            this.ssn_id_no_box.Size = new System.Drawing.Size(133, 24);
             this.ssn_id_no_box.TabIndex = 6;
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(26, 252);
+            this.label3.Location = new System.Drawing.Point(218, 217);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(133, 23);
+            this.label3.Size = new System.Drawing.Size(133, 20);
             this.label3.TabIndex = 25;
             this.label3.Text = "SSN/W7 ID Number";
             // 
             // admit_reason_box
             // 
-            this.admit_reason_box.Location = new System.Drawing.Point(281, 139);
+            this.admit_reason_box.Location = new System.Drawing.Point(471, 126);
             this.admit_reason_box.Multiline = true;
             this.admit_reason_box.Name = "admit_reason_box";
             this.admit_reason_box.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.admit_reason_box.Size = new System.Drawing.Size(279, 38);
+            this.admit_reason_box.Size = new System.Drawing.Size(279, 24);
             this.admit_reason_box.TabIndex = 8;
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(277, 115);
+            this.label4.Location = new System.Drawing.Point(471, 96);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(175, 23);
+            this.label4.Size = new System.Drawing.Size(175, 26);
             this.label4.TabIndex = 27;
             this.label4.Text = "Admission Reason";
             // 
@@ -270,47 +273,47 @@ namespace SHGuestsNGen
             // 
             this.admit_date_picker.CustomFormat = "MM-dd-yyyy";
             this.admit_date_picker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.admit_date_picker.Location = new System.Drawing.Point(285, 79);
+            this.admit_date_picker.Location = new System.Drawing.Point(471, 61);
             this.admit_date_picker.Name = "admit_date_picker";
-            this.admit_date_picker.Size = new System.Drawing.Size(181, 26);
+            this.admit_date_picker.Size = new System.Drawing.Size(181, 24);
             this.admit_date_picker.TabIndex = 1;
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(286, 53);
+            this.label5.Location = new System.Drawing.Point(471, 34);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(180, 23);
+            this.label5.Size = new System.Drawing.Size(180, 22);
             this.label5.TabIndex = 19;
             this.label5.Text = "Admission date";
             // 
             // visit_days
             // 
-            this.visit_days.Location = new System.Drawing.Point(589, 223);
+            this.visit_days.Location = new System.Drawing.Point(769, 185);
             this.visit_days.Name = "visit_days";
-            this.visit_days.Size = new System.Drawing.Size(274, 23);
+            this.visit_days.Size = new System.Drawing.Size(274, 27);
             this.visit_days.TabIndex = 24;
             this.visit_days.Text = "Days Label";
             // 
             // gender_box
             // 
-            this.gender_box.Location = new System.Drawing.Point(168, 279);
+            this.gender_box.Location = new System.Drawing.Point(315, 287);
             this.gender_box.Name = "gender_box";
-            this.gender_box.Size = new System.Drawing.Size(33, 26);
+            this.gender_box.Size = new System.Drawing.Size(58, 24);
             this.gender_box.TabIndex = 5;
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(165, 253);
+            this.label6.Location = new System.Drawing.Point(218, 218);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(100, 23);
+            this.label6.Size = new System.Drawing.Size(100, 20);
             this.label6.TabIndex = 23;
             this.label6.Text = "Gender";
             // 
             // readmit_guest_button
             // 
-            this.readmit_guest_button.Location = new System.Drawing.Point(85, 426);
+            this.readmit_guest_button.Location = new System.Drawing.Point(383, 406);
             this.readmit_guest_button.Name = "readmit_guest_button";
-            this.readmit_guest_button.Size = new System.Drawing.Size(141, 41);
+            this.readmit_guest_button.Size = new System.Drawing.Size(141, 37);
             this.readmit_guest_button.TabIndex = 14;
             this.readmit_guest_button.Text = "Re-Admit this Guest";
             this.readmit_guest_button.UseVisualStyleBackColor = true;
@@ -318,49 +321,49 @@ namespace SHGuestsNGen
             // 
             // referring_social_worker
             // 
-            this.referring_social_worker.Location = new System.Drawing.Point(280, 278);
+            this.referring_social_worker.Location = new System.Drawing.Point(471, 240);
             this.referring_social_worker.Name = "referring_social_worker";
-            this.referring_social_worker.Size = new System.Drawing.Size(280, 26);
+            this.referring_social_worker.Size = new System.Drawing.Size(280, 24);
             this.referring_social_worker.TabIndex = 9;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(278, 252);
+            this.label7.Location = new System.Drawing.Point(471, 217);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(188, 20);
+            this.label7.Size = new System.Drawing.Size(167, 18);
             this.label7.TabIndex = 28;
             this.label7.Text = "Referring Social Worker";
             // 
             // referring_hospital
             // 
-            this.referring_hospital.Location = new System.Drawing.Point(280, 220);
+            this.referring_hospital.Location = new System.Drawing.Point(471, 188);
             this.referring_hospital.Name = "referring_hospital";
-            this.referring_hospital.Size = new System.Drawing.Size(280, 26);
+            this.referring_hospital.Size = new System.Drawing.Size(280, 24);
             this.referring_hospital.TabIndex = 7;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(281, 196);
+            this.label8.Location = new System.Drawing.Point(471, 166);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(145, 20);
+            this.label8.Size = new System.Drawing.Size(126, 18);
             this.label8.TabIndex = 26;
             this.label8.Text = "Referring Hospital";
             // 
             // modified_box
             // 
-            this.modified_box.Location = new System.Drawing.Point(589, 344);
+            this.modified_box.Location = new System.Drawing.Point(769, 300);
             this.modified_box.Name = "modified_box";
-            this.modified_box.Size = new System.Drawing.Size(175, 26);
+            this.modified_box.Size = new System.Drawing.Size(175, 24);
             this.modified_box.TabIndex = 31;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(585, 379);
+            this.label9.Location = new System.Drawing.Point(769, 331);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(122, 20);
+            this.label9.Size = new System.Drawing.Size(106, 18);
             this.label9.TabIndex = 32;
             this.label9.Text = "Last Editted on";
             // 
@@ -368,7 +371,7 @@ namespace SHGuestsNGen
             // 
             this.guest_personal_info.AutoSize = true;
             this.guest_personal_info.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guest_personal_info.Location = new System.Drawing.Point(11, 21);
+            this.guest_personal_info.Location = new System.Drawing.Point(218, 9);
             this.guest_personal_info.Name = "guest_personal_info";
             this.guest_personal_info.Size = new System.Drawing.Size(247, 25);
             this.guest_personal_info.TabIndex = 33;
@@ -378,7 +381,7 @@ namespace SHGuestsNGen
             // 
             this.guest_admit_info.AutoSize = true;
             this.guest_admit_info.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guest_admit_info.Location = new System.Drawing.Point(279, 21);
+            this.guest_admit_info.Location = new System.Drawing.Point(471, 9);
             this.guest_admit_info.Name = "guest_admit_info";
             this.guest_admit_info.Size = new System.Drawing.Size(261, 25);
             this.guest_admit_info.TabIndex = 34;
@@ -388,7 +391,7 @@ namespace SHGuestsNGen
             // 
             this.guest_discharge_info.AutoSize = true;
             this.guest_discharge_info.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guest_discharge_info.Location = new System.Drawing.Point(583, 21);
+            this.guest_discharge_info.Location = new System.Drawing.Point(769, 9);
             this.guest_discharge_info.Name = "guest_discharge_info";
             this.guest_discharge_info.Size = new System.Drawing.Size(258, 25);
             this.guest_discharge_info.TabIndex = 35;
@@ -396,52 +399,52 @@ namespace SHGuestsNGen
             // 
             // room_num_box
             // 
-            this.room_num_box.Location = new System.Drawing.Point(280, 373);
+            this.room_num_box.Location = new System.Drawing.Point(471, 326);
             this.room_num_box.Name = "room_num_box";
-            this.room_num_box.Size = new System.Drawing.Size(25, 26);
+            this.room_num_box.Size = new System.Drawing.Size(25, 24);
             this.room_num_box.TabIndex = 36;
             // 
             // bed_num_box
             // 
-            this.bed_num_box.Location = new System.Drawing.Point(427, 373);
+            this.bed_num_box.Location = new System.Drawing.Point(585, 326);
             this.bed_num_box.Name = "bed_num_box";
-            this.bed_num_box.Size = new System.Drawing.Size(25, 26);
+            this.bed_num_box.Size = new System.Drawing.Size(25, 24);
             this.bed_num_box.TabIndex = 37;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(313, 379);
+            this.label10.Location = new System.Drawing.Point(503, 329);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(53, 20);
+            this.label10.Size = new System.Drawing.Size(50, 18);
             this.label10.TabIndex = 38;
             this.label10.Text = "Room";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(458, 379);
+            this.label11.Location = new System.Drawing.Point(616, 331);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(39, 20);
+            this.label11.Size = new System.Drawing.Size(34, 18);
             this.label11.TabIndex = 39;
             this.label11.Text = "Bed";
             // 
             // textBox_GuestID
             // 
-            this.textBox_GuestID.Location = new System.Drawing.Point(26, 330);
+            this.textBox_GuestID.Location = new System.Drawing.Point(218, 287);
             this.textBox_GuestID.Name = "textBox_GuestID";
             this.textBox_GuestID.ReadOnly = true;
-            this.textBox_GuestID.Size = new System.Drawing.Size(60, 26);
+            this.textBox_GuestID.Size = new System.Drawing.Size(60, 24);
             this.textBox_GuestID.TabIndex = 40;
             this.textBox_GuestID.TabStop = false;
             this.textBox_GuestID.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // textBox_VisitID
             // 
-            this.textBox_VisitID.Location = new System.Drawing.Point(141, 330);
+            this.textBox_VisitID.Location = new System.Drawing.Point(218, 287);
             this.textBox_VisitID.Name = "textBox_VisitID";
             this.textBox_VisitID.ReadOnly = true;
-            this.textBox_VisitID.Size = new System.Drawing.Size(60, 26);
+            this.textBox_VisitID.Size = new System.Drawing.Size(60, 24);
             this.textBox_VisitID.TabIndex = 41;
             this.textBox_VisitID.TabStop = false;
             this.textBox_VisitID.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -449,26 +452,45 @@ namespace SHGuestsNGen
             // label_GiD
             // 
             this.label_GiD.AutoSize = true;
-            this.label_GiD.Location = new System.Drawing.Point(26, 376);
+            this.label_GiD.Location = new System.Drawing.Point(218, 328);
             this.label_GiD.Name = "label_GiD";
-            this.label_GiD.Size = new System.Drawing.Size(85, 20);
+            this.label_GiD.Size = new System.Drawing.Size(74, 18);
             this.label_GiD.TabIndex = 42;
             this.label_GiD.Text = "Guest ID#";
             // 
             // label_ViD
             // 
             this.label_ViD.AutoSize = true;
-            this.label_ViD.Location = new System.Drawing.Point(137, 376);
+            this.label_ViD.Location = new System.Drawing.Point(312, 329);
             this.label_ViD.Name = "label_ViD";
-            this.label_ViD.Size = new System.Drawing.Size(73, 20);
+            this.label_ViD.Size = new System.Drawing.Size(61, 18);
             this.label_ViD.TabIndex = 43;
             this.label_ViD.Text = "Visit ID#";
             // 
+            // pictureBox_GuestPicture
+            // 
+            this.pictureBox_GuestPicture.Location = new System.Drawing.Point(21, 30);
+            this.pictureBox_GuestPicture.Name = "pictureBox_GuestPicture";
+            this.pictureBox_GuestPicture.Size = new System.Drawing.Size(150, 150);
+            this.pictureBox_GuestPicture.TabIndex = 44;
+            this.pictureBox_GuestPicture.TabStop = false;
+            // 
+            // label_pic
+            // 
+            this.label_pic.AutoSize = true;
+            this.label_pic.Location = new System.Drawing.Point(18, 202);
+            this.label_pic.Name = "label_pic";
+            this.label_pic.Size = new System.Drawing.Size(146, 18);
+            this.label_pic.TabIndex = 45;
+            this.label_pic.Text = "Guest Picture on File";
+            // 
             // SHGuestDisplay
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(896, 521);
+            this.ClientSize = new System.Drawing.Size(1118, 469);
+            this.Controls.Add(this.label_pic);
+            this.Controls.Add(this.pictureBox_GuestPicture);
             this.Controls.Add(this.label_ViD);
             this.Controls.Add(this.label_GiD);
             this.Controls.Add(this.textBox_VisitID);
@@ -513,7 +535,7 @@ namespace SHGuestsNGen
             this.Controls.Add(this.num_visits_textbox);
             this.Controls.Add(this.first_name);
             this.Controls.Add(this.last_name);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
@@ -522,6 +544,7 @@ namespace SHGuestsNGen
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Samaritan House Guest Display";
             this.Load += new System.EventHandler(this.SHGuestDisplayLoad);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_GuestPicture)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -570,5 +593,7 @@ namespace SHGuestsNGen
         private System.Windows.Forms.TextBox textBox_VisitID;
         private System.Windows.Forms.Label label_GiD;
         private System.Windows.Forms.Label label_ViD;
+        private System.Windows.Forms.PictureBox pictureBox_GuestPicture;
+        private System.Windows.Forms.Label label_pic;
     }
 }

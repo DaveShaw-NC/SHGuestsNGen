@@ -9,6 +9,8 @@
         <EntityTypeShape EntityType="SamHouseGuestsModel.Guest" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SamHouseGuestsModel.Visit" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="SamHouseGuestsModel.FK_dbo_Visits_dbo_Guests_GuestID" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SamHouseGuestsModel.Photo" Width="1.5" PointX="3" PointY="6.375" />
+        <AssociationConnector Association="SamHouseGuestsModel.FK_dbo_Photos_dbo_Guests_Guest_ID" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

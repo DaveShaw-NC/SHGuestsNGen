@@ -28,5 +28,6 @@ namespace NextGenGuests.DAL
         public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public virtual DbSet<Guest> Guests { get; set; }
         public virtual DbSet<Visit> Visits { get; set; }
+        public virtual DbSet<Photo> Photos { get; set; }
     }
 }

@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IO;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using NextGenGuests.DAL;
@@ -12,6 +15,8 @@ namespace SHGuestsNGen
     /// </summary>
     public partial class current_guest_display : Form
     {
+        public MemoryStream ms;
+        public byte[] error_Image;
         public string rosteri;
         public DateTime dob, key_dob, admit_date, lst_vis_plus1, possDischDate, work_discharge, display_discharge, admit_date_no_time;
         public bool can_return, deceased = false, record_found = true;
@@ -36,9 +41,11 @@ namespace SHGuestsNGen
             InitializeComponent ( );
             Text = $"Record as of {header_Text}";
 
-            //
-            // TODO: Add constructor code after the InitializeComponent() call.
-            //
+            string filePath = Path.GetDirectoryName(Application.ExecutablePath);
+            int ndx = filePath.LastIndexOf(@"\bin");
+            string tmp_Path = filePath.Substring(0, ndx);
+            filePath = tmp_Path + @"\Resources\img-not-found.png";
+            error_Image = ReadFile(filePath);
         }
 
         private void Current_guest_displayLoad ( object sender, EventArgs e )
@@ -140,7 +147,30 @@ namespace SHGuestsNGen
             {
                 this.BackColor = Color.LightYellow;
             }
+            if (foundrec.Photos.Count != 0)
+            {
+                List<Photo> pic = new List<Photo>();
+                pic = foundrec.Photos.ToList();
+                ms = new MemoryStream(pic[0].Photo1);
+                Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(ThumbnailCallback);
+                Image guest_Image = Image.FromStream(ms);
+                Image myThumbnail = guest_Image.GetThumbnailImage(150,150, myCallback, IntPtr.Zero);
+                pictureBox_GuestPicture.Image = myThumbnail;
+            }
+            else
+            {
+                ms = new MemoryStream(error_Image);
+                Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(ThumbnailCallback);
+                Image guest_Image = Image.FromStream(ms);
+                Image myThumbnail = guest_Image.GetThumbnailImage(150,150, myCallback, IntPtr.Zero);
+                pictureBox_GuestPicture.Image = myThumbnail;
+            }
             return;
+        }
+
+        public bool ThumbnailCallback()
+        {
+            return false;
         }
 
         void Exit_display_buttonClick ( object sender, EventArgs e )
@@ -294,6 +324,29 @@ namespace SHGuestsNGen
             }
 
         }
+        //Open file in to a filestream and read data in a byte array.
+        byte[] ReadFile(string sPath)
+        {
+            //Initialize byte array with a null value initially.
+            byte[] data = null;
 
+            //Use FileInfo object to get file size.
+            FileInfo fInfo = new FileInfo(sPath);
+            long numBytes = fInfo.Length;
+
+            //Open FileStream to read file
+            FileStream fStream = new FileStream(sPath, FileMode.Open, FileAccess.Read);
+
+            //Use BinaryReader to read file stream into byte array.
+            BinaryReader br = new BinaryReader(fStream);
+
+            //When you use BinaryReader, you need to supply number of bytes 
+            //to read from file.
+            //In this case we want to read entire file. 
+            //So supplying total number of bytes.
+            data = br.ReadBytes((int)numBytes);
+
+            return data;
+        }
     }
 }
