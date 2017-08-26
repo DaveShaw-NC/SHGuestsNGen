@@ -239,14 +239,14 @@ namespace SHGuestsNGen
             // 
             // ssn_id_no_box
             // 
-            this.ssn_id_no_box.Location = new System.Drawing.Point(218, 254);
+            this.ssn_id_no_box.Location = new System.Drawing.Point(221, 264);
             this.ssn_id_no_box.Name = "ssn_id_no_box";
-            this.ssn_id_no_box.Size = new System.Drawing.Size(133, 24);
+            this.ssn_id_no_box.Size = new System.Drawing.Size(109, 24);
             this.ssn_id_no_box.TabIndex = 6;
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(218, 217);
+            this.label3.Location = new System.Drawing.Point(221, 295);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(133, 20);
             this.label3.TabIndex = 25;
@@ -296,14 +296,14 @@ namespace SHGuestsNGen
             // 
             // gender_box
             // 
-            this.gender_box.Location = new System.Drawing.Point(315, 287);
+            this.gender_box.Location = new System.Drawing.Point(324, 229);
             this.gender_box.Name = "gender_box";
-            this.gender_box.Size = new System.Drawing.Size(58, 24);
+            this.gender_box.Size = new System.Drawing.Size(35, 24);
             this.gender_box.TabIndex = 5;
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(218, 218);
+            this.label6.Location = new System.Drawing.Point(218, 229);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(100, 20);
             this.label6.TabIndex = 23;
@@ -431,7 +431,7 @@ namespace SHGuestsNGen
             // 
             // textBox_GuestID
             // 
-            this.textBox_GuestID.Location = new System.Drawing.Point(218, 287);
+            this.textBox_GuestID.Location = new System.Drawing.Point(315, 326);
             this.textBox_GuestID.Name = "textBox_GuestID";
             this.textBox_GuestID.ReadOnly = true;
             this.textBox_GuestID.Size = new System.Drawing.Size(60, 24);
@@ -441,7 +441,7 @@ namespace SHGuestsNGen
             // 
             // textBox_VisitID
             // 
-            this.textBox_VisitID.Location = new System.Drawing.Point(218, 287);
+            this.textBox_VisitID.Location = new System.Drawing.Point(218, 325);
             this.textBox_VisitID.Name = "textBox_VisitID";
             this.textBox_VisitID.ReadOnly = true;
             this.textBox_VisitID.Size = new System.Drawing.Size(60, 24);
@@ -452,7 +452,7 @@ namespace SHGuestsNGen
             // label_GiD
             // 
             this.label_GiD.AutoSize = true;
-            this.label_GiD.Location = new System.Drawing.Point(218, 328);
+            this.label_GiD.Location = new System.Drawing.Point(218, 366);
             this.label_GiD.Name = "label_GiD";
             this.label_GiD.Size = new System.Drawing.Size(74, 18);
             this.label_GiD.TabIndex = 42;
@@ -461,7 +461,7 @@ namespace SHGuestsNGen
             // label_ViD
             // 
             this.label_ViD.AutoSize = true;
-            this.label_ViD.Location = new System.Drawing.Point(312, 329);
+            this.label_ViD.Location = new System.Drawing.Point(312, 367);
             this.label_ViD.Name = "label_ViD";
             this.label_ViD.Size = new System.Drawing.Size(61, 18);
             this.label_ViD.TabIndex = 43;

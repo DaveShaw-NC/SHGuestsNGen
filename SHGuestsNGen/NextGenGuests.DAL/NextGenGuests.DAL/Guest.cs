@@ -39,7 +39,7 @@ namespace NextGenGuests.DAL
 
         public override string ToString()
         {
-            return $"{GuestID.ToString()} {string.Concat(LastName, ", ", FirstName)} {SSN.ToString("999-99-9999")} {DateTime.Today.ToShortDateString()}";
+            return $"{GuestID.ToString()} {string.Concat(LastName, ", ", FirstName)} {SSN.ToString("000-00-0000")} {DateTime.Today.ToShortDateString()}";
         }
     }
     

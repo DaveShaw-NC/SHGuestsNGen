@@ -108,7 +108,7 @@ namespace SHGuestsNGen
             // 
             this.ssn_id_no_box.Location = new System.Drawing.Point(260, 242);
             this.ssn_id_no_box.Name = "ssn_id_no_box";
-            this.ssn_id_no_box.Size = new System.Drawing.Size(147, 24);
+            this.ssn_id_no_box.Size = new System.Drawing.Size(105, 24);
             this.ssn_id_no_box.TabIndex = 4;
             // 
             // admit_datepicker
