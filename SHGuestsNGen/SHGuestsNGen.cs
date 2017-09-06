@@ -24,7 +24,7 @@ namespace SHGuestsNGen
         private NextGenGuestsDal dal = new NextGenGuestsDal ( );
         public List<Guest> theGuestList = new List<Guest> ( );
         public List<Visit> theVisitList = new List<Visit> ( );
-        public List<string> current_combo, discharged_combo;
+        public List<string> current_combo, discharged_combo, parkroad_combo;
         public static DateTime ParkRoadCutOffDate = new DateTime ( 2011, 06, 05 );
         public static Font lbl_Font = new Font ( "Tahoma", 10F, FontStyle.Regular, GraphicsUnit.Point );
         public static Font status_Font = new Font ( "Tahoma", 10F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point );
@@ -69,6 +69,12 @@ namespace SHGuestsNGen
             label_TotalVisits.Font = lbl_Font;
             label_ParkRoadVisits.Font = lbl_Font;
             label_NoReturnCount.Font = lbl_Font;
+            label_FortuneStreetGuests.Font = lbl_Font;
+            label_FortuneStreetGuests.ForeColor = Color.RoyalBlue;
+            label_ParkRoadGuests.Font = lbl_Font;
+            label_ParkRoadGuests.ForeColor = Color.Red;
+            label_cboxtot_discharged.Font = lbl_Font;
+            label_cboxtot_discharged.ForeColor = Color.Maroon;
             toolStripStatusLabel_statusLabel.Font = status_Font;
             toolStripStatusLabel_statusLabel.ForeColor = Color.DarkBlue;
 
@@ -79,8 +85,9 @@ namespace SHGuestsNGen
             int singlevisits = db.Visits.Count ( v => v.VisitNumber == 1 );
             int multivisits = db.Visits.Count ( v => v.VisitNumber > 1 );
             int parkrdvisits = db.Visits.Count ( v => v.Discharged < new DateTime ( 2011, 06, 05 ) );
-            int no_returns = db.Visits.Count ( v => !v.CanReturn && !v.Deceased && !v.DischargeReason.Contains("No Show") && v.AdmitDate >= ParkRoadCutOffDate);
-
+            //int no_returns = db.Visits.Count ( v => !v.CanReturn && !v.Deceased && !v.DischargeReason.Contains("No Show") && v.AdmitDate >= ParkRoadCutOffDate);
+            int no_returns = db.Visits.Count(v => !v.CanReturn && !v.Deceased && !v.DischargeReason.Contains("No Show"));
+            int fortunestreetVisits = (dischcount - no_returns);
             label_CurrentCount.Text = ( currentcount > 9 ) ? $"{currentcount,9:N0} Current Guests" : $"{currentcount,10:N0} Current Guests";
             label_DischargedCount.Text = $"{dischcount,7:N0} Discharged Guests";
             label_MultiVisits.Text = $"{multivisits,8:N0} Guests Here More Than Once";
@@ -88,6 +95,9 @@ namespace SHGuestsNGen
             label_TotalVisits.Text = $"{totalvisits,7:N0} Total Guest Visits";
             label_ParkRoadVisits.Text = $"{parkrdvisits,8:N0} Park Road Guest Visits";
             label_NoReturnCount.Text = $"{no_returns,8:N0} Guests Ineligible to Return";
+            label_FortuneStreetGuests.Text = $"{fortunestreetVisits, 8:N0} Eligible to Return Guest Count";
+            label_ParkRoadGuests.Text = $"{comboBox_ParkRoad.Items.Count, 9:N0} Ineligible Guest Count";
+            label_cboxtot_discharged.Text = $"{(fortunestreetVisits + comboBox_ParkRoad.Items.Count),8:N0} Total";
             Version myver = new Version ( );
             myver = typeof ( SHGuestsNGen ).Assembly.GetName ( ).Version;
             String [ ] cmd_line = Environment.GetCommandLineArgs ( );
@@ -105,8 +115,10 @@ namespace SHGuestsNGen
         {
             comboBox_Currents.Items.Clear ( );
             comboBox_Dischargeds.Items.Clear ( );
+            comboBox_ParkRoad.Items.Clear();
             current_combo = new List<string> ( );
             discharged_combo = new List<string> ( );
+            parkroad_combo = new List<string>();
             theGuestList = dal.GuestsAlphabetically ( );
             foreach (Guest item in theGuestList)
             {
@@ -121,10 +133,39 @@ namespace SHGuestsNGen
                             break;
 
                         case "D":
-                            discharged_combo.Add ( string.Concat ( Name, ", ", Guestid, ", ", v.VisitNumber.ToString ( ), ", ",
-                                ( v.CanReturn ) ? "Yes" : "No " ) );
-                            break;
 
+                            switch (v.CanReturn)
+                            {
+                                case true:
+                                    if (!v.Deceased || !v.DischargeReason.Contains("No Show"))
+                                    {
+                                        discharged_combo.Add(string.Concat(Name, ", ", Guestid, ", ", v.VisitNumber.ToString(), ", ",
+                                             (v.CanReturn) ? "Yes" : "No "));
+                                    }
+                                    else
+                                    {
+                                        parkroad_combo.Add(string.Concat(Name, ", ", Guestid, ", ", v.VisitNumber.ToString(), ", ",
+                                            (v.CanReturn) ? "Yes" : "No "));
+                                    }
+                                    break;
+
+                                case false:
+                                    if (v.Deceased || v.DischargeReason.Contains("No Show"))
+                                    {
+                                        discharged_combo.Add(string.Concat(Name, ", ", Guestid, ", ", v.VisitNumber.ToString(), ", ",
+                                             (v.CanReturn) ? "Yes" : "No "));
+                                    }
+                                    else
+                                    {
+                                        parkroad_combo.Add(string.Concat(Name, ", ", Guestid, ", ", v.VisitNumber.ToString(), ", ",
+                                        (v.CanReturn) ? "Yes" : "No "));
+                                    }
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                            break;
                         default:
                             break;
                     }
@@ -137,6 +178,10 @@ namespace SHGuestsNGen
             foreach (string st in discharged_combo)
             {
                 comboBox_Dischargeds.Items.Add ( st );
+            }
+            foreach (string st in parkroad_combo)
+            {
+                comboBox_ParkRoad.Items.Add(st);
             }
         }
 
@@ -239,6 +284,33 @@ namespace SHGuestsNGen
             Load_the_ComboBoxes ( );
             Refresh ( );
             Show ( );
+            return;
+        }
+
+
+        private void comboBox_ParkRoad_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string dlg_header_str = null;
+            string[] pass_parms = null;
+            string[] delimiter = { ", " };
+            string selected = comboBox_ParkRoad.GetItemText(comboBox_ParkRoad.SelectedItem);
+            int count = 5;
+            // Passed Parameters are as follow: [0] = Last Name, [1] = First Name, [2] = Date of
+            // Birth, [3] = Number of Visits 3rd level of key to table
+            pass_parms = selected.Split(delimiter, count, System.StringSplitOptions.None);
+            string guestID = pass_parms[2];
+            string last_name = pass_parms[0];
+            string first_name = pass_parms[1];
+            string visit_num = pass_parms[3];
+            int.TryParse(guestID, out int GiD);
+            int.TryParse(visit_num, out int visit_int);
+            dlg_header_str = DateTime.Now.ToString("dddd, MMMM dd, yyyy @ HH:mm");
+            SHGuestDisplay gd = new SHGuestDisplay(GiD, visit_int, dlg_header_str);
+            Hide();
+            gd.ShowDialog();
+            Load_the_ComboBoxes();
+            Refresh();
+            Show();
             return;
         }
 

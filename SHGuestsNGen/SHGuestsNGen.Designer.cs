@@ -59,6 +59,7 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.agencyAnnualAdmissionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.agencySocialWorkerAnnualAdmissionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Social_Worker_Guest_List = new System.Windows.Forms.ToolStripMenuItem();
             this.socialWorkerCanReturnReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.totalVisitStatisticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -77,7 +78,10 @@
             this.toolStripStatusLabel_statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.label_CurrentGuestSelection = new System.Windows.Forms.Label();
             this.label_DischargedGuestSelection = new System.Windows.Forms.Label();
-            this.Social_Worker_Guest_List = new System.Windows.Forms.ToolStripMenuItem();
+            this.label_FortuneStreetGuests = new System.Windows.Forms.Label();
+            this.comboBox_ParkRoad = new System.Windows.Forms.ComboBox();
+            this.label_ParkRoadGuests = new System.Windows.Forms.Label();
+            this.label_cboxtot_discharged = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SHLogo)).BeginInit();
             this.menuStrip_MainMenu.SuspendLayout();
             this.statusStrip_mainStatusStrip.SuspendLayout();
@@ -108,7 +112,7 @@
             this.button_QuitApp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button_QuitApp.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_QuitApp.ForeColor = System.Drawing.Color.Red;
-            this.button_QuitApp.Location = new System.Drawing.Point(381, 360);
+            this.button_QuitApp.Location = new System.Drawing.Point(386, 404);
             this.button_QuitApp.Name = "button_QuitApp";
             this.button_QuitApp.Size = new System.Drawing.Size(162, 51);
             this.button_QuitApp.TabIndex = 2;
@@ -120,7 +124,7 @@
             // 
             this.pictureBox_SHLogo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox_SHLogo.BackgroundImage")));
             this.pictureBox_SHLogo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox_SHLogo.Location = new System.Drawing.Point(578, 237);
+            this.pictureBox_SHLogo.Location = new System.Drawing.Point(583, 281);
             this.pictureBox_SHLogo.Name = "pictureBox_SHLogo";
             this.pictureBox_SHLogo.Size = new System.Drawing.Size(352, 173);
             this.pictureBox_SHLogo.TabIndex = 3;
@@ -334,6 +338,13 @@
             this.agencySocialWorkerAnnualAdmissionsToolStripMenuItem.Text = "Agency/Social Worker Annual Admissions";
             this.agencySocialWorkerAnnualAdmissionsToolStripMenuItem.Click += new System.EventHandler(this.agencySocialWorkerAnnualAdmissionsToolStripMenuItem_Click);
             // 
+            // Social_Worker_Guest_List
+            // 
+            this.Social_Worker_Guest_List.Name = "Social_Worker_Guest_List";
+            this.Social_Worker_Guest_List.Size = new System.Drawing.Size(359, 26);
+            this.Social_Worker_Guest_List.Text = "Social Worker Guest Listing";
+            this.Social_Worker_Guest_List.Click += new System.EventHandler(this.Social_Worker_Guest_List_Click);
+            // 
             // socialWorkerCanReturnReportToolStripMenuItem
             // 
             this.socialWorkerCanReturnReportToolStripMenuItem.Name = "socialWorkerCanReturnReportToolStripMenuItem";
@@ -484,18 +495,51 @@
             this.label_DischargedGuestSelection.TabIndex = 15;
             this.label_DischargedGuestSelection.Text = "Discharged Guest Selection";
             // 
-            // Social_Worker_Guest_List
+            // label_FortuneStreetGuests
             // 
-            this.Social_Worker_Guest_List.Name = "Social_Worker_Guest_List";
-            this.Social_Worker_Guest_List.Size = new System.Drawing.Size(359, 26);
-            this.Social_Worker_Guest_List.Text = "Social Worker Guest Listing";
-            this.Social_Worker_Guest_List.Click += new System.EventHandler(this.Social_Worker_Guest_List_Click);
+            this.label_FortuneStreetGuests.AutoSize = true;
+            this.label_FortuneStreetGuests.Location = new System.Drawing.Point(501, 151);
+            this.label_FortuneStreetGuests.Name = "label_FortuneStreetGuests";
+            this.label_FortuneStreetGuests.Size = new System.Drawing.Size(154, 18);
+            this.label_FortuneStreetGuests.TabIndex = 16;
+            this.label_FortuneStreetGuests.Text = "Fortune Street Guests";
+            // 
+            // comboBox_ParkRoad
+            // 
+            this.comboBox_ParkRoad.FormattingEnabled = true;
+            this.comboBox_ParkRoad.Location = new System.Drawing.Point(504, 180);
+            this.comboBox_ParkRoad.Name = "comboBox_ParkRoad";
+            this.comboBox_ParkRoad.Size = new System.Drawing.Size(388, 26);
+            this.comboBox_ParkRoad.TabIndex = 17;
+            this.comboBox_ParkRoad.SelectedIndexChanged += new System.EventHandler(this.comboBox_ParkRoad_SelectedIndexChanged);
+            // 
+            // label_ParkRoadGuests
+            // 
+            this.label_ParkRoadGuests.AutoSize = true;
+            this.label_ParkRoadGuests.Location = new System.Drawing.Point(501, 210);
+            this.label_ParkRoadGuests.Name = "label_ParkRoadGuests";
+            this.label_ParkRoadGuests.Size = new System.Drawing.Size(131, 18);
+            this.label_ParkRoadGuests.TabIndex = 18;
+            this.label_ParkRoadGuests.Text = "Park Road Guests";
+            // 
+            // label_cboxtot_discharged
+            // 
+            this.label_cboxtot_discharged.AutoSize = true;
+            this.label_cboxtot_discharged.Location = new System.Drawing.Point(501, 248);
+            this.label_cboxtot_discharged.Name = "label_cboxtot_discharged";
+            this.label_cboxtot_discharged.Size = new System.Drawing.Size(65, 18);
+            this.label_cboxtot_discharged.TabIndex = 19;
+            this.label_cboxtot_discharged.Text = "sometex";
             // 
             // SHGuestsNGen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(962, 493);
+            this.Controls.Add(this.label_cboxtot_discharged);
+            this.Controls.Add(this.label_ParkRoadGuests);
+            this.Controls.Add(this.comboBox_ParkRoad);
+            this.Controls.Add(this.label_FortuneStreetGuests);
             this.Controls.Add(this.label_DischargedGuestSelection);
             this.Controls.Add(this.label_CurrentGuestSelection);
             this.Controls.Add(this.statusStrip_mainStatusStrip);
@@ -581,6 +625,10 @@
         private System.Windows.Forms.ToolStripMenuItem hospitalNoShowsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem guestWalkOffsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem Social_Worker_Guest_List;
+        private System.Windows.Forms.Label label_FortuneStreetGuests;
+        private System.Windows.Forms.ComboBox comboBox_ParkRoad;
+        private System.Windows.Forms.Label label_ParkRoadGuests;
+        private System.Windows.Forms.Label label_cboxtot_discharged;
     }
 }
 
