@@ -88,7 +88,7 @@ namespace SHGuestsNGen
             // 
             // last_name
             // 
-            this.last_name.Location = new System.Drawing.Point(218, 72);
+            this.last_name.Location = new System.Drawing.Point(218, 61);
             this.last_name.Margin = new System.Windows.Forms.Padding(4);
             this.last_name.Name = "last_name";
             this.last_name.Size = new System.Drawing.Size(180, 24);
@@ -112,7 +112,7 @@ namespace SHGuestsNGen
             // 
             // last_name_label
             // 
-            this.last_name_label.Location = new System.Drawing.Point(218, 46);
+            this.last_name_label.Location = new System.Drawing.Point(218, 34);
             this.last_name_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.last_name_label.Name = "last_name_label";
             this.last_name_label.Size = new System.Drawing.Size(177, 22);
@@ -431,7 +431,7 @@ namespace SHGuestsNGen
             // 
             // textBox_GuestID
             // 
-            this.textBox_GuestID.Location = new System.Drawing.Point(315, 326);
+            this.textBox_GuestID.Location = new System.Drawing.Point(218, 328);
             this.textBox_GuestID.Name = "textBox_GuestID";
             this.textBox_GuestID.ReadOnly = true;
             this.textBox_GuestID.Size = new System.Drawing.Size(60, 24);
@@ -441,7 +441,7 @@ namespace SHGuestsNGen
             // 
             // textBox_VisitID
             // 
-            this.textBox_VisitID.Location = new System.Drawing.Point(218, 325);
+            this.textBox_VisitID.Location = new System.Drawing.Point(333, 326);
             this.textBox_VisitID.Name = "textBox_VisitID";
             this.textBox_VisitID.ReadOnly = true;
             this.textBox_VisitID.Size = new System.Drawing.Size(60, 24);
@@ -452,7 +452,7 @@ namespace SHGuestsNGen
             // label_GiD
             // 
             this.label_GiD.AutoSize = true;
-            this.label_GiD.Location = new System.Drawing.Point(218, 366);
+            this.label_GiD.Location = new System.Drawing.Point(215, 355);
             this.label_GiD.Name = "label_GiD";
             this.label_GiD.Size = new System.Drawing.Size(74, 18);
             this.label_GiD.TabIndex = 42;
@@ -461,7 +461,7 @@ namespace SHGuestsNGen
             // label_ViD
             // 
             this.label_ViD.AutoSize = true;
-            this.label_ViD.Location = new System.Drawing.Point(312, 367);
+            this.label_ViD.Location = new System.Drawing.Point(333, 353);
             this.label_ViD.Name = "label_ViD";
             this.label_ViD.Size = new System.Drawing.Size(61, 18);
             this.label_ViD.TabIndex = 43;

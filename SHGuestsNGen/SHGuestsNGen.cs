@@ -24,7 +24,7 @@ namespace SHGuestsNGen
         private NextGenGuestsDal dal = new NextGenGuestsDal ( );
         public List<Guest> theGuestList = new List<Guest> ( );
         public List<Visit> theVisitList = new List<Visit> ( );
-        public List<string> current_combo, discharged_combo, parkroad_combo;
+        public string current_combo, discharged_combo, parkroad_combo, filePath;
         public static DateTime ParkRoadCutOffDate = new DateTime ( 2011, 06, 05 );
         public static Font lbl_Font = new Font ( "Tahoma", 10F, FontStyle.Regular, GraphicsUnit.Point );
         public static Font status_Font = new Font ( "Tahoma", 10F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point );
@@ -32,7 +32,6 @@ namespace SHGuestsNGen
         public Query_Results rpt_dlg;
         public DialogResult res;
         public int num_rows = 0;
-        public string filePath;
 
         #endregion Variables and Constants
 
@@ -116,9 +115,9 @@ namespace SHGuestsNGen
             comboBox_Currents.Items.Clear ( );
             comboBox_Dischargeds.Items.Clear ( );
             comboBox_ParkRoad.Items.Clear();
-            current_combo = new List<string> ( );
-            discharged_combo = new List<string> ( );
-            parkroad_combo = new List<string>();
+            current_combo = string.Empty;
+            discharged_combo = string.Empty;
+            parkroad_combo = string.Empty;
             theGuestList = dal.GuestsAlphabetically ( );
             foreach (Guest item in theGuestList)
             {
@@ -129,36 +128,35 @@ namespace SHGuestsNGen
                     switch (v.Roster)
                     {
                         case "C":
-                            current_combo.Add ( string.Concat ( Name, ", ", Guestid, ", ", v.VisitNumber.ToString ( ) ) );
+                            current_combo = string.Concat ( Name, ", ", Guestid, ", ", v.VisitNumber.ToString ( ) );
+                            comboBox_Currents.Items.Add(current_combo);
                             break;
 
                         case "D":
 
+                            discharged_combo = string.Concat(Name, ", ", Guestid, ", ", v.VisitNumber.ToString(), ", ",
+                                 (v.CanReturn) ? "Yes" : "No ");
                             switch (v.CanReturn)
                             {
                                 case true:
                                     if (!v.Deceased || !v.DischargeReason.Contains("No Show"))
                                     {
-                                        discharged_combo.Add(string.Concat(Name, ", ", Guestid, ", ", v.VisitNumber.ToString(), ", ",
-                                             (v.CanReturn) ? "Yes" : "No "));
+                                        comboBox_Dischargeds.Items.Add(discharged_combo);
                                     }
                                     else
                                     {
-                                        parkroad_combo.Add(string.Concat(Name, ", ", Guestid, ", ", v.VisitNumber.ToString(), ", ",
-                                            (v.CanReturn) ? "Yes" : "No "));
+                                        comboBox_ParkRoad.Items.Add(discharged_combo);
                                     }
                                     break;
 
                                 case false:
                                     if (v.Deceased || v.DischargeReason.Contains("No Show"))
                                     {
-                                        discharged_combo.Add(string.Concat(Name, ", ", Guestid, ", ", v.VisitNumber.ToString(), ", ",
-                                             (v.CanReturn) ? "Yes" : "No "));
+                                        comboBox_Dischargeds.Items.Add(discharged_combo);
                                     }
                                     else
                                     {
-                                        parkroad_combo.Add(string.Concat(Name, ", ", Guestid, ", ", v.VisitNumber.ToString(), ", ",
-                                        (v.CanReturn) ? "Yes" : "No "));
+                                        comboBox_ParkRoad.Items.Add(discharged_combo);
                                     }
                                     break;
 
@@ -170,18 +168,6 @@ namespace SHGuestsNGen
                             break;
                     }
                 }
-            }
-            foreach (string st in current_combo)
-            {
-                comboBox_Currents.Items.Add ( st );
-            }
-            foreach (string st in discharged_combo)
-            {
-                comboBox_Dischargeds.Items.Add ( st );
-            }
-            foreach (string st in parkroad_combo)
-            {
-                comboBox_ParkRoad.Items.Add(st);
             }
         }
 
@@ -207,7 +193,6 @@ namespace SHGuestsNGen
             Add_Current_Guest add_guest = new Add_Current_Guest ( readmit, 0 );
             Hide ( );
             add_guest.ShowDialog ( );
-            add_guest.Close ( );
             Load_the_ComboBoxes ( );
             Refresh ( );
             Show ( );
@@ -227,6 +212,7 @@ namespace SHGuestsNGen
                 Hide ( );
                 shga.ShowDialog ( );
                 Show ( );
+                Load_the_ComboBoxes();
             }
             return;
         }
