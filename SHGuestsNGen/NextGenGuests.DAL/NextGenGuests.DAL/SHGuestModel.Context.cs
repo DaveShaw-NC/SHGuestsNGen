@@ -29,5 +29,6 @@ namespace NextGenGuests.DAL
         public virtual DbSet<Guest> Guests { get; set; }
         public virtual DbSet<Visit> Visits { get; set; }
         public virtual DbSet<Photo> Photos { get; set; }
+        public virtual DbSet<ChangeLog> ChangeLogs { get; set; }
     }
 }

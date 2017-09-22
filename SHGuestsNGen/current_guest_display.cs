@@ -28,7 +28,8 @@ namespace SHGuestsNGen
         public Font do_font = new Font ( "Tahoma", 14F, FontStyle.Bold, GraphicsUnit.Pixel );
         public Font adFont = new Font ( "Tahoma", 10F, FontStyle.Regular, GraphicsUnit.Point );
         public Guest update_record = new Guest ( );
-        public Visit vd;
+        public Visit vd, foundvd;
+        public ChangeLog changeLog;
         public object [ ] guestkey;
 
         public current_guest_display ( int GuestId, int VisitNum, string header_Text )
@@ -77,11 +78,14 @@ namespace SHGuestsNGen
             Func<DateTime, DateTime, int> myMethod = CalcDays;
             DateTime to_Date = DateTime.Today;
             vd = new Visit ( );
+            foundvd = new Visit( );
+            var db = new SamHouseGuestsEntities( );
             foreach (Visit vvv in foundrec.Visits1)
             {
                 if (vvv.VisitNumber == num_of_visits)
                 {
                     vd = vvv;
+                    foundvd = db.Visits.Single( s => s.GuestID == foundrec.GuestID && s.VisitID == vd.VisitID );
                     break;
                 }
             }
@@ -201,7 +205,8 @@ namespace SHGuestsNGen
         void Update_guest_buttonClick ( object sender, EventArgs e )
         {
             StringBuilder sb = new StringBuilder ( );
-            Visit vd = new Visit ( );
+            vd = new Visit ( );
+            foundvd = new Visit( );
             SamHouseGuestsEntities db = new SamHouseGuestsEntities ( );
             update_record = new Guest ( );
             update_record = db.Guests.Find ( guestkey );                  // Find a specific record using Primary Key Values 
@@ -287,9 +292,52 @@ namespace SHGuestsNGen
             db.Entry ( update_record ).State = System.Data.Entity.EntityState.Modified;
             db.Entry ( vd ).State = System.Data.Entity.EntityState.Modified;
             int recs_updated = db.SaveChanges ( );
+            DotheChangeRecord( );
             Close ( );
             return;
         }
+
+        #region Create ChangeLog record
+
+        public void DotheChangeRecord( )
+        {
+            StringBuilder stringBuilder = new StringBuilder( ), sb = new StringBuilder( );
+            changeLog = new ChangeLog( );
+            changeLog.ClassName = $"{update_record.ToString( )} Visit Record Changed";
+            changeLog.PropertyName = "Fields Changed";
+            changeLog.GuestID =update_record.GuestID;
+            changeLog.VisitID = vd.VisitID;
+            changeLog.UserName = Environment.UserName;
+            changeLog.ChangeDate = DateTime.Today.ToUniversalTime( );
+            if ( foundvd.AdmitDate != admit_datepicker.Value )
+            {
+                sb.Append( $"{admit_datepicker.Value.ToString( "MM/dd/yyyy" )}; " );
+                stringBuilder.Append( $"{foundvd.AdmitDate.ToString( "MM/dd/yyyy" )}; " );
+            }
+            if ( foundvd.AdmitReason != admit_reason_box.Text )
+            {
+                sb.Append( $"{admit_reason_box.Text};" );
+                stringBuilder.Append( $"{foundvd.DischargeReason}; " );
+            }
+            if ( foundvd.Agency != referring_hospital_box.Text )
+            {
+                sb.Append( $"{referring_hospital_box.Text};" );
+                stringBuilder.Append( $"{foundvd.Agency}; " );
+            }
+            if ( foundvd.Worker != referring_social_worker.Text )
+            {
+                sb.Append( $"{referring_social_worker.Text};" );
+                stringBuilder.Append( $"{foundvd.Agency}; " );
+            }
+            changeLog.OriginalValue = sb.ToString( );
+            changeLog.CurrentValue = stringBuilder.ToString( );
+            var db = new SamHouseGuestsEntities( );
+            db.Entry( changeLog ).State = System.Data.Entity.EntityState.Added;
+            db.SaveChanges( );
+            return;
+        }
+
+        #endregion Create ChangeLog record
 
         #region My Functions for LINQ
 

@@ -15,6 +15,20 @@
           <Property Name="Model" Type="varbinary(max)" Nullable="false" />
           <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
         </EntityType>
+        <EntityType Name="ChangeLog">
+          <Key>
+            <PropertyRef Name="ChangeLogID" />
+          </Key>
+          <Property Name="ChangeLogID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClassName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="PropertyName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="GuestID" Type="int" Nullable="false" />
+          <Property Name="VisitID" Type="int" Nullable="false" />
+          <Property Name="OriginalValue" Type="varchar(max)" />
+          <Property Name="CurrentValue" Type="varchar(max)" />
+          <Property Name="UserName" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="ChangeDate" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="Guests">
           <Key>
             <PropertyRef Name="GuestID" />
@@ -58,6 +72,42 @@
           <Property Name="EditDate" Type="datetime" Nullable="false" />
           <Property Name="GuestID" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_ChangeLog_ChangeLog">
+          <End Role="ChangeLog" Type="Self.ChangeLog" Multiplicity="1" />
+          <End Role="ChangeLog1" Type="Self.ChangeLog" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ChangeLog">
+              <PropertyRef Name="ChangeLogID" />
+            </Principal>
+            <Dependent Role="ChangeLog1">
+              <PropertyRef Name="ChangeLogID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChangeLog_Guests">
+          <End Role="Guests" Type="Self.Guests" Multiplicity="1" />
+          <End Role="ChangeLog" Type="Self.ChangeLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guests">
+              <PropertyRef Name="GuestID" />
+            </Principal>
+            <Dependent Role="ChangeLog">
+              <PropertyRef Name="GuestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChangeLog_Visits">
+          <End Role="Visits" Type="Self.Visits" Multiplicity="1" />
+          <End Role="ChangeLog" Type="Self.ChangeLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Visits">
+              <PropertyRef Name="VisitID" />
+            </Principal>
+            <Dependent Role="ChangeLog">
+              <PropertyRef Name="VisitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_Photos_dbo_Guests_Guest_ID">
           <End Role="Guests" Type="Self.Guests" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -88,9 +138,22 @@
         </Association>
         <EntityContainer Name="SamHouseGuestsModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChangeLog" EntityType="Self.ChangeLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Guests" EntityType="Self.Guests" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Photos" EntityType="Self.Photos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Visits" EntityType="Self.Visits" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ChangeLog_ChangeLog" Association="Self.FK_ChangeLog_ChangeLog">
+            <End Role="ChangeLog" EntitySet="ChangeLog" />
+            <End Role="ChangeLog1" EntitySet="ChangeLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChangeLog_Guests" Association="Self.FK_ChangeLog_Guests">
+            <End Role="Guests" EntitySet="Guests" />
+            <End Role="ChangeLog" EntitySet="ChangeLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChangeLog_Visits" Association="Self.FK_ChangeLog_Visits">
+            <End Role="Visits" EntitySet="Visits" />
+            <End Role="ChangeLog" EntitySet="ChangeLog" />
+          </AssociationSet>
           <AssociationSet Name="FK_dbo_Photos_dbo_Guests_Guest_ID" Association="Self.FK_dbo_Photos_dbo_Guests_Guest_ID">
             <End Role="Guests" EntitySet="Guests" />
             <End Role="Photos" EntitySet="Photos" />
@@ -129,6 +192,7 @@
           <Property Name="LastVisitDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Visits1" Relationship="Self.FK_dbo_Visits_dbo_Guests_GuestID" FromRole="Guests" ToRole="Visits" />
           <NavigationProperty Name="Photos" Relationship="SamHouseGuestsModel.FK_dbo_Photos_dbo_Guests_Guest_ID" FromRole="Guest" ToRole="Photo" />
+          <NavigationProperty Name="ChangeLogs" Relationship="SamHouseGuestsModel.FK_ChangeLog_Guests" FromRole="Guest" ToRole="ChangeLog" />
         </EntityType>
         <EntityType Name="Visit">
           <Key>
@@ -151,6 +215,7 @@
           <Property Name="EditDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="GuestID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Guest" Relationship="Self.FK_dbo_Visits_dbo_Guests_GuestID" FromRole="Visits" ToRole="Guests" />
+          <NavigationProperty Name="ChangeLogs" Relationship="SamHouseGuestsModel.FK_ChangeLog_Visits" FromRole="Visit" ToRole="ChangeLog" />
         </EntityType>
         <Association Name="FK_dbo_Visits_dbo_Guests_GuestID">
           <End Role="Guests" Type="Self.Guest" Multiplicity="1">
@@ -179,6 +244,19 @@
             <End Role="Guest" EntitySet="Guests" />
             <End Role="Photo" EntitySet="Photos" />
           </AssociationSet>
+          <EntitySet Name="ChangeLogs" EntityType="SamHouseGuestsModel.ChangeLog" />
+          <AssociationSet Name="FK_ChangeLog_ChangeLog" Association="SamHouseGuestsModel.FK_ChangeLog_ChangeLog">
+            <End Role="ChangeLog" EntitySet="ChangeLogs" />
+            <End Role="ChangeLog1" EntitySet="ChangeLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChangeLog_Guests" Association="SamHouseGuestsModel.FK_ChangeLog_Guests">
+            <End Role="Guest" EntitySet="Guests" />
+            <End Role="ChangeLog" EntitySet="ChangeLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChangeLog_Visits" Association="SamHouseGuestsModel.FK_ChangeLog_Visits">
+            <End Role="Visit" EntitySet="Visits" />
+            <End Role="ChangeLog" EntitySet="ChangeLogs" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Photo">
           <Key>
@@ -200,6 +278,59 @@
             </Principal>
             <Dependent Role="Photo">
               <PropertyRef Name="Guest_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ChangeLog">
+          <Key>
+            <PropertyRef Name="ChangeLogID" />
+          </Key>
+          <Property Name="ChangeLogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClassName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PropertyName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="GuestID" Type="Int32" Nullable="false" />
+          <Property Name="VisitID" Type="Int32" Nullable="false" />
+          <Property Name="OriginalValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CurrentValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ChangeDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="ChangeLog1" Relationship="SamHouseGuestsModel.FK_ChangeLog_ChangeLog" FromRole="ChangeLog" ToRole="ChangeLog1" />
+          <NavigationProperty Name="Guest" Relationship="SamHouseGuestsModel.FK_ChangeLog_Guests" FromRole="ChangeLog" ToRole="Guest" />
+          <NavigationProperty Name="Visit" Relationship="SamHouseGuestsModel.FK_ChangeLog_Visits" FromRole="ChangeLog" ToRole="Visit" />
+        </EntityType>
+        <Association Name="FK_ChangeLog_ChangeLog">
+          <End Type="SamHouseGuestsModel.ChangeLog" Role="ChangeLog" Multiplicity="1" />
+          <End Type="SamHouseGuestsModel.ChangeLog" Role="ChangeLog1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ChangeLog">
+              <PropertyRef Name="ChangeLogID" />
+            </Principal>
+            <Dependent Role="ChangeLog1">
+              <PropertyRef Name="ChangeLogID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChangeLog_Guests">
+          <End Type="SamHouseGuestsModel.Guest" Role="Guest" Multiplicity="1" />
+          <End Type="SamHouseGuestsModel.ChangeLog" Role="ChangeLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guest">
+              <PropertyRef Name="GuestID" />
+            </Principal>
+            <Dependent Role="ChangeLog">
+              <PropertyRef Name="GuestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChangeLog_Visits">
+          <End Type="SamHouseGuestsModel.Visit" Role="Visit" Multiplicity="1" />
+          <End Type="SamHouseGuestsModel.ChangeLog" Role="ChangeLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Visit">
+              <PropertyRef Name="VisitID" />
+            </Principal>
+            <Dependent Role="ChangeLog">
+              <PropertyRef Name="VisitID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -262,6 +393,21 @@
                 <ScalarProperty Name="Guest_ID" ColumnName="Guest_ID" />
                 <ScalarProperty Name="Photo1" ColumnName="Photo" />
                 <ScalarProperty Name="Photo_ID" ColumnName="Photo_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChangeLogs">
+            <EntityTypeMapping TypeName="SamHouseGuestsModel.ChangeLog">
+              <MappingFragment StoreEntitySet="ChangeLog">
+                <ScalarProperty Name="ChangeDate" ColumnName="ChangeDate" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="CurrentValue" ColumnName="CurrentValue" />
+                <ScalarProperty Name="OriginalValue" ColumnName="OriginalValue" />
+                <ScalarProperty Name="VisitID" ColumnName="VisitID" />
+                <ScalarProperty Name="GuestID" ColumnName="GuestID" />
+                <ScalarProperty Name="PropertyName" ColumnName="PropertyName" />
+                <ScalarProperty Name="ClassName" ColumnName="ClassName" />
+                <ScalarProperty Name="ChangeLogID" ColumnName="ChangeLogID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

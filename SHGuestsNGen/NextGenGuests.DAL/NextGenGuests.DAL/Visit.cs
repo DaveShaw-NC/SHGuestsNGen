@@ -14,6 +14,12 @@ namespace NextGenGuests.DAL
     
     public partial class Visit
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Visit()
+        {
+            this.ChangeLogs = new HashSet<ChangeLog>();
+        }
+    
         public int VisitID { get; set; }
         public int VisitNumber { get; set; }
         public System.DateTime AdmitDate { get; set; }
@@ -32,5 +38,7 @@ namespace NextGenGuests.DAL
         public int GuestID { get; set; }
     
         public virtual Guest Guest { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ChangeLog> ChangeLogs { get; set; }
     }
 }

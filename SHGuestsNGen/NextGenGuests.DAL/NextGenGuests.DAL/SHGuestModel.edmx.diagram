@@ -11,6 +11,10 @@
         <AssociationConnector Association="SamHouseGuestsModel.FK_dbo_Visits_dbo_Guests_GuestID" ManuallyRouted="false" />
         <EntityTypeShape EntityType="SamHouseGuestsModel.Photo" Width="1.5" PointX="3" PointY="6.375" />
         <AssociationConnector Association="SamHouseGuestsModel.FK_dbo_Photos_dbo_Guests_Guest_ID" />
+        <EntityTypeShape EntityType="SamHouseGuestsModel.ChangeLog" Width="1.5" PointX="5.375" PointY="3.75" />
+        <AssociationConnector Association="SamHouseGuestsModel.FK_ChangeLog_ChangeLog" />
+        <AssociationConnector Association="SamHouseGuestsModel.FK_ChangeLog_Guests" />
+        <AssociationConnector Association="SamHouseGuestsModel.FK_ChangeLog_Visits" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

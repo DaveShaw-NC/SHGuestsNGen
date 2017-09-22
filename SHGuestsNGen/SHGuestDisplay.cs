@@ -1,13 +1,11 @@
-﻿using System;
+﻿using NextGenGuests.DAL;
+using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using System.Text;
-using System.Text.RegularExpressions;
-using NextGenGuests.DAL;
+using System.Windows.Forms;
 
 namespace SHGuestsNGen
 {
@@ -16,89 +14,104 @@ namespace SHGuestsNGen
     /// </summary>
     public partial class SHGuestDisplay : Form
     {
-        public object [ ] guestkey;
+        #region Constants and Variables
+
+        public object[ ] guestkey;
         public MemoryStream ms;
-        public byte[] error_Image;
+        public byte[ ] error_Image;
         public bool record_found = true;
         public string rosteri;
+
         public string lname, fname, key_lname, db_lname, db_fname,
                       denial_reason, admit_reason, connStr, str_ssn,
                       l_name, f_name, gender, birthday, lst_date, refer_sw, refer_hosp;
+
         public DateTime dob, last_visit_date, key_dob, key_visit_date, admit_date, lst_vis_plus1;
 
         public bool can_return, deceased = false;
         public int num_of_visits = 0, guestID, ssn_in, room = 0, bed = 0, update_visits = 0;
-        public Font denial_font = new Font ( "Arial", 14F, FontStyle.Italic | FontStyle.Bold, GraphicsUnit.Pixel );
+        public Font denial_font = new Font( "Arial", 14F, FontStyle.Italic | FontStyle.Bold, GraphicsUnit.Pixel );
         public Color deceased_color = Color.Green;
         public Color denied_color = Color.Red;
         public Color walked_color = Color.Blue;
-        public Guest update_record = new Guest ( );
-        public Guest the_guest = new Guest ( );
+        public Guest update_record = new Guest( ), the_guest = new Guest( );
+        public Visit vd = new Visit( ), foundvd = new Visit( );
+        public ChangeLog changeLog = new ChangeLog( );
         public StringBuilder sb;
         public Tuple<Guest, List<Visit>> guest_tuple;
 
-        public SHGuestDisplay ( int GiD, int Visits, string header_Text )
+        #endregion Constants and Variables
+
+        #region Constructor
+
+        public SHGuestDisplay( int GiD, int Visit, string header_Text )
         {
             //
             // The InitializeComponent() call is required for Windows Forms designer support.
             guestID = GiD;
-            num_of_visits = Visits;
+            num_of_visits = Visit;
             //
-            InitializeComponent ( );
+            InitializeComponent( );
             Text = $"Record as of {header_Text}";
 
-            string filePath = Path.GetDirectoryName(Application.ExecutablePath);
-            int ndx = filePath.LastIndexOf(@"\bin");
-            string tmp_Path = filePath.Substring(0, ndx);
+            string filePath = Path.GetDirectoryName( Application.ExecutablePath );
+            int ndx = filePath.LastIndexOf( @"\bin" );
+            string tmp_Path = filePath.Substring( 0, ndx );
             filePath = tmp_Path + @"\Resources\img-not-found.png";
-            error_Image = ReadFile(filePath);
+            error_Image = ReadFile( filePath );
         }
 
-        private void Exit_the_screenClick ( object sender, EventArgs e )
-        {
-            Close ( );
-        }
+        #endregion Constructor
 
-        private void SHGuestDisplayLoad ( object sender, EventArgs e )
+        #region Form Loading
+
+        private void SHGuestDisplayLoad( object sender, EventArgs e )
         {
-            guestkey = new object [ ]
+            guestkey = new object[ ]
             {
                 guestID
             };
-            using (var db = new SamHouseGuestsEntities ( ))
+            using ( var db = new SamHouseGuestsEntities( ) )
             {
-                the_guest = new Guest ( );
-                the_guest = db.Guests.Find ( guestkey );
-                build_the_display ( the_guest );
-                Show ( );
+                the_guest = new Guest( );
+                the_guest = db.Guests.Find( guestkey );
+                build_the_display( the_guest );
+                Show( );
             }
         }
 
-        private void build_the_display ( Guest foundrec )
+        private void build_the_display( Guest foundrec )
         {
-            Visit vd = new Visit ( );
-            foreach (Visit vvv in foundrec.Visits1)
+            Visit vd = new Visit( );
+            foundvd = new Visit( );
+            var db = new SamHouseGuestsEntities( );
+            foreach ( Visit vvv in foundrec.Visits1 )
             {
-                if (vvv.VisitNumber == num_of_visits)
+                if ( vvv.VisitNumber == num_of_visits )
                 {
                     vd = vvv;
+                    foundvd = db.Visits.Single( s => s.GuestID == foundrec.GuestID && s.VisitID == vd.VisitID );
                     break;
                 }
             }
-            if (foundrec.Gender.ToUpper ( ) == "F")
+            if ( foundrec.Gender.ToUpper( ) == "F" )
             {
                 this.BackColor = Color.LightYellow;
             }
-            if (!vd.CanReturn)
+            if ( !vd.CanReturn )
             {
                 this.BackColor = Color.Red;
+                if (vd.DischargeReason.Contains("No Show"))
+                {
+                    this.BackColor = Color.Blue;
+                }
             }
-            if (vd.Deceased)
+            if ( vd.Deceased )
             {
                 this.BackColor = deceased_color;
             }
-            textBox_GuestID.Text = foundrec.GuestID.ToString ( "N0" );
-            textBox_VisitID.Text = vd.VisitID.ToString ( "N0" );
+            textBox_GuestID.Text = foundrec.GuestID.ToString( "N0" );
+            textBox_VisitID.Text = vd.VisitID.ToString( "N0" );
             last_name.Text = foundrec.LastName;
             first_name.Text = foundrec.FirstName;
             gender_box.Text = foundrec.Gender;
@@ -112,37 +125,36 @@ namespace SHGuestsNGen
             deceased_checkbox.Checked = vd.Deceased;
 
             str_ssn = ( foundrec.SSN != 0 ) ?
-                       foundrec.SSN.ToString ( "000-00-0000" ) :
+                       foundrec.SSN.ToString( "000-00-0000" ) :
                        "999-99-9999";
             ssn_id_no_box.Text = str_ssn;
             ssn_id_no_box.ReadOnly = true;
             admit_reason_box.Text = vd.AdmitReason;
             return_denial_reason.Text = vd.DischargeReason;
-            last_name.ResetFont ( );
-            first_name.ResetFont ( );
-            return_denial_reason.ResetFont ( );
-            if (vd.Deceased || !vd.CanReturn)
+            last_name.ResetFont( );
+            first_name.ResetFont( );
+            return_denial_reason.ResetFont( );
+            if ( vd.Deceased || !vd.CanReturn )
             {
                 return_denial_reason.Font = denial_font;
                 last_name.Font = denial_font;
                 first_name.Font = denial_font;
-
             }
-            if (!vd.CanReturn)
+            if ( !vd.CanReturn )
             {
                 last_name.ForeColor = denied_color;
                 first_name.ForeColor = denied_color;
                 return_denial_reason.ForeColor = denied_color;
             }
-            if (vd.Deceased)
+            if ( vd.Deceased )
             {
                 return_denial_reason.ForeColor = deceased_color;
                 last_name.ForeColor = deceased_color;
                 first_name.ForeColor = deceased_color;
             }
-            if (vd.DischargeReason.Contains ( "No Show" )
-             || vd.DischargeReason.Contains ( "Walk Off" )
-             || vd.DischargeReason.Contains ( "Walked Off" ))
+            if ( vd.DischargeReason.Contains( "No Show" )
+             || vd.DischargeReason.Contains( "Walk Off" )
+             || vd.DischargeReason.Contains( "Walked Off" ) )
             {
                 last_name.ForeColor = walked_color;
                 first_name.ForeColor = walked_color;
@@ -152,44 +164,54 @@ namespace SHGuestsNGen
             first_name.ReadOnly = true;
             gender_box.ReadOnly = true;
 
-            num_visits_textbox.Text = vd.VisitNumber.ToString ( );
-            visit_days.Text = vd.VisitDays.ToString ( ) + " guest day(s)";
+            num_visits_textbox.Text = vd.VisitNumber.ToString( );
+            visit_days.Text = vd.VisitDays.ToString( ) + " guest day(s)";
             referring_social_worker.Text = vd.Worker;
             referring_hospital.Text = vd.Agency;
-            room_num_box.Text = ( vd.Room != null ) ? vd.Room.ToString ( ) : "0";
-            bed_num_box.Text = ( vd.Bed != null ) ? vd.Bed.ToString ( ) : "0";
-            modified_box.Text = $"{vd.EditDate.ToString ( "dd MMM yyyy @ HH:mm:sss" )}";
+            room_num_box.Text = ( vd.Room != null ) ? vd.Room.ToString( ) : "0";
+            bed_num_box.Text = ( vd.Bed != null ) ? vd.Bed.ToString( ) : "0";
+            modified_box.Text = $"{vd.EditDate.ToString( "dd MMM yyyy @ HH:mm:sss" )}";
 
-            if (foundrec.Photos.Count != 0)
+            if ( foundrec.Photos.Count != 0 )
             {
-                List<Photo> pic = new List<Photo>();
-                pic = foundrec.Photos.ToList();
-                ms = new MemoryStream(pic[0].Photo1);
-                Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(ThumbnailCallback);
-                Image guest_Image = Image.FromStream(ms);
-                Image myThumbnail = guest_Image.GetThumbnailImage(150, 150, myCallback, IntPtr.Zero);
+                List<Photo> pic = new List<Photo>( );
+                pic = foundrec.Photos.ToList( );
+                ms = new MemoryStream( pic[ 0 ].Photo1 );
+                Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort( ThumbnailCallback );
+                Image guest_Image = Image.FromStream( ms );
+                Image myThumbnail = guest_Image.GetThumbnailImage( 150, 150, myCallback, IntPtr.Zero );
                 pictureBox_GuestPicture.Image = myThumbnail;
             }
             else
             {
-                ms = new MemoryStream(error_Image);
-                Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(ThumbnailCallback);
-                Image guest_Image = Image.FromStream(ms);
-                Image myThumbnail = guest_Image.GetThumbnailImage(150, 150, myCallback, IntPtr.Zero);
+                ms = new MemoryStream( error_Image );
+                Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort( ThumbnailCallback );
+                Image guest_Image = Image.FromStream( ms );
+                Image myThumbnail = guest_Image.GetThumbnailImage( 150, 150, myCallback, IntPtr.Zero );
                 pictureBox_GuestPicture.Image = myThumbnail;
             }
             return;
         }
-        private void Update_guest_buttonClick ( object sender, EventArgs e )
+
+        #endregion Form Loading
+
+        #region Message and Event Handlers
+
+        private void Exit_the_screenClick( object sender, EventArgs e )
         {
-            Visit vd = new Visit ( );
-            using (var db = new SamHouseGuestsEntities ( ))
+            Close( );
+        }
+
+        private void Update_guest_buttonClick( object sender, EventArgs e )
+        {
+            vd = new Visit( );
+            using ( var db = new SamHouseGuestsEntities( ) )
             {
-                update_record = new Guest ( );
+                update_record = new Guest( );
                 update_record = the_guest;
-                foreach (Visit vvv in the_guest.Visits1)
+                foreach ( Visit vvv in the_guest.Visits1 )
                 {
-                    if (vvv.VisitNumber == num_of_visits)
+                    if ( vvv.VisitNumber == num_of_visits )
                     {
                         vd = vvv;
                         break;
@@ -199,24 +221,24 @@ namespace SHGuestsNGen
                 update_record.LastName = last_name.Text;
                 vd.Discharged = last_time_discharged.Value;
                 update_record.FirstName = first_name.Text;
-                update_record.Gender = gender_box.Text.ToUpper ( );
-                if (!db_lname.Equals ( update_record.LastName ))
+                update_record.Gender = gender_box.Text.ToUpper( );
+                if ( !db_lname.Equals( update_record.LastName ) )
                 {
-                    MessageBox.Show ( "Last Name MAY not be changed/update_record." );
+                    MessageBox.Show( "Last Name MAY not be changed/update_record." );
                     this.ActiveControl = last_name;
                     last_name.Text = db_lname;
                     return;
                 }
-                if (!update_record.Gender.Contains ( "M" ) && !update_record.Gender.Contains ( "F" ))
+                if ( !update_record.Gender.Contains( "M" ) && !update_record.Gender.Contains( "F" ) )
                 {
-                    MessageBox.Show ( "Gender must be M or F. Please try again." );
+                    MessageBox.Show( "Gender must be M or F. Please try again." );
                     this.ActiveControl = gender_box;
                     return;
                 }
                 vd.CanReturn = can_return_checkbox.Checked;
-                if (!int.TryParse ( num_visits_textbox.Text, out update_visits ))
+                if ( !int.TryParse( num_visits_textbox.Text, out update_visits ) )
                 {
-                    MessageBox.Show ( "Invalid number in number of visits. Try Again" );
+                    MessageBox.Show( "Invalid number in number of visits. Try Again" );
                     this.ActiveControl = num_visits_textbox;
                     return;
                 }
@@ -224,110 +246,178 @@ namespace SHGuestsNGen
                 vd.VisitNumber = update_visits;
                 vd.DischargeReason = return_denial_reason.Text;
                 vd.Deceased = deceased_checkbox.Checked;
-                if (( ssn_id_no_box.Text.Length < 11 ) || ( ssn_id_no_box.Text.Contains ( "N/A" ) ))
+                if ( ( ssn_id_no_box.Text.Length < 11 ) || ( ssn_id_no_box.Text.Contains( "N/A" ) ) )
                 {
-                    MessageBox.Show ( "Incorrect information in field. Please try again" );
+                    MessageBox.Show( "Incorrect information in field. Please try again" );
                     this.ActiveControl = ssn_id_no_box;
                     return;
                 }
-                str_ssn = ( ssn_id_no_box.Text.Contains ( "-" ) ) ?
-                           ssn_id_no_box.Text.Substring ( 0, 3 )
-                         + ssn_id_no_box.Text.Substring ( 4, 2 )
-                         + ssn_id_no_box.Text.Substring ( 7, 4 ) :
+                str_ssn = ( ssn_id_no_box.Text.Contains( "-" ) ) ?
+                           ssn_id_no_box.Text.Substring( 0, 3 )
+                         + ssn_id_no_box.Text.Substring( 4, 2 )
+                         + ssn_id_no_box.Text.Substring( 7, 4 ) :
                            ssn_id_no_box.Text;
 
-                if (!int.TryParse ( str_ssn, out ssn_in ))
+                if ( !int.TryParse( str_ssn, out ssn_in ) )
                 {
-                    MessageBox.Show ( "Incorrect information in field. Please try again" );
+                    MessageBox.Show( "Incorrect information in field. Please try again" );
                     this.ActiveControl = ssn_id_no_box;
                     return;
                 }
                 update_record.SSN = ssn_in;
                 vd.AdmitReason = admit_reason_box.Text;
                 vd.AdmitDate = admit_date_picker.Value;
-                if (string.IsNullOrWhiteSpace ( referring_social_worker.Text ))
+                if ( string.IsNullOrWhiteSpace( referring_social_worker.Text ) )
                 {
-                    MessageBox.Show ( "Referring Social Worker may not be blank. Please try again" );
+                    MessageBox.Show( "Referring Social Worker may not be blank. Please try again" );
                     this.ActiveControl = referring_social_worker;
                     return;
                 }
                 vd.Worker = referring_social_worker.Text;
-                if (string.IsNullOrWhiteSpace ( referring_hospital.Text ))
+                if ( string.IsNullOrWhiteSpace( referring_hospital.Text ) )
                 {
-                    MessageBox.Show ( "Referring Hospital may not be blank. Please try again" );
+                    MessageBox.Show( "Referring Hospital may not be blank. Please try again" );
                     this.ActiveControl = referring_hospital;
                     return;
                 }
                 vd.Agency = referring_hospital.Text;
-                if (room_num_box.Text != "0")
+                if ( room_num_box.Text != "0" )
                 {
-                    if (int.TryParse ( room_num_box.Text, out room ))
+                    if ( int.TryParse( room_num_box.Text, out room ) )
                     {
                         vd.Room = room;
                     }
                 }
-                if (bed_num_box.Text != "0")
+                if ( bed_num_box.Text != "0" )
                 {
-                    if (int.TryParse ( bed_num_box.Text, out bed ))
+                    if ( int.TryParse( bed_num_box.Text, out bed ) )
                     {
                         vd.Bed = bed;
                     }
                 }
-                TimeSpan days = new TimeSpan ( 0, 0, 0, 0 );
-                days = vd.Discharged.AddDays ( 1 ) - vd.AdmitDate;
+                TimeSpan days = new TimeSpan( 0, 0, 0, 0 );
+                days = vd.Discharged.AddDays( 1 ) - vd.AdmitDate;
                 vd.VisitDays = days.Days;
                 vd.EditDate = DateTime.Now;
-                db.Entry ( update_record ).State = System.Data.Entity.EntityState.Modified;
-                db.Entry ( vd ).State = System.Data.Entity.EntityState.Modified;
-                int updated_recs = db.SaveChanges ( );
+                db.Entry( update_record ).State = System.Data.Entity.EntityState.Modified;
+                db.Entry( vd ).State = System.Data.Entity.EntityState.Modified;
+                int updated_recs = db.SaveChanges( );
             }
-            Close ( );
+            DotheChangeRecord( );
+            Close( );
             return;
         }
 
-        public bool ThumbnailCallback()
+        #region Create ChangeLog record
+
+        public void DotheChangeRecord( )
+        {
+            StringBuilder stringBuilder = new StringBuilder( );
+            sb = new StringBuilder( );
+            changeLog = new ChangeLog( );
+            changeLog.ClassName = $"{the_guest.ToString( )} Visit Record Changed";
+            changeLog.PropertyName = "Fields Changed";
+            changeLog.GuestID = the_guest.GuestID;
+            changeLog.VisitID = vd.VisitID;
+            changeLog.UserName = Environment.UserName;
+            changeLog.ChangeDate = DateTime.Today.ToUniversalTime( );
+            if ( foundvd.AdmitDate  != admit_date_picker.Value)
+            {
+                sb.Append( $"{admit_date_picker.Value.ToString( "MM/dd/yyyy" )}; " );
+                stringBuilder.Append( $"{foundvd.AdmitDate.ToString( "MM/dd/yyyy" )}; " );
+            }
+            if ( foundvd.Discharged != last_time_discharged.Value )
+            {
+                sb.Append( $"{last_time_discharged.Value.ToString( "MM/dd/yyyy" )}; " );
+                stringBuilder.Append( $"{foundvd.Discharged.ToString( "MM/dd/yyyy" )}; " );
+            }
+            if ( foundvd.AdmitReason != admit_reason_box.Text)
+            {
+                sb.Append( $"{admit_reason_box.Text};" );
+                stringBuilder.Append( $"{foundvd.DischargeReason}; " );
+            }
+            if ( foundvd.DischargeReason != return_denial_reason.Text )
+            {
+                sb.Append( $"{return_denial_reason.Text};" );
+                stringBuilder.Append( $"{foundvd.DischargeReason}; " );
+            }
+            if ( foundvd.CanReturn != can_return_checkbox.Checked)
+            {
+                sb.Append( "Can Return" );
+                string tmp = ( can_return_checkbox.Checked ) ? "Yes" : "No ";
+                sb.Append( $"{tmp}; " );
+                stringBuilder.Append( "Can Return" );
+                tmp = ( foundvd.CanReturn ) ? "Yes" : "No ";
+                stringBuilder.Append( $"{tmp}; " );
+            }
+            if ( vd.Deceased != deceased_checkbox.Checked )
+            {
+                sb.Append( "Can Return" );
+                string tmp = ( deceased_checkbox.Checked ) ? "Yes" : "No ";
+                sb.Append( $"{tmp}; " );
+                tmp = ( foundvd.CanReturn ) ? "Yes" : "No ";
+                stringBuilder.Append( $"{tmp}; " );
+            }
+            changeLog.OriginalValue = sb.ToString( );
+            changeLog.CurrentValue = stringBuilder.ToString( );
+            var db = new SamHouseGuestsEntities( );
+            db.Entry( changeLog ).State = System.Data.Entity.EntityState.Added;
+            db.SaveChanges( );
+            return;
+        }
+
+        #endregion Create ChangeLog record
+
+        public bool ThumbnailCallback( )
         {
             return false;
         }
 
-        private void Readmit_guest_buttonClick ( object sender, EventArgs e )
+        #region Readmit a guest
+
+        private void Readmit_guest_buttonClick( object sender, EventArgs e )
         {
-            if (deceased_checkbox.Checked)
+            if ( deceased_checkbox.Checked )
             {
-                MessageBox.Show ( "You are trying to re-admit a person who was reported Deceased. Rejected!" );
-                Close ( );
+                MessageBox.Show( "You are trying to re-admit a person who was reported Deceased. Rejected!" );
+                Close( );
                 return;
             }
-            if (can_return_checkbox.Checked)
+            if ( can_return_checkbox.Checked )
             {
                 bool readmit = true;
                 dob = dob_dt_picker.Value;
                 l_name = last_name.Text;
                 f_name = first_name.Text;
                 last_visit_date = last_time_discharged.Value;
-                Add_Current_Guest add_guest = new Add_Current_Guest ( readmit, the_guest.GuestID );
-                Hide ( );
-                add_guest.ShowDialog ( );
-                Close ( );
+                Add_Current_Guest add_guest = new Add_Current_Guest( readmit, the_guest.GuestID );
+                Hide( );
+                add_guest.ShowDialog( );
+                Close( );
             }
             else
             {
-                MessageBox.Show ( "Not eligible for re-admission. Rejected!" );
-                Close ( );
+                MessageBox.Show( "Not eligible for re-admission. Rejected!" );
+                Close( );
                 return;
             }
         }
-        private void delete_guest_button_Click ( object sender, EventArgs e )
-        {
-            DialogResult res = new DialogResult ( );
 
-            res = MessageBox.Show ( "This action cannot be reversed. Are you sure you want to do this?", "Delete Record", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning );
-            sb = new StringBuilder ( );
+        #endregion Readmit a guest
+
+        #region Delete a visit
+
+        private void delete_guest_button_Click( object sender, EventArgs e )
+        {
+            DialogResult res = new DialogResult( );
+
+            res = MessageBox.Show( "This action cannot be reversed. Are you sure you want to do this?", "Delete Record", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning );
+            sb = new StringBuilder( );
             //if (res == DialogResult.OK)
             //{
             //    using (var db = new NewGuestsEntities())
             //    {
-            //        Guest update_record = db.Guests.Find(guestkey);                  // Find a specific record using Primary Key Values 
+            //        Guest update_record = db.Guests.Find(guestkey);                  // Find a specific record using Primary Key Values
             //        string tmps = BuildVisitKey(update_record, update_record.Visits);
             //        object[] vkeyv = new object[] { tmps };
             //        VisitData vd = db.VisitDatas.Find(vkeyv);
@@ -350,52 +440,58 @@ namespace SHGuestsNGen
             return;
         }
 
+        #endregion Delete a visit
+
+        #endregion Message and Event Handlers
+
         #region Common Routines
+
         //Open file in to a filestream and read data in a byte array.
-        byte[] ReadFile(string sPath)
+        private byte[ ] ReadFile( string sPath )
         {
             //Initialize byte array with a null value initially.
-            byte[] data = null;
+            byte[ ] data = null;
 
             //Use FileInfo object to get file size.
-            FileInfo fInfo = new FileInfo(sPath);
+            FileInfo fInfo = new FileInfo( sPath );
             long numBytes = fInfo.Length;
 
             //Open FileStream to read file
-            FileStream fStream = new FileStream(sPath, FileMode.Open, FileAccess.Read);
+            FileStream fStream = new FileStream( sPath, FileMode.Open, FileAccess.Read );
 
             //Use BinaryReader to read file stream into byte array.
-            BinaryReader br = new BinaryReader(fStream);
+            BinaryReader br = new BinaryReader( fStream );
 
-            //When you use BinaryReader, you need to supply number of bytes 
+            //When you use BinaryReader, you need to supply number of bytes
             //to read from file.
-            //In this case we want to read entire file. 
+            //In this case we want to read entire file.
             //So supplying total number of bytes.
-            data = br.ReadBytes((int)numBytes);
+            data = br.ReadBytes( ( int ) numBytes );
 
             return data;
         }
-        private void edit_ssn_textbox ( object sender, EventArgs e )
+
+        private void edit_ssn_textbox( object sender, EventArgs e )
         {
-            if (ssn_id_no_box.Text.Length < 1)
+            if ( ssn_id_no_box.Text.Length < 1 )
             {
-                MessageBox.Show ( "SSN/W7 field may not be empty. Try Again." );
+                MessageBox.Show( "SSN/W7 field may not be empty. Try Again." );
                 return;
             }
-            if (( ssn_id_no_box.Text.Length < 9 ) || ( ssn_id_no_box.Text.Contains ( "N/A" ) ))
+            if ( ( ssn_id_no_box.Text.Length < 9 ) || ( ssn_id_no_box.Text.Contains( "N/A" ) ) )
             {
-                MessageBox.Show ( "Incorrect information in field. Please try again" );
+                MessageBox.Show( "Incorrect information in field. Please try again" );
                 this.ActiveControl = ssn_id_no_box;
                 return;
             }
-            if (!int.TryParse ( ssn_id_no_box.Text, out ssn_in ))
+            if ( !int.TryParse( ssn_id_no_box.Text, out ssn_in ) )
             {
-                MessageBox.Show ( "Incorrect information in field. Please try again" );
+                MessageBox.Show( "Incorrect information in field. Please try again" );
                 this.ActiveControl = ssn_id_no_box;
                 return;
             }
         }
-        #endregion
+
+        #endregion Common Routines
     }
 }
-

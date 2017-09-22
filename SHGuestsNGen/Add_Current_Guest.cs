@@ -32,10 +32,13 @@ namespace SHGuestsNGen
                       gender, key_lname, denial_reason, refer_sw;
 
         private Guest updated = new Guest ( );
+        public Visit vd = new Visit( ), foundvd = new Visit( ), vdata = new Visit( );
+        public StringBuilder sb = new StringBuilder( );
         public MailMessage m_Message = new MailMessage ( );
         public SmtpClient smtp_Client = new SmtpClient ( );
         public StringBuilder message_body;
         public Tuple<Guest, List<Visit>> guest_tuple;
+        public ChangeLog changeLog;
         public Random rnd = new Random ( );
 
         #endregion Variables Constants
@@ -44,7 +47,6 @@ namespace SHGuestsNGen
 
         {
             re_admit = readmission;
-            // The InitializeComponent() call is required for Windows Forms designer support.
             InitializeComponent ( );
             dob_picker.Value = default_start_date;
             if (re_admit)
@@ -107,7 +109,7 @@ namespace SHGuestsNGen
                 }
                 TimeSpan age = new TimeSpan ( 0, 0, 0 );
                 DialogResult res = new DialogResult ( );
-                Visit vdata = new Visit ( );
+                vdata = new Visit ( );
                 updated.BirthDate = dob_picker.Value;
                 age = DateTime.Today - updated.BirthDate;
                 int tmp_years = ( int )( ( double )age.TotalDays / 365.2524 );
@@ -277,6 +279,7 @@ namespace SHGuestsNGen
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information );
                     Close ( );
+                    DotheChangeRecord( );
                     return;
                 }
                 catch (DbEntityValidationException dbex)
@@ -288,6 +291,31 @@ namespace SHGuestsNGen
         }
 
         #endregion Validate and Add the Guest and Visit
+
+        #region Create ChangeLog record
+
+        public void DotheChangeRecord( )
+        {
+            StringBuilder stringBuilder = new StringBuilder( ), sb = new StringBuilder( );
+            changeLog = new ChangeLog( );
+            changeLog.ClassName = $"{updated.ToString( )} Guest Admission";
+            changeLog.PropertyName = "Fields Created";
+            changeLog.GuestID = updated.GuestID;
+            changeLog.VisitID = vdata.VisitID;
+            changeLog.UserName = Environment.UserName;
+            changeLog.ChangeDate = DateTime.Today.ToUniversalTime( );
+            stringBuilder.Append( $"{updated.ToString( )};" );
+            stringBuilder.Append( $"{vdata.AdmitDate.ToString( "MM/dd/yyyy" )}; " );
+            stringBuilder.Append( $"{vdata.AdmitReason}; " );
+            changeLog.OriginalValue = string.Empty;
+            changeLog.CurrentValue = stringBuilder.ToString( );
+            var db = new SamHouseGuestsEntities( );
+            db.Entry( changeLog ).State = System.Data.Entity.EntityState.Added;
+            db.SaveChanges( );
+            return;
+        }
+
+        #endregion Create ChangeLog record
 
         private void build_the_display ( Guest rec_in )
         {
