@@ -1,4 +1,4 @@
-use [SamHouseGuests2]
+use [SHGuests]
 DECLARE @retn as nvarchar(4)
 
 select * from
